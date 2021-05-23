@@ -1,10 +1,10 @@
 export type LoginState = {
-    email:string;
+    emailOrUsername:string;
     password:string;
 }
 
 export type LoginError = {
-    email:boolean;
+    emailOrUsername:boolean;
     password:boolean;
     disabled:boolean;
 }

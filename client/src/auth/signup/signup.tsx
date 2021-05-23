@@ -5,6 +5,7 @@ import { formValidate } from "./signup.formValidate";
 
 import Input from "../../utils/form/Input/Input";
 import "../auth.css";
+import { signup } from "../../services/auth/auth.services";
 
 const Signup = () => {
 
@@ -31,15 +32,33 @@ const Signup = () => {
         setState( state => ({...state,[name]:value}) );
     }
 
-    const handleSubmit = (e:React.SyntheticEvent) => {
+    const handleSubmit = async(e:React.SyntheticEvent) => {
         e.preventDefault();
+        const user = await signup(state);
+        if("email" in user){
+            console.log(user);
+            setState({
+                email:"",
+                fullname:"",
+                username:"",
+                password:""
+            })
+
+            setError({
+                email:false,
+                fullname:false,
+                username:false,
+                password:false,
+                disabled:true
+            })
+        }
     }
 
     return (
         <div className="auth__container">
 
             <form className="section1" onSubmit={handleSubmit}>
-                <h1 className="section__heading">Instagram</h1>
+                <div className="section__heading"></div>
                 <p className="signup__title">Sign up to see photos and videos from your friends.</p>
                 <Input type="email" name="email" value={state.email} error={error.email} onChange={handleChange} placeholder="Email"/>
                 <Input type="text" name="fullname" value={state.fullname} error={error.fullname} onChange={handleChange} placeholder="Full Name"/>

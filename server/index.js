@@ -1,13 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const http = require("http");
-const { initializeDB } = require("./services/db/mongoose.services"); 
+const { initializeDB } = require("./config/db.config"); 
 
 dotenv.config()
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-require("./services/app/app.services")(app);
+require("./config/app.config")(app);
 const server = http.createServer(app);
 
 initializeDB(process.env.URI);

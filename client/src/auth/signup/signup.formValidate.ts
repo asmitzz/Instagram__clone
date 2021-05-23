@@ -12,11 +12,11 @@ export const formValidate = (state:SignupState,setError:Dispatch<SetStateAction<
         password = true;
     }
 
-    if(state.username === ""){
+    if(state.username.length < 5){
         username = true
     }
 
-    if(state.fullname === ""){
+    if(state.fullname.length < 3){
         fullname = true
     }
 

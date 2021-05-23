@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const authRoutes = require("../routes/auth.routes");
 
 const App = (app) => {
 
@@ -12,6 +13,7 @@ const App = (app) => {
     app.get("/",(req, res) => {
         res.send("server is running")
     });
+    app.use(authRoutes);
 
 }
 
