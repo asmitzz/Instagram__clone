@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+.auth__container{
+   display:flex;
+   flex-direction:column;
+   width:100%;
+   justify-content:center;
+   align-items:center;
+   min-height:100vh;
+}
+
+.auth__container .section1,.auth__container .section2{
+    border:1px solid var(--tertiary-color);
+    display:flex;
+    flex-direction:column;
+    width:290px;
+    background:var(--secondary-color);
+    padding:1.5rem 2rem;
+    margin:0.4rem 0;
+}
+
+.auth__container .section__heading{
+    margin: 22px auto 12px;
+  background-image: url("https://www.instagram.com/static/bundles/es6/sprite_core_b20f2a3cd7e4.png/b20f2a3cd7e4.png");
+  background-position: -98px 0;
+  height: 51px;
+  width: 177px;
+  overflow: hidden;
+}
+
+.auth__container .signup__title{
+    color:var(--tertiary-color-shade-1);
+    text-align:center;
+    font-size:0.95rem;
+    margin:0.5rem 0;
+}
+
+.auth__container .section2__title{
+    font-size:0.8rem;
+    text-align:center;
+}
+
+.auth__container .section2__title__Link{
+    color:var(--primary-btn-color);
+    text-decoration:none;
+}
+
+@media (max-width:450px){
+.auth__container .section1,.auth__container .section2{
+    background:var(--primary-color);
+    border:1px solid var(--primary-color);
+}
+}
+
+@media (max-width:350px){
+    .auth__container .section1,.auth__container .section2{
+        width:90%;
+    }
+}
