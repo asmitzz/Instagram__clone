@@ -1,0 +1,80 @@
+.header{
+    background:var(--secondary-color);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    width:100%;
+    padding:0.5rem 0;
+    border-bottom:1px solid var(--tertiary-color);
+}
+
+.header .add__post__btn{
+   background:transparent;
+   border:none;   
+   font-size:1.2rem;
+   display:none;
+}
+
+.header .insta__logo{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:110px;
+    height:auto;
+}
+
+.header .nav__link{
+    font-size:1.2rem;
+    color:var(--tertiary-color-shade-1);
+    margin:0 0.5rem;
+}
+
+.header .right__section{
+    display:flex;
+}
+
+.header .active__link{
+    color:var(--primary-text-color);
+}
+
+.header .profile__btn{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    margin-left:0.5rem;
+    border:1px solid var(--primary-text-color);
+    padding:0.8rem;
+    cursor:pointer;
+}
+
+.header .profile__icon{
+    width:20px;
+    border-radius:50%;
+    height:20px;
+    border:1px solid var(--primary-text-color);
+}
+
+@media(max-width:550px){
+    .header{
+        justify-content:space-around;
+    }
+
+    .header .add__post__btn{
+        display:block;
+    }
+
+    .header .nav__link{
+        display:none;
+    }
+    
+    .header .chat__icon{
+        display: block;
+    }
+
+    .header .profile__btn{
+        display:none;
+    }
+}

@@ -12,6 +12,7 @@ import Login from "./auth/login/Login";
 import "./App.css";
 import Home from "./pages/Home";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import Header from "./components/ScrollToTop/Header/Header";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -43,6 +44,7 @@ const App = () => {
        </Routes>
         :
         <Routes>
+           <Header/>
            <Route path="/" element={<Home/>}/>
         </Routes>
        }

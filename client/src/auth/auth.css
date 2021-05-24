@@ -19,8 +19,8 @@
     margin:0.4rem 0;
 }
 
-.auth__container .section__heading{
-    margin: 22px auto 12px;
+.auth__container .insta__logo{
+  margin: 22px auto 12px;
   background-image: url("https://www.instagram.com/static/bundles/es6/sprite_core_b20f2a3cd7e4.png/b20f2a3cd7e4.png");
   background-position: -98px 0;
   height: 51px;
