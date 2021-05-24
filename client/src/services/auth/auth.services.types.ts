@@ -2,7 +2,12 @@ export type serverError = {
     message:string;
 }
 
-export type SignupResponse = {
-    email:string;
-    username:string;
+export type User = {
+    _id:string
+}
+
+export type AuthResponse = {
+    token:string;
+    login:boolean;
+    user:User
 }

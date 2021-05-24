@@ -12,7 +12,6 @@ export const formValidate = (state:LoginState,setError:Dispatch<SetStateAction<L
         password = true;
     }
 
-
     if(!emailOrUsername && !password){
        return setError( (state) => ({...state,emailOrUsername,password,disabled:false}) );
     };

@@ -45,6 +45,11 @@
     text-decoration:none;
 }
 
+.auth__container .form__feedback{
+    text-align:center;
+    color:var(--danger-color);
+}
+
 @media (max-width:450px){
 .auth__container .section1,.auth__container .section2{
     background:var(--primary-color);

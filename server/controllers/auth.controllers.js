@@ -18,10 +18,12 @@ const signup = async (req, res) => {
       });
     }
     if (user) {
-      return res.status(200).json({
-        email: user.email,
-        username: user.username
-      });
+       // create token
+       const token = jwt.sign({_id: user._id},process.env.SECRET_KEY,{ expiresIn:"30d" });
+       const { _id } = user;
+
+       // send response to frontend
+       return res.status(200).json({token,login:true,user:{ _id }})
     }
   });
 };
@@ -40,7 +42,7 @@ const signin = async(req,res) => {
 
   // authenticate user
   if(!user.authenticate(password)){
-      return res.status(401).json({ message:"User unauthorizated"})
+      return res.status(401).json({ message:"Sorry, your password was incorrect. Please double-check your password"})
   }
 
   // create token

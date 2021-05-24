@@ -1,13 +1,20 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState,Dispatch } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { SignupState,SignupError } from "./signup.types";
 import { formValidate } from "./signup.formValidate";
+import { signup } from "../../services/auth/auth.services";
+import { useDispatch } from "react-redux";
+import { AuthAction } from "../../store/types/authReducer.types";
+import { AuthResponse } from "../../services/auth/auth.services.types";
+import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 
 import Input from "../../utils/form/Input/Input";
+
 import "../auth.css";
-import { signup } from "../../services/auth/auth.services";
 
 const Signup = () => {
+
+    const isMountedRef = useIsMountedRef();
 
     const [state,setState] = useState<SignupState>({
         email:"",
@@ -21,37 +28,38 @@ const Signup = () => {
         fullname:false,
         username:false,
         password:false,
-        disabled:true
+        disabled:true,
     });
     
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
+    const [feedback,setFeedback] = useState<string>("");
+
+    const dispatch = useDispatch<Dispatch<AuthAction>>();
+    const navigate = useNavigate();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
+        if(!isMountedRef.current) return;
         const {value,name} = e.target;
         formValidate({...state,[name]:value},setError);
         setState( state => ({...state,[name]:value}) );
     }
 
     const handleSubmit = async(e:React.SyntheticEvent) => {
+        if(!isMountedRef.current) return;
         e.preventDefault();
-        const user = await signup(state);
-        if("email" in user){
-            console.log(user);
-            setState({
-                email:"",
-                fullname:"",
-                username:"",
-                password:""
-            })
-
-            setError({
-                email:false,
-                fullname:false,
-                username:false,
-                password:false,
-                disabled:true
-            })
+        const res = await signup(state);
+        if("token" in res){
+           return loggedIn(res)
         }
+        setFeedback(res.message);
+    }
+
+    function loggedIn(res:AuthResponse):void{
+        const {token,login,user} = res;
+        localStorage.setItem("token",JSON.stringify({token,login}));
+        dispatch({type:"LOGIN",payload:{token,login,user}});
+        setFeedback("");
+        navigate("/");
     }
 
     return (
@@ -65,6 +73,7 @@ const Signup = () => {
                 <Input type="text" name="username" value={state.username} error={error.username} onChange={handleChange} placeholder="Username"/>
                 <Input type={togglePassword ? "text" :"password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
                 <input type="submit" className="submit__btn" disabled={error.disabled} value="Sign up"/>
+                <small className="form__feedback">{feedback}</small>
             </form>
 
             <div className="section2">
