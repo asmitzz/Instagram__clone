@@ -1,0 +1,83 @@
+.searchBox{
+    position:absolute;
+    top:2.5rem;
+    right:-5.5rem;
+    width:350px;
+    background:var(--secondary-color);
+    border:1px solid var(--tertiary-color);
+    border-radius:10px;
+    box-shadow:1px 1px 3px var(--tertiary-color),-1px -1px 3px var(--tertiary-color);
+    display:flex;
+    flex-direction:column;
+    height:320px;
+    padding:1rem;
+    z-index:2;
+}
+
+.searchBox::after{
+    position:absolute;
+    right:45%;
+    top:-0.5rem;
+    transform:rotate(45deg);
+    content:"";
+    height:16px;
+    width:16px;
+    box-shadow:-1px -1px var(--tertiary-color);
+    background:var(--secondary-color);
+}
+
+.searchBox .searchBox__heading{
+    color:var(--primary-text-color);
+}
+
+.searchBox .searchBox__empty{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:90%;
+    color:var(--tertiary-color-shade-1);
+    font-weight:700;
+    font-size:0.8rem;
+}
+
+.searchBox .searchBox__results{
+    display:flex;
+    flex-direction:column;
+}
+
+.searchBox .searchBox__result{
+    cursor:pointer;
+    display:flex;
+}
+
+.searchBox .searchBox__result:hover{
+    background:var(--primary-color);
+}
+
+.searchBox .avatar{
+    height:45px;
+    width:45px;
+    border-radius:50%;
+}
+
+.searchBox .avatar__img{
+    height:100%;
+    width:100%;
+    border-radius:50%;
+}
+
+.searchBox .result__content{
+    display:flex;
+    flex-direction:column;
+    margin-left:1rem;
+    justify-content:center;
+}
+
+.searchBox .username{
+    color:var(--primary-text-color);
+}
+
+.searchBox .fullname{
+    color:var(--tertiary-color-shade-1);
+    font-size:0.85rem;
+}

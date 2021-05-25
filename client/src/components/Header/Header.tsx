@@ -1,10 +1,20 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import SearchBar from "../../SearchBar/SearchBar";
+import Backdrop from "../../utils/Backdrop/Backdrop";
+import DropBox from "../../utils/DropBox/DropBox";
+import SearchBar from "../SearchBar/SearchBar";
 import "./Header.css";
 
 const Header = () => {
-    return (
+  const [toggleDropbox,setToggleDropbox] = useState(false);
+
+  const handleProfile = () => {
+     setToggleDropbox(state => !state)
+  }
+
+  return (
         <div className="header">
+            { toggleDropbox && <Backdrop toggle={setToggleDropbox}/> }
             <button className="add__post__btn">
                <i className="fa fa-plus-circle" aria-hidden="true"></i>
             </button>
@@ -26,9 +36,11 @@ const Header = () => {
                  <i className="fas fa-comment-alt"></i>
               </NavLink>
 
-              <button className="profile__btn">
+              <button className="profile__btn" onClick={handleProfile}>
                   <img className="profile__icon" alt="profile" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
               </button>
+
+              {toggleDropbox && <DropBox/>}
             </div>
         </div>
     );

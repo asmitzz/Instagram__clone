@@ -1,6 +1,10 @@
 .search__bar{
     position:relative;
-    background:var(--tertiary-color);
+    background:var(--primary-color);
+}
+
+.search__bar .search__box{
+    display:none;
 }
 
 .search__bar .search__input{
@@ -26,4 +30,8 @@
     .search__bar{
         display:none;
     }
+}
+
+.search__bar .search__bar__backdrop{
+    top:3rem;
 }

@@ -31,6 +31,7 @@
 
 .header .right__section{
     display:flex;
+    position:relative;
 }
 
 .header .active__link{
