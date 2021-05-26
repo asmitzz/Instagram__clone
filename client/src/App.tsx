@@ -35,6 +35,7 @@ const App = () => {
   
   return (
     <div>
+        { login && <Header/>}
        <ScrollToTop/>
        { !login ? 
        <Routes>
@@ -44,7 +45,6 @@ const App = () => {
        </Routes>
         :
         <Routes>
-           <Header/>
            <Route path="/" element={<Home/>}/>
         </Routes>
        }

@@ -1,0 +1,119 @@
+.left__section .post{
+    border:1px solid var(--tertiary-color);
+    border-top:none;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    margin-bottom:3rem;
+    background:var(--secondary-color);
+    border-radius:3px;
+}
+
+@media(max-width:600px){
+  .left__section .post{
+    margin-bottom:1rem;
+  }
+}
+
+.post .post__header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem;
+    border-bottom:1px solid var(--tertiary-color);
+}
+
+.post .avatar{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+}
+
+.post .avatar__img{
+    width:30px;
+    border-radius:50%;
+    height:30px;
+    cursor:pointer;
+}
+
+.post .username{
+    font-size:0.8rem;
+    margin-left:0.5rem;
+    font-weight:bold;
+    color:var(--primary-text-color);
+}
+
+.post .options{
+    font-weight:bold;
+    font-size:1.2rem;
+    cursor:pointer;
+    color:var(--primary-text-color);
+    align-self:start;
+}
+
+.post .post__footer{
+    display:flex;
+    flex-direction:column;
+    padding:0.5rem;
+}
+
+.post .post__icons{
+   display:flex;
+   justify-content:space-between;
+   margin-bottom:0.5rem;
+}
+
+.post .icon{
+    background:none;
+    border:none;
+    cursor:pointer;
+}
+
+.post .post__likes{
+   margin-bottom:0.5rem;
+   color:var(--primary-text-color);
+}
+
+.post .post__caption{
+   margin-bottom:0.5rem;
+   font-size:0.8rem;
+}
+
+.post .post__comments{
+    color:var(--tertiary-color-shade-1);
+    text-decoration:none;
+    font-size: 0.8rem;
+    margin-bottom:0.5rem;
+}
+
+.post .post__time{
+    color:var(--tertiary-color-shade-1);
+    font-size: 0.6rem;
+    margin-bottom:0.5rem;
+}
+  
+.post .commentBox{
+    position: relative;
+}
+
+.post .add__comment{
+    border:none;
+    outline:none;
+    width:100%;
+    padding:0.5rem 0;
+}
+
+.post .post__btn{
+   position:absolute;
+   right:10px;
+   top:10px;
+   font-weight:600;
+   background:none;
+   border:none;
+   cursor:pointer;
+   color:var(--primary-btn-color);
+}
+
+.post .post__btn:disabled{
+    color:var(--primary-btn-disabled-color);
+}

@@ -1,0 +1,98 @@
+.home__content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    width:80%;
+    margin:0 auto;
+    min-height:100vh;
+}
+
+.home__content .left__section{
+    padding:1rem;
+    margin-top:1rem;
+}
+
+.home__content .right__section{
+    padding:1rem;
+    margin-top:1rem;
+    display:flex;
+    flex-direction:column;
+}
+
+.right__section .avatar{
+    display:flex;
+    padding:0.5rem;
+    align-items:center;
+    color:var(--primary-text-color);
+    text-decoration:none;
+}
+
+.right__section .avatar__img{
+    border-radius:50%;
+}
+
+.right__section .username,.right__section .fullname{
+   font-size:0.8rem;
+   margin-left:1rem;
+   display:block;
+}
+
+.right__section .fullname{
+  color:var(--tertiary-color-shade-1);
+}
+
+.suggestions__box{
+    display:flex;
+    flex-direction:column;
+}
+
+.suggestions__box .suggestion__heading{
+  color:var(--tertiary-color-shade-1);
+  font-weight:600;
+  font-size:0.8rem;
+  padding:0.5rem;
+}
+
+.suggestions__box .avatar{
+    justify-content:space-between;
+}
+
+.suggestions__box .avatar__img__container{
+    display:flex;
+}
+
+.suggestions__box .follow__btn{
+    background:none;
+    border:none;
+    color:var(--primary-btn-color);
+    font-weight:600;
+    font-size:0.8rem;
+}
+
+@media(max-width:1000px){
+    .home__content .right__section{
+        display:none;
+    }
+
+    .home__content{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        width:100%;
+    }
+
+   .home__content .left__section{
+      width:600px;
+   }
+}
+
+@media(max-width:600px){
+    .home__content .left__section{
+        width:99.1%;
+        padding:0;
+        margin:0;
+     }
+
+     .home__content{
+        padding:0;
+    }
+}
