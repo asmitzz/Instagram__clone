@@ -1,6 +1,5 @@
 .left__section .post{
     border:1px solid var(--tertiary-color);
-    border-top:none;
     width:100%;
     display:flex;
     flex-direction:column;
