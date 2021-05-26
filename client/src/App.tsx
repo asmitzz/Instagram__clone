@@ -8,11 +8,12 @@ import { AuthAction } from "./store/types/authReducer.types";
 
 import Signup from "./auth/signup/signup";
 import Login from "./auth/login/Login";
-
-import "./App.css";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Header from "./components/Header/Header";
+
+import "./App.css";
+import Profile from "./pages/Profile/Profile";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -46,6 +47,8 @@ const App = () => {
         :
         <Routes>
            <Route path="/" element={<Home/>}/>
+           <Route path="/profile" element={<Profile/>}/>
+           <Route path="/profile/save" element={<Profile/>}/>
         </Routes>
        }
     </div>

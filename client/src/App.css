@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap');
 
 *{
     padding:0;
@@ -10,11 +10,13 @@
     --secondary-color:#FFFFFF;
     --tertiary-color:#DBDBDB;
     --tertiary-color-shade-1:#8E8E8E;
+    --tertiary-color-shade-2:#eeeeee;
     --primary-btn-color:#0095F6;
     --primary-btn-disabled-color:#B2DFFC;
     --primary-text-color:#262626;
     --success-color:green;
     --danger-color:red;
+    --primary-link:#053A6D;
 }
 
 body{

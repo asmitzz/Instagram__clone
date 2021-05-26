@@ -40,7 +40,7 @@ const Header = () => {
                   <img className="profile__icon" alt="profile" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
               </button>
 
-              {toggleDropbox && <DropBox/>}
+              {toggleDropbox && <DropBox toggle={setToggleDropbox}/>}
             </div>
         </div>
     );

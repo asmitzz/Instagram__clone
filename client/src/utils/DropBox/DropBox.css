@@ -37,6 +37,10 @@
     background:var(--primary-color);
 }
 
+.dropbox .dropbox__btn:active{
+    background:var(--tertiary-color-shade-2);
+}
+
 .dropbox .dropbox__btn .fas{
     margin-right:0.5rem;
 }

@@ -1,11 +1,15 @@
-import { Dispatch } from "react";
+import { Dispatch,SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AuthAction } from "../../store/types/authReducer.types";
 
 import "./DropBox.css";
 
-const DropBox = () => {
+type DropBoxProps = {
+    toggle:Dispatch<SetStateAction<boolean>>
+}
+
+const DropBox = ({toggle}:DropBoxProps) => {
     const navigate = useNavigate();
     const dispatch = useDispatch<Dispatch<AuthAction>>();
 
@@ -15,6 +19,7 @@ const DropBox = () => {
             dispatch({type:"LOGOUT"});
         }
         navigate(path);
+        toggle(false)
     }
 
     return (
@@ -23,7 +28,7 @@ const DropBox = () => {
                  <i className="fas fa-user"></i><span>Profile</span>
              </button>
 
-             <button className="dropbox__btn" onClick={() => handleBtn("/save")}>
+             <button className="dropbox__btn" onClick={() => handleBtn("/profile/save")}>
                  <i className="fas fa-save"></i><span>Saved</span>
              </button>
 
