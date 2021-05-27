@@ -15,6 +15,7 @@ import Header from "./components/Header/Header";
 import "./App.css";
 import Profile from "./pages/Profile/Profile";
 import Comments from "./pages/Comments/Comments";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -53,6 +54,8 @@ const App = () => {
            <Route path="/comments" element={<Comments/>}/>
         </Routes>
        }
+
+      { login && <Footer/>}
     </div>
   );
 };

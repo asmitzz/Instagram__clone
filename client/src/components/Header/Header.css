@@ -8,13 +8,6 @@
     border-bottom:1px solid var(--tertiary-color);
 }
 
-.header .add__post__btn{
-   background:transparent;
-   border:none;   
-   font-size:1.2rem;
-   display:none;
-}
-
 .header .insta__logo{
     display:flex;
     justify-content:center;
@@ -34,8 +27,16 @@
     position:relative;
 }
 
+.header .nav__link .active__svg{
+    display:none;
+}
+
 .header .active__link .svg{
-    fill:var(--primary-text-color);
+    display:none;
+}
+
+.header .active__link .active__svg{
+    display:block;
 }
 
 .header .profile__btn{
@@ -60,22 +61,15 @@
 
 @media(max-width:550px){
     .header{
-        justify-content:space-around;
-    }
-
-    .header .add__post__btn{
-        display:block;
+        justify-content:center;
     }
 
     .header .nav__link{
         display:none;
     }
     
-    .header .chat__icon{
-        display: block;
-    }
-
     .header .profile__btn{
         display:none;
     }
+
 }
