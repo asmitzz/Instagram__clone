@@ -34,8 +34,8 @@
     position:relative;
 }
 
-.header .active__link{
-    color:var(--primary-text-color);
+.header .active__link .svg{
+    fill:var(--primary-text-color);
 }
 
 .header .profile__btn{

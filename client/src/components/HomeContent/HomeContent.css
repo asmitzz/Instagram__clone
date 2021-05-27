@@ -52,6 +52,11 @@
   padding:0.5rem;
 }
 
+.suggestions__box .suggested__users{
+    display:flex;
+    justify-content:space-between;
+}
+
 .suggestions__box .avatar{
     justify-content:space-between;
 }
@@ -66,6 +71,7 @@
     color:var(--primary-btn-color);
     font-weight:600;
     font-size:0.8rem;
+    cursor: pointer;
 }
 
 @media(max-width:1000px){

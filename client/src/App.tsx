@@ -14,6 +14,7 @@ import Header from "./components/Header/Header";
 
 import "./App.css";
 import Profile from "./pages/Profile/Profile";
+import Comments from "./pages/Comments/Comments";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -49,6 +50,7 @@ const App = () => {
            <Route path="/" element={<Home/>}/>
            <Route path="/profile" element={<Profile/>}/>
            <Route path="/profile/save" element={<Profile/>}/>
+           <Route path="/comments" element={<Comments/>}/>
         </Routes>
        }
     </div>
