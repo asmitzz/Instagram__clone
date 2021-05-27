@@ -16,6 +16,7 @@ import "./App.css";
 import Profile from "./pages/Profile/Profile";
 import Comments from "./pages/Comments/Comments";
 import Footer from "./components/Footer/Footer";
+import Search from "./pages/Search/Search";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -52,6 +53,7 @@ const App = () => {
            <Route path="/profile" element={<Profile/>}/>
            <Route path="/profile/save" element={<Profile/>}/>
            <Route path="/comments" element={<Comments/>}/>
+           <Route path="/search" element={<Search/>}/>
         </Routes>
        }
 

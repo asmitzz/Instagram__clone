@@ -45,39 +45,40 @@
     flex-direction:column;
 }
 
-.searchBox .searchBox__result{
+.searchBox__results .searchBox__result{
     cursor:pointer;
     display:flex;
+    margin-bottom:1rem;
 }
 
-.searchBox .searchBox__result:hover{
+.searchBox__results .searchBox__result:hover{
     background:var(--primary-color);
 }
 
-.searchBox .avatar{
+.searchBox__results .avatar{
     height:45px;
     width:45px;
     border-radius:50%;
 }
 
-.searchBox .avatar__img{
+.searchBox__results .avatar__img{
     height:100%;
     width:100%;
     border-radius:50%;
 }
 
-.searchBox .result__content{
+.searchBox__results .result__content{
     display:flex;
     flex-direction:column;
     margin-left:1rem;
     justify-content:center;
 }
 
-.searchBox .username{
+.searchBox__results .username{
     color:var(--primary-text-color);
 }
 
-.searchBox .fullname{
+.searchBox__results .fullname{
     color:var(--tertiary-color-shade-1);
     font-size:0.85rem;
 }

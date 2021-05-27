@@ -3,10 +3,6 @@
     background:var(--primary-color);
 }
 
-.search__bar .search__box{
-    display:none;
-}
-
 .search__bar .search__input{
     padding:0.3rem;
     padding-left:1.2rem;
