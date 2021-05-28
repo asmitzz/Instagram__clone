@@ -1,6 +1,7 @@
-import "./Chats.css";
 import UserChats from "./components/UserChats";
 import UsersList from "./components/UsersList";
+
+import "./Chats.css";
 
 const Chats = () => {
     return (

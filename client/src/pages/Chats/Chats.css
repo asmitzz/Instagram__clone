@@ -9,6 +9,7 @@
 
 .chats__box .chats__container{
    max-height:80vh;
+   min-height:80vh;
    width:75%;
    background:var(--secondary-color);
    display:grid;
@@ -19,10 +20,11 @@
 
 .chats__container .userslist{
     max-height:80vh;
+    min-height:80vh;
     display:flex;
     flex-direction:column;
     border:1px solid var(--tertiary-color);
-    overflow-y:scroll;
+    overflow-y:auto;
 }
 
 .chats__container .userslist__header{
@@ -30,7 +32,7 @@
     top:0;
     background:var(--secondary-color);
     text-align:center;
-    font-size:0.8rem;
+    font-size:0.73rem;
     font-weight:600;
     padding:1rem 0;
     color:var(--primary-text-color);
@@ -96,41 +98,108 @@
 
 /* userchats */
 
-.chats__container .userchats{
+.userchats{
    border:1px solid var(--tertiary-color);
    border-left:none;
-   overflow-y:scroll;
    position:relative;
+   max-height:80vh;
+   min-height:80vh;
 }
 
-.chats__container .userchats__header{
+.userchatsmobile{
+    height:92vh;
+}
+
+.userchats .userchats__header{
     position:sticky;
     top:0;
     background:var(--secondary-color);
     display:flex;
     color:var(--primary-text-color);
     align-items:center;
-    padding:1rem 0;
+    padding:0.5rem 0;
     border-bottom:1px solid var(--tertiary-color);
 }
 
-.chats__container .userchats__form{
+.userchats .chats{
+   overflow-y:auto;
+   height:58vh;
+   padding:0.5rem;
+}
+
+.userchats .user__pic{
+    border-radius:50%;
+    margin:0 1rem;
+}
+
+.userchats .send{ 
+    display:flex;
+    justify-content:flex-end; 
+}
+
+.userchats .send__message{
+    background:var(--tertiary-color);
+    border-radius:10px;
+    padding:1rem;
+    font-size:0.8rem;
+    font-weight:500;
+    color:var(--primary-text-color);
+    width:fit-content;
+    margin-bottom:0.5rem;
+}
+
+.userchats .received{ 
+    display:flex;
+    align-items:center;
+    justify-content:flex-start; 
+}
+
+.userchats .received__message{
+    background:var(--primary-color);
+    border-radius:10px;
+    padding:1rem;
+    font-size:0.8rem;
+    font-weight:500;
+    color:var(--primary-text-color);
+    width:fit-content;
+    border:1px solid var(--tertiary-color);
+    margin-bottom:0.5rem;
+}
+
+.userchats .userchats__form{
    position:absolute;
+   background:var(--secondary-color);
+   padding-top:1rem;
    bottom:10px;
    width:100%;
 }
 
-.chats__container .form__group{
+.userchats .form__group{
     display:flex;
     justify-content:center;
+    position:relative;
 }
 
-.chats__container .chats__input{
+.userchats .chats__input{
     width:90%;
     border-radius:15px;
     border:1px solid var(--tertiary-color);
     padding:0.5rem 1rem;
     outline:var(--tertiary-color-shade-1);
+}
+
+.userchats .send__btn{
+    position:absolute;
+    top:10px;
+    right:30px;
+    background:none;
+    border:none;
+    color:var(--primary-btn-color);
+    cursor:pointer;
+}
+
+.userchats .send__btn:disabled{
+    color:var(--primary-btn-disabled-color);
 }
 
 @media(max-width:1050px){
@@ -147,7 +216,15 @@
          width:100%;
      }
      .chats__container .userslist{
-         max-height:91vh;
+         max-height:92.5vh;
+     }
+     .userchats{
+        min-height:92.5vh;
+        max-height:92.5vh;
+     }
+
+     .userchats .chats{
+        height:75vh;
      }
  }
  
@@ -161,6 +238,7 @@
 
     .chats__container .userslist{
        max-height:none;
+       min-height:85vh;
        overflow:auto;
        padding-bottom:2.5rem;
     }
@@ -177,4 +255,35 @@
         display:block;
       }
 
+      .userchats .send__message,.userchats .received__message{
+        padding:0.8rem;
+      }  
+
  }
+
+ @media(max-width:550px){
+    .userchats__form{
+        bottom:3.5rem!important;
+    }
+ }
+
+.chats__box ::-webkit-scrollbar {
+    width:10px;
+  }
+  
+  /* Track */
+.chats__box ::-webkit-scrollbar-track {
+    box-shadow:inset 0 0 5px var(--tertiary-color); 
+    border-radius:10px;
+  }
+   
+  /* Handle */
+.chats__box ::-webkit-scrollbar-thumb {
+    background:var(--tertiary-color-shade-2); 
+    border-radius:10px;
+  }
+  
+  /* Handle on hover */
+.chats__box ::-webkit-scrollbar-thumb:hover {
+    background:var(--tertiary-color-shade-2); 
+}

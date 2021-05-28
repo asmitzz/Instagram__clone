@@ -8,20 +8,25 @@ import { AuthAction } from "./store/types/authReducer.types";
 
 import Signup from "./auth/signup/signup";
 import Login from "./auth/login/Login";
-import Home from "./pages/Home/Home";
+
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
-import "./App.css";
+import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
 import Comments from "./pages/Comments/Comments";
-import Footer from "./components/Footer/Footer";
 import Search from "./pages/Search/Search";
 import Chats from "./pages/Chats/Chats";
+
+import "./App.css";
+import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
+import UserChatsMobile from "./pages/Chats/components/UserChatMobile";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
   const {token,login} = auth;
+  const { width } = useWindowSize();
   const dispatch = useDispatch<Dispatch<AuthAction>>();
 
   useEffect(() => {
@@ -56,6 +61,7 @@ const App = () => {
            <Route path="/comments" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
            <Route path="/chats" element={<Chats/>}/>
+           <Route path="/chats/:chatID" element={width >= 700 ? <Chats/>: <UserChatsMobile/>}/>
         </Routes>
        }
 
