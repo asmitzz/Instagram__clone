@@ -4,6 +4,8 @@
     width:80%;
     margin:0 auto;
     min-height:100vh;
+    overflow-x:hidden;
+    margin-bottom:1.8rem;
 }
 
 .home__content .left__section{

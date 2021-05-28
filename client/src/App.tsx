@@ -17,6 +17,7 @@ import Profile from "./pages/Profile/Profile";
 import Comments from "./pages/Comments/Comments";
 import Footer from "./components/Footer/Footer";
 import Search from "./pages/Search/Search";
+import Chats from "./pages/Chats/Chats";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -54,6 +55,7 @@ const App = () => {
            <Route path="/profile/save" element={<Profile/>}/>
            <Route path="/comments" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
+           <Route path="/chats" element={<Chats/>}/>
         </Routes>
        }
 
