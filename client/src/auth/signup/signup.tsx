@@ -1,11 +1,8 @@
-import { useState,Dispatch } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignupState,SignupError } from "./signup.types";
 import { formValidate } from "./signup.formValidate";
 import { signup } from "../../services/auth/auth.services";
-import { useDispatch } from "react-redux";
-import { AuthAction } from "../../store/types/authReducer.types";
-import { AuthResponse } from "../../services/auth/auth.services.types";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 
 import Input from "../../utils/form/Input/Input";
@@ -34,7 +31,6 @@ const Signup = () => {
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
     const [feedback,setFeedback] = useState<string>("");
 
-    const dispatch = useDispatch<Dispatch<AuthAction>>();
     const navigate = useNavigate();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
@@ -48,18 +44,10 @@ const Signup = () => {
         if(!isMountedRef.current) return;
         e.preventDefault();
         const res = await signup(state);
-        if("token" in res){
-           return loggedIn(res)
+        if("success" in res){
+           return navigate("/login")
         }
         setFeedback(res.message);
-    }
-
-    function loggedIn(res:AuthResponse):void{
-        const {token,login,user} = res;
-        localStorage.setItem("token",JSON.stringify({token,login}));
-        dispatch({type:"LOGIN",payload:{token,login,user}});
-        setFeedback("");
-        navigate("/");
     }
 
     return (

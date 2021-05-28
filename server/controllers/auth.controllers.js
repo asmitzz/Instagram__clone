@@ -18,12 +18,7 @@ const signup = async (req, res) => {
       });
     }
     if (user) {
-       // create token
-       const token = jwt.sign({_id: user._id},process.env.SECRET_KEY,{ expiresIn:"30d" });
-       const { _id } = user;
-
-       // send response to frontend
-       return res.status(200).json({token,login:true,user:{ _id }})
+       return res.status(200).json({success:true})
     }
   });
 };

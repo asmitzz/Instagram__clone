@@ -3,9 +3,9 @@ import axios, { AxiosError } from "axios";
 import { serverError,AuthResponse } from "./auth.services.types";
 import { LoginState } from "../../auth/login/Login.types";
 
-export const signup = async(state:SignupState):Promise<AuthResponse|serverError> => {
+export const signup = async(state:SignupState):Promise<{success:boolean}|serverError> => {
     try {
-        const res = await axios.post<AuthResponse>("http://localhost:5000/signup",state);
+        const res = await axios.post<{success:boolean}>("http://localhost:5000/signup",state);
         return res.data;
     } catch (error) {
         if(axios.isAxiosError(error)){
