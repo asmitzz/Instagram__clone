@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { RootState } from "./store/reducers/rootReducer";
 import { checkAuth } from "./services/auth/auth.services";
 import { AuthAction } from "./store/types/authReducer.types";
+import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
 
 import Signup from "./auth/signup/signup";
 import Login from "./auth/login/Login";
@@ -19,9 +20,12 @@ import Comments from "./pages/Comments/Comments";
 import Search from "./pages/Search/Search";
 import Chats from "./pages/Chats/Chats";
 
-import "./App.css";
-import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
 import UserChatsMobile from "./pages/Chats/components/UserChatMobile";
+import Followers from "./pages/Followers/Followers";
+import Following from "./pages/Following/Following";
+import PostsSection from "./pages/Profile/components/PostsSection";
+
+import "./App.css";
 
 const App = () => {
   const {auth} = useSelector( (state:RootState) => state,shallowEqual );
@@ -41,23 +45,28 @@ const App = () => {
             return dispatch({type:"LOGOUT"})
          }
        })()
-  },[token,dispatch])
+  },[token,dispatch]);
   
   return (
     <div>
-        { login && <Header/>}
+       { login && <Header/>}
        <ScrollToTop/>
        { !login ? 
        <Routes>
-           <Route path="/" element={<Login/>}/>
-           <Route path="/login" element={<Login/>}/>
+           <Route path="/" element={<Login/>}>
+               <Route path="/login" element={<Login/>}/>
+           </Route>
            <Route path="/signup" element={<Signup/>}/>
        </Routes>
         :
         <Routes>
            <Route path="/" element={<Home/>}/>
-           <Route path="/profile" element={<Profile/>}/>
-           <Route path="/profile/save" element={<Profile/>}/>
+           <Route path="/profile" element={<Profile/>}>
+              <Route path="/" element={<PostsSection/>}/>
+              <Route path="/save" element={<PostsSection/>}/>
+           </Route>
+           <Route path="/profile/followers" element={<Followers/>}/>
+           <Route path="/profile/following" element={<Following/>}/>
            <Route path="/comments" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
            <Route path="/chats" element={<Chats/>}/>

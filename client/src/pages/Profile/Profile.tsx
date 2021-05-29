@@ -1,4 +1,4 @@
-import PostsSection from "./components/PostsSection";
+import { Outlet } from "react-router-dom";
 import ProfileSection from "./components/ProfileSection";
 import "./Profile.css";
 
@@ -6,7 +6,7 @@ const Profile = () => {
     return (
         <div className="profile__container">
             <ProfileSection/>
-            <PostsSection/>
+            <Outlet/>
         </div>
     );
 };

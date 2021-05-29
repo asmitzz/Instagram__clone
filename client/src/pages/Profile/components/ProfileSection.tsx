@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 const ProfileSection = () => {
 
     return (
@@ -11,8 +13,8 @@ const ProfileSection = () => {
                    </div>
                    <div className="section__2">
                        <div><span>15</span> posts</div>
-                       <div><span>155</span> followers</div>
-                       <div><span>249</span> following</div>
+                       <NavLink to="/profile/followers" className="nav__link"><span>155</span> followers</NavLink>
+                       <NavLink to="/profile/following" className="nav__link"><span>249</span> following</NavLink>
                    </div>
                    <div className="section__3">
                        <div className="fullname">Asmit shrivastava</div>

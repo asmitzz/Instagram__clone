@@ -1,0 +1,54 @@
+.follow__container{
+    display:flex;
+    flex-direction:column;
+}
+
+.follow__container .follow__heading{
+    color:var(--primary-text-color);
+    margin:0.5rem 1rem;
+}
+
+.follow__container .follower{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:0.5rem 1rem;
+}
+
+.follow__container .user{
+    display:flex;
+    text-decoration:none;
+}
+
+.follow__container .user__details{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    margin:0 0.8rem;
+}
+
+.follow__container .user__pic{
+   border-radius:50%;
+   height:50px;
+   width:50px;
+}
+
+.follow__container .username{
+    font-size:0.8rem;
+    color:var(--primary-text-color);
+    font-weight:500;
+}
+
+.follow__container .fullname{
+    font-size:0.8rem;
+    color:var(--tertiary-color-shade-1);
+}
+
+.follow__container .removeBtn{
+    padding:0.3rem 0.6rem;
+    background:none;
+    border:none;
+    font-weight:600;
+    border:1px solid var(--tertiary-color);
+    border-radius:5px;
+}

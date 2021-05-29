@@ -71,6 +71,11 @@
     font-size:0.9rem;
 }
 
+.profile__details .nav__link{
+    text-decoration:none;
+    color:var(--primary-text-color);
+}
+
 .profile__details .section__2 span{
     font-weight:600;
 }

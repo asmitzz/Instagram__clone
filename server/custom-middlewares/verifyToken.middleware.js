@@ -7,7 +7,7 @@ const verifyToken = (req,res,next) => {
           const decoded = jwt.verify(token,process.env.SECRET_KEY);
           req.user = decoded;
           req.token = token;
-          next()
+          next();
        }
     } catch (error) {
        return res.status(401).json({message:"Auth failed"})
