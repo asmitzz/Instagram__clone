@@ -1,12 +1,12 @@
-import { useState,Dispatch } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginState,LoginError } from "./Login.types";
 import { formValidate } from "./Login.formValidate";
 import { signin } from "../../services/auth/auth.services";
-import { useDispatch } from "react-redux";
-import { AuthAction } from "../../store/types/authReducer.types";
 import { AuthResponse } from "../../services/auth/auth.services.types";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
+import { useAppDispatch } from "../../store/hooks";
+import { login as loginuser } from "../authSlice";
 
 import Input from "../../utils/form/Input/Input";
 
@@ -30,7 +30,7 @@ const Login = () => {
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
     const [feedback,setFeedback] = useState<string>("");
 
-    const dispatch = useDispatch<Dispatch<AuthAction>>();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
@@ -53,7 +53,7 @@ const Login = () => {
     function loggedIn(res:AuthResponse):void{
         const {token,login,user} = res;
         localStorage.setItem("token",JSON.stringify({token,login}));
-        dispatch({type:"LOGIN",payload:{token,login,user}});
+        dispatch(loginuser({token,login,user}));
         setFeedback("");
         navigate("/");
     }

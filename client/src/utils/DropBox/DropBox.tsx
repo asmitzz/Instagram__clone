@@ -1,7 +1,7 @@
 import { Dispatch,SetStateAction } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AuthAction } from "../../store/types/authReducer.types";
+import { useAppDispatch } from "../../store/hooks";
+import { logout } from "../../auth/authSlice";
 
 import "./DropBox.css";
 
@@ -11,12 +11,12 @@ type DropBoxProps = {
 
 const DropBox = ({toggle}:DropBoxProps) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch<Dispatch<AuthAction>>();
+    const dispatch = useAppDispatch();
 
     const handleBtn = (path:string) => {
         if(path === "/"){
             localStorage.removeItem("token");
-            dispatch({type:"LOGOUT"});
+            dispatch(logout());
         }
         navigate(path);
         toggle(false)

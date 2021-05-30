@@ -1,16 +1,14 @@
-import { useEffect,Dispatch } from "react";
+import { useEffect } from "react";
 
-import { shallowEqual,useSelector,useDispatch } from "react-redux";
+import { useAppSelector,useAppDispatch } from "./store/hooks";
 import { Route, Routes } from "react-router-dom";
-import { RootState } from "./store/reducers/rootReducer";
 import { checkAuth } from "./services/auth/auth.services";
-import { AuthAction } from "./store/types/authReducer.types";
 import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
 
 import Signup from "./auth/signup/signup";
 import Login from "./auth/login/Login";
 
-import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "./utils/custom-hooks/ScrollToTop";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
@@ -19,19 +17,19 @@ import Profile from "./pages/Profile/Profile";
 import Comments from "./pages/Comments/Comments";
 import Search from "./pages/Search/Search";
 import Chats from "./pages/Chats/Chats";
-
 import UserChatsMobile from "./pages/Chats/components/UserChatMobile";
 import Followers from "./pages/Followers/Followers";
 import Following from "./pages/Following/Following";
 import PostsSection from "./pages/Profile/components/PostsSection";
 
+import { login as loginuser, logout } from "./auth/authSlice";
 import "./App.css";
 
 const App = () => {
-  const {auth} = useSelector( (state:RootState) => state,shallowEqual );
-  const {token,login} = auth;
+  const auth = useAppSelector((state) => state.auth);
+  const { token,login } = auth;
   const { width } = useWindowSize();
-  const dispatch = useDispatch<Dispatch<AuthAction>>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
        (async function(){
@@ -39,10 +37,10 @@ const App = () => {
            const res = await checkAuth(token);
            if("token" in res){
              const {login,token,user} = res;
-             return dispatch({type:"LOGIN",payload:{login,token,user}})
+             return dispatch(loginuser({login,token,user}))
            }
             localStorage.removeItem("token");
-            return dispatch({type:"LOGOUT"})
+            return dispatch(logout())
          }
        })()
   },[token,dispatch]);
