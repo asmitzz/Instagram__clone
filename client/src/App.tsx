@@ -23,6 +23,8 @@ import Following from "./pages/Following/Following";
 import PostsSection from "./pages/Profile/components/PostsSection";
 
 import { login as loginuser, logout } from "./auth/authSlice";
+import AddPost from "./pages/Addpost/AddPost";
+
 import "./App.css";
 
 const App = () => {
@@ -69,6 +71,7 @@ const App = () => {
            <Route path="/search" element={<Search/>}/>
            <Route path="/chats" element={<Chats/>}/>
            <Route path="/chats/:chatID" element={width >= 700 ? <Chats/>: <UserChatsMobile/>}/>
+           <Route path="/post/add" element={<AddPost/>}/>
         </Routes>
        }
 
