@@ -2,6 +2,8 @@ const { check } = require("express-validator");
 const USERS = require("../models/user.model");
 
 module.exports = [
+    check("password","password should be at least 8 characters").isLength({ min:8 }).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/),
+    check("fullname","fullname should be at least 3 characters").isLength({ min:3 }),
     check("email","email is required").isEmail().custom( async(email) => {
         const user = await USERS.findOne({email});
         if(user){
@@ -13,7 +15,5 @@ module.exports = [
         if(user){
             return Promise.reject('Username already in use');
         }
-    }),
-    check("password","password should be at least 8 characters").isLength({ min:8 }).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/),
-    check("fullname","fullname should be at least 3 characters").isLength({ min:3 })
+    })
 ]

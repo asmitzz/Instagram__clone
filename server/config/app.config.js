@@ -1,16 +1,18 @@
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const authRoutes = require("../routes/auth.routes");
+const feedRoutes = require("../routes/feed.routes");
+const profileRoutes = require("../routes/profile.routes");
 const verifyToken = require("../custom-middlewares/verifyToken.middleware");
 
 const App = (app) => {
 
-    // Middlewares
+    // middlewares
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(cors());
 
-    // Routes
+    // routes
     app.get("/",(req, res) => {
         res.send("server is running")
     });
@@ -22,6 +24,8 @@ const App = (app) => {
     })
 
     app.use(authRoutes);
+    app.use(verifyToken,feedRoutes)
+    app.use(verifyToken,profileRoutes)
 
     app.use("*",(req, res, next) => {
         res.status(404).json({ message:"route not found" })

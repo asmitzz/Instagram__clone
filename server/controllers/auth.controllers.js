@@ -1,4 +1,4 @@
-const USERS = require("../models/user.model");
+const Users = require("../models/user.model");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
@@ -11,7 +11,7 @@ const signup = async (req, res) => {
     });
   }
 
-  await USERS(req.body).save((err, user) => {
+  await Users(req.body).save((err, user) => {
     if (err) {
       return res.status(400).json({
         message: "Not able to save user in DB",
@@ -33,7 +33,7 @@ const signin = async(req,res) => {
     });
   }
 
-  const user = await USERS.findOne({$or:[ {email: emailOrUsername},{username: emailOrUsername} ]});
+  const user = await Users.findOne({$or:[ {email: emailOrUsername},{username: emailOrUsername} ]});
 
   // authenticate user
   if(!user.authenticate(password)){

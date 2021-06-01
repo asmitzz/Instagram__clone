@@ -3,6 +3,9 @@ const {nanoid} = require("nanoid");
 const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
+    pic:{
+       type:String
+    },
     fullname:{
         type:String,
         required:true,
@@ -12,20 +15,38 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true,
         trim:true,
-        unique:true
+        unique:true,
+        index:1
     },
     username:{
         type:String,
         required:true,
         trim:true,
-        unique:true
+        unique:true,
+        index:1
     },
-    salt:String,
+    salt:{
+        type:String
+    },
     encry_password:{
        type:String,
        required:true
+    },
+    website:{
+        type:String
+    },
+    bio:{
+        type:String
+    },
+    gender:{
+       type:String,
+       enum:["male","female"]
+    },
+    private:{
+        type:Boolean,
+        default:false
     }
-})
+},{ timestamps:true })
 
 UserSchema.virtual("password")
 .set(function(password){
@@ -54,4 +75,6 @@ UserSchema.methods = {
     }
 }
 
-module.exports = new mongoose.model("User",UserSchema)
+const User = new mongoose.model("User",UserSchema);
+
+module.exports = User;
