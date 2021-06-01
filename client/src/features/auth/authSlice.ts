@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthAction, AuthState } from "./authSlice.types";
+import { AuthResponse } from "../../services/auth/auth.services.types";
+import { AuthState } from "./authSlice.types";
 
 let user:AuthState = JSON.parse(localStorage?.getItem("token")||"{}")
 
@@ -12,7 +13,7 @@ export const authSlice = createSlice({
     name:"auth",
     initialState,
     reducers:{
-       login:(state,action:PayloadAction<AuthAction>) => {
+       login:(state,action:PayloadAction<AuthResponse>) => {
            const { token,login,user } = action.payload;
            return {...state,token,login,user}
        },

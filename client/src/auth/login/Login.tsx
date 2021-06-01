@@ -6,7 +6,7 @@ import { signin } from "../../services/auth/auth.services";
 import { AuthResponse } from "../../services/auth/auth.services.types";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 import { useAppDispatch } from "../../store/hooks";
-import { login as loginuser } from "../authSlice";
+import { login as loginuser } from "../../features/auth/authSlice";
 
 import Input from "../../utils/form/Input/Input";
 

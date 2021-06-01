@@ -22,7 +22,7 @@ import Followers from "./pages/Followers/Followers";
 import Following from "./pages/Following/Following";
 import PostsSection from "./pages/Profile/components/PostsSection";
 
-import { login as loginuser, logout } from "./auth/authSlice";
+import { login as loginuser, logout } from "./features/auth/authSlice";
 import AddPost from "./pages/Addpost/AddPost";
 
 import "./App.css";

@@ -1,7 +1,7 @@
 import { Dispatch,SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/hooks";
-import { logout } from "../../auth/authSlice";
+import { logout } from "../../features/auth/authSlice";
 
 import "./DropBox.css";
 
