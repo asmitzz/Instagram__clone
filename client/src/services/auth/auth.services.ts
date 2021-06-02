@@ -1,7 +1,8 @@
 import { SignupState } from "../../auth/signup/signup.types";
 import axios, { AxiosError } from "axios";
-import { serverError,AuthResponse } from "./auth.services.types";
+import { AuthResponse } from "./auth.services.types";
 import { LoginState } from "../../auth/login/Login.types";
+import { serverError } from "../../generic.types";
 
 export const signup = async(state:SignupState):Promise<{success:boolean}|serverError> => {
     try {

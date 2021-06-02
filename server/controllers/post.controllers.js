@@ -1,5 +1,6 @@
 const Following = require("../models/following.model");
 const Posts = require("../models/post.model");
+const cloudinary = require("../config/cloudinery.config");
 
 const checkPost = async(req,res,next,postId) => {
     const post = await Posts.findById(postId);
@@ -32,12 +33,21 @@ const getPosts = async(req, res) => {
 }
 
 const uploadPost = async(req,res) => {
-    await Posts(req.body).save((err,post) => {
-        if(err){
-            return res.status(422).json({ message:"Not able to save in DB" })
-        }
-        return res.status(200).json({ post,message:"Post uploaded succesfully" })
-    });
+    const {file,user:{ _id }} = req;
+    const {caption} = req.body;
+
+    try {
+        const uploadResponse = await cloudinary.uploader.upload(file.path);
+
+        await Posts({ postedBy:_id,file:uploadResponse.secure_url,caption }).save((err,post) => {
+          if(err){
+              return res.status(422).json({ message:"Not able to save in DB" })
+          }
+          return res.status(200).json({ post,message:"Post uploaded succesfully" })
+        });
+    } catch (error) {
+        res.status(500).json({ message:"something went wrong" })
+    }
 }
 
 const updateLikesOnPost = async(req,res) => {
@@ -45,12 +55,16 @@ const updateLikesOnPost = async(req,res) => {
    const { userId } = req.params;
 
    const checkUserAlreadyLikedOrNot = post.likes.find(uid => uid == userId)
-
    checkUserAlreadyLikedOrNot ? post.likes.remove(userId) : post.likes.push(userId)
-    
-   post = await post.save();
+   await post.save((err,post) => {
+       if(err){
+          return res.status(422).json({ message:err.message})
+       }
+       if(post){
+          return res.status(200).json({ post,message:"Post likes updated successfully" })
+       }
+   });
    
-   return res.status(200).json({ post,message:"Post updated successfully" })
 }
 
 module.exports = { checkPost,getPosts,uploadPost,updateLikesOnPost };

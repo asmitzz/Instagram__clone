@@ -4,10 +4,18 @@ const authRoutes = require("../routes/auth.routes");
 const postRoutes = require("../routes/post.routes");
 const profileRoutes = require("../routes/profile.routes");
 const verifyToken = require("../custom-middlewares/verifyToken.middleware");
+const multer = require("multer");
+
 
 const App = (app) => {
 
+    const upload = multer({
+        dest:"uploads/",
+        limits:100*1024*1024,
+    });
+
     // middlewares
+    app.use(upload.single("file"));
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(cors());
