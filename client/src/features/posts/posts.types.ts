@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export type User = {
     _id:string;
     pic:string;
@@ -13,9 +11,12 @@ export type Comment = {
 
 export type Post = {
     _id:string;
+    file:string;
     postedBy:User;
     caption:string;
+    likes:string[];
     comments:Comment[];
+    updatedAt:"string";
 }
 
 export type PostData = {

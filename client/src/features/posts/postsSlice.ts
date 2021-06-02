@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { PostData,PostsIntialState } from "./posts.types";
+
 import axios from "axios";
 
 const initialState:PostsIntialState = {

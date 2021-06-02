@@ -8,20 +8,23 @@ import "./HomeContent.css";
 
 const HomeContent = () => {
     const token = useAppSelector(state => state.auth.token);
-    const postStatus = useAppSelector(state => state.posts.status);
+    const {status,posts} = useAppSelector(state => state.posts);
     const dispatch = useAppDispatch();
     
     useEffect(() => {
-       if(postStatus === "idle" && token !== null){
+       if(status === "idle" && token !== null){
            dispatch(fetchPosts(token))
        }
-    },[token,postStatus,dispatch])
+    },[token,status,dispatch])
 
     return (
         <div className="home__content">
             <div className="left__section">
-                <Post/>
-                <Post/>
+                {
+                   posts.map( post => (
+                       <Post key={post._id} {...post} />
+                  ))
+                }
             </div>
             <div className="right__section">
                 <ProfileBox/>

@@ -76,6 +76,8 @@
 .post .post__caption{
    margin-bottom:0.5rem;
    font-size:0.8rem;
+   color:var(--primary-text-color);
+   font-weight:500;
 }
 
 .post .post__comments{
@@ -89,6 +91,7 @@
     color:var(--tertiary-color-shade-1);
     font-size: 0.6rem;
     margin-bottom:0.5rem;
+    font-weight:500;
 }
   
 .post .commentBox{
