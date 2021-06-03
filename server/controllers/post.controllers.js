@@ -39,11 +39,14 @@ const uploadPost = async(req,res) => {
     try {
         const uploadResponse = await cloudinary.uploader.upload(file.path);
 
-        await Posts({ postedBy:_id,file:uploadResponse.secure_url,caption }).save((err,post) => {
+        await Posts({ postedBy:_id,file:uploadResponse.secure_url,caption }).save(async(err,post) => {
           if(err){
               return res.status(422).json({ message:"Not able to save in DB" })
           }
-          return res.status(200).json({ post,message:"Post uploaded succesfully" })
+          if(post){
+              await post.populate({ path:"postedBy",select:"pic username" })
+              return res.status(200).json({ post,message:"Post uploaded succesfully" })
+          }
         });
     } catch (error) {
         res.status(500).json({ message:"something went wrong" })

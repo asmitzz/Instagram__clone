@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SignupState,SignupError } from "./signup.types";
 import { formValidate } from "./signup.formValidate";
 import { useAppDispatch } from "../../store/hooks";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
+import { signupUser } from "../../features/auth/authSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Status } from "../../generic.types";
 
 import Input from "../../utils/form/Input/Input";
 
 import "../auth.css";
-import { signupUser } from "../../features/auth/authSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { Status } from "../../generic.types";
 
 const Signup = () => {
 
@@ -34,6 +34,7 @@ const Signup = () => {
     
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
     const [signupStatus,setSetSignupStatus] = useState<Status>("idle");
+    const [feedback,setFeedback] = useState<string>("");
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
         if(!isMountedRef.current) return;
@@ -51,11 +52,13 @@ const Signup = () => {
             unwrapResult(resultAction);
             setState({ email:"",fullname:"",username:"",password:"" });
             setError({ email:false,fullname:false,username:false,password:false,disabled:true });
+            setSetSignupStatus("succeeded");
+            setFeedback("");
+            setTimeout(() => {
+                setSetSignupStatus("idle");
+            },3000)
         } catch (error) {
-            console.log(error.response);
-            setSetSignupStatus("failed");
-        }
-        finally{
+            setFeedback(error.message);
             setSetSignupStatus("idle");
         }
     }
@@ -70,12 +73,13 @@ const Signup = () => {
                 <Input type="text" name="fullname" value={state.fullname} error={error.fullname} onChange={handleChange} placeholder="Full Name"/>
                 <Input type="text" name="username" value={state.username} error={error.username} onChange={handleChange} placeholder="Username"/>
                 <Input type={togglePassword ? "text" :"password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
-                <input type="submit" className="submit__btn" disabled={error.disabled} value="Sign up"/>
-                <small className="form__feedback">{}</small>
+                <input type="submit" className="submit__btn" disabled={error.disabled || signupStatus !== "idle"} value={signupStatus === "idle" ? "Sign up" : "Signing..."}/>
+                <small className="auth__invalid__feedback">{feedback}</small>
+                { signupStatus === "succeeded" && <small className="auth__valid__feedback">User registered successfully</small>}
             </form>
 
             <div className="section2">
-                <p className="section2__title">Have an account? <Link to="/login" className="section2__title__Link">Log in</Link></p>
+                <p className="section2__title">Have an account? <Link to="/" className="section2__title__Link">Log in</Link></p>
             </div>
 
         </div>

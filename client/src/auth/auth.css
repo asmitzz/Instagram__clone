@@ -45,9 +45,16 @@
     text-decoration:none;
 }
 
-.auth__container .form__feedback{
+.auth__container .auth__invalid__feedback{
     text-align:center;
+    margin-top:0.5rem;
     color:var(--danger-color);
+}
+
+.auth__container .auth__valid__feedback{
+    text-align:center;
+    margin-top:0.5rem;
+    color:var(--success-color);
 }
 
 @media (max-width:450px){

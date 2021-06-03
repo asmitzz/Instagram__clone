@@ -1,4 +1,4 @@
-export type serverError = {
+export type ServerError = {
     message:string;
 }
 

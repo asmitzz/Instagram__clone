@@ -2,8 +2,8 @@ import { useEffect } from "react";
 
 import { useAppSelector,useAppDispatch } from "./store/hooks";
 import { Route, Routes } from "react-router-dom";
-import { checkAuth } from "./services/auth/auth.services";
 import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
+import { checkAuth } from "./features/auth/authSlice";
 
 import Signup from "./auth/signup/signup";
 import Login from "./auth/login/Login";
@@ -22,7 +22,6 @@ import Followers from "./pages/Followers/Followers";
 import Following from "./pages/Following/Following";
 import PostsSection from "./pages/Profile/components/PostsSection";
 
-import { login as loginuser, logout } from "./features/auth/authSlice";
 import AddPost from "./pages/Addpost/AddPost";
 
 import "./App.css";
@@ -34,17 +33,9 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-       (async function(){
-         if(token){
-           const res = await checkAuth(token);
-           if("token" in res){
-             const {login,token,user} = res;
-             return dispatch(loginuser({login,token,user}))
-           }
-            localStorage.removeItem("token");
-            return dispatch(logout())
-         }
-       })()
+        if(token){
+             dispatch(checkAuth(token));
+        }
   },[token,dispatch]);
   
   return (
@@ -53,9 +44,7 @@ const App = () => {
        <ScrollToTop/>
        { !login ? 
        <Routes>
-           <Route path="/" element={<Login/>}>
-               <Route path="/login" element={<Login/>}/>
-           </Route>
+           <Route path="/" element={<Login/>}/>
            <Route path="/signup" element={<Signup/>}/>
        </Routes>
         :

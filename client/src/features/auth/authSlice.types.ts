@@ -5,11 +5,11 @@ export type User = {
 export type AuthState = {
     token:string,
     login:boolean,
-    user?:User,
+    user?:User
 }
 
 export type AuthResponse = {
     token:string;
     login:boolean;
-    user:User
+    user:User;
 }

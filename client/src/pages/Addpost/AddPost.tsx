@@ -7,9 +7,12 @@ import { uploadPost } from "../../features/posts/postsSlice";
 import { Status } from "../../generic.types";
 import { unwrapResult } from "@reduxjs/toolkit";
 
+import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 import "./AddPost.css";
 
 const AddPost = () => {
+    const isMountedRef = useIsMountedRef();
+
     const [post,setPost] = useState<Post>({file:null,caption:""});
     const [file,setFile] = useState<File|null>(null);
     const [uploadPostStatus,setUploadPostStatus] = useState<Status>("idle");
@@ -34,7 +37,8 @@ const AddPost = () => {
     }
 
     const handlePost = async(e:React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
+        if(!isMountedRef.current) return;
         if(file && canSave){
             try {
                 setUploadPostStatus("pending");
@@ -66,6 +70,7 @@ const AddPost = () => {
                     <img className="file" alt="users" src={post.file}/>
                 </div>
             }
+            
             <form onSubmit={handlePost}>
                 { 
                   !post.file && 
@@ -77,7 +82,7 @@ const AddPost = () => {
 
                 <Input type="text" name="caption" value={post.caption} error={false} onChange={handleChange} placeholder="Caption" />
                 <div className="form__group">
-                  <input type="submit" disabled={!canSave} className="submit__btn" value={uploadPostStatus === "idle" ? "POST" : "POSTING"}/>
+                  <input type="submit" disabled={!canSave} className="submit__btn" value={uploadPostStatus === "idle" ? "POST" : "POSTING..."}/>
                 </div>
             </form>
         </div>

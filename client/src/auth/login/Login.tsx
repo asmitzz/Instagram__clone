@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LoginState,LoginError } from "./Login.types";
 import { formValidate } from "./Login.formValidate";
-import { signin } from "../../services/auth/auth.services";
-import { AuthResponse } from "../../services/auth/auth.services.types";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 import { useAppDispatch } from "../../store/hooks";
-import { login as loginuser } from "../../features/auth/authSlice";
+import { loginUser } from "../../features/auth/authSlice";
+import { Status } from "../../generic.types";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 import Input from "../../utils/form/Input/Input";
 
 import "../auth.css";
+
 
 const Login = () => {
 
@@ -29,9 +30,9 @@ const Login = () => {
 
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
     const [feedback,setFeedback] = useState<string>("");
+    const [loginStatus,setLoginStatus] = useState<Status>("idle");
 
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
         if(!isMountedRef.current) return; 
@@ -43,19 +44,20 @@ const Login = () => {
     const handleSubmit = async(e:React.SyntheticEvent) => {
         if(!isMountedRef.current) return; 
         e.preventDefault();
-        const res = await signin(state);
-        if("token" in res){
-           return loggedIn(res)
+        try {
+            setLoginStatus("pending")
+            const resultAction = await dispatch(loginUser(state));
+            unwrapResult(resultAction);
+            setState({ emailOrUsername:"", password:"" });
+            setError({ emailOrUsername:false,password:false,disabled:true });
+            setLoginStatus("succeeded");
+            setFeedback("");
+        } catch (error) {
+            setFeedback(error.message);
         }
-        setFeedback(res.message)
-    }
-
-    function loggedIn(res:AuthResponse):void{
-        const {token,login,user} = res;
-        localStorage.setItem("token",JSON.stringify({token,login}));
-        dispatch(loginuser({token,login,user}));
-        setFeedback("");
-        navigate("/");
+        finally {
+            setLoginStatus("idle")
+        }
     }
 
     return (
@@ -66,8 +68,8 @@ const Login = () => {
                 <p className="signup__title">Sign up to see photos and videos from your friends.</p>
                 <Input type="text" name="emailOrUsername" value={state.emailOrUsername} error={error.emailOrUsername} onChange={handleChange} placeholder="Email or username"/>
                 <Input type={togglePassword ? "text" : "password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
-                <input type="submit" className="submit__btn" disabled={error.disabled} value="Log In"/>
-                <small className="form__feedback">{feedback}</small>
+                <input type="submit" className="submit__btn" disabled={error.disabled} value={ loginStatus === "idle" ? "Log In" : "Logging..."}/>
+                <small className="auth__invalid__feedback">{feedback}</small>
             </form>
 
             <div className="section2">
