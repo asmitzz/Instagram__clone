@@ -1,17 +1,23 @@
 import Input from "../../utils/form/Input/Input";
-import { useState } from "react";
-// import { uploadFile } from "../../utils/UploadFile/uploadFile";
-import { Post } from "./AddPost.types";
 
-import { uploadPost } from "../../services/post/post.services";
-import { useAppSelector } from "../../store/hooks";
+import { useState } from "react";
+import { Post } from "./AddPost.types";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { uploadPost } from "../../features/posts/postsSlice";
+import { Status } from "../../generic.types";
+import { unwrapResult } from "@reduxjs/toolkit";
+
 import "./AddPost.css";
 
 const AddPost = () => {
     const [post,setPost] = useState<Post>({file:null,caption:""});
     const [file,setFile] = useState<File|null>(null);
-    const [error] = useState<string>("");
+    const [uploadPostStatus,setUploadPostStatus] = useState<Status>("idle");
+
+    const canSave = [post.caption,file].every(Boolean) && uploadPostStatus === "idle";
+   
     const {token} = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name,value,files} = e.target;
@@ -29,15 +35,30 @@ const AddPost = () => {
 
     const handlePost = async(e:React.FormEvent) => {
         e.preventDefault()
-        if(file && token){
-            const res = await uploadPost({file,caption:post.caption},token);
-            console.log(res);
+        if(file && canSave){
+            try {
+                setUploadPostStatus("pending");
+                const resultAction = await dispatch(uploadPost({file,caption:post.caption,token}));
+                unwrapResult(resultAction);
+                setPost({file:null,caption:""});
+                setFile(null);
+                setUploadPostStatus("succeeded");
+            } catch(error){
+                setUploadPostStatus("failed");
+            }
+            finally{
+                setTimeout(() => {
+                    setUploadPostStatus("idle")
+                },3000)
+            }
         }
     }
  
     return (
         <div className="addpost__container">
-            <small>{error}</small>
+            {uploadPostStatus === "failed" && <div className="invalid__feedback">something went wrong!!</div>}
+            {uploadPostStatus === "succeeded" && <div className="valid__feedback">post successfully uploaded!!</div>}
+
             {   
                 typeof post.file === "string" && 
                 <div className="file__container">
@@ -56,11 +77,11 @@ const AddPost = () => {
 
                 <Input type="text" name="caption" value={post.caption} error={false} onChange={handleChange} placeholder="Caption" />
                 <div className="form__group">
-                  <input type="submit" disabled={post.file === null} className="submit__btn" value="POST"/>
+                  <input type="submit" disabled={!canSave} className="submit__btn" value={uploadPostStatus === "idle" ? "POST" : "POSTING"}/>
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default AddPost
+export default AddPost;

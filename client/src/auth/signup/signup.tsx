@@ -2,16 +2,20 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignupState,SignupError } from "./signup.types";
 import { formValidate } from "./signup.formValidate";
-import { signup } from "../../services/auth/auth.services";
+import { useAppDispatch } from "../../store/hooks";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 
 import Input from "../../utils/form/Input/Input";
 
 import "../auth.css";
+import { signupUser } from "../../features/auth/authSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Status } from "../../generic.types";
 
 const Signup = () => {
 
     const isMountedRef = useIsMountedRef();
+    const dispatch = useAppDispatch();
 
     const [state,setState] = useState<SignupState>({
         email:"",
@@ -29,9 +33,7 @@ const Signup = () => {
     });
     
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
-    const [feedback,setFeedback] = useState<string>("");
-
-    const navigate = useNavigate();
+    const [signupStatus,setSetSignupStatus] = useState<Status>("idle");
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
         if(!isMountedRef.current) return;
@@ -43,11 +45,19 @@ const Signup = () => {
     const handleSubmit = async(e:React.SyntheticEvent) => {
         if(!isMountedRef.current) return;
         e.preventDefault();
-        const res = await signup(state);
-        if("success" in res){
-           return navigate("/login")
+        try {
+            setSetSignupStatus("pending");
+            const resultAction = await dispatch(signupUser(state));
+            unwrapResult(resultAction);
+            setState({ email:"",fullname:"",username:"",password:"" });
+            setError({ email:false,fullname:false,username:false,password:false,disabled:true });
+        } catch (error) {
+            console.log(error.response);
+            setSetSignupStatus("failed");
         }
-        setFeedback(res.message);
+        finally{
+            setSetSignupStatus("idle");
+        }
     }
 
     return (
@@ -61,7 +71,7 @@ const Signup = () => {
                 <Input type="text" name="username" value={state.username} error={error.username} onChange={handleChange} placeholder="Username"/>
                 <Input type={togglePassword ? "text" :"password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
                 <input type="submit" className="submit__btn" disabled={error.disabled} value="Sign up"/>
-                <small className="form__feedback">{feedback}</small>
+                <small className="form__feedback">{}</small>
             </form>
 
             <div className="section2">

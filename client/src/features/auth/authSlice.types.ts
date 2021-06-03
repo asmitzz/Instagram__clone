@@ -3,7 +3,13 @@ export type User = {
 }
 
 export type AuthState = {
-    token:string|null,
+    token:string,
     login:boolean,
     user?:User,
+}
+
+export type AuthResponse = {
+    token:string;
+    login:boolean;
+    user:User
 }

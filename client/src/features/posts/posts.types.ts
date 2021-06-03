@@ -1,3 +1,5 @@
+import { Status } from "../../generic.types"
+
 export type User = {
     _id:string;
     pic:string;
@@ -25,5 +27,16 @@ export type PostData = {
 
 export type PostsIntialState = {
     posts:Post[];
-    status:"idle" | "pending" | "succeeded" | "failed"
+    status:Status
+}
+
+export type UploadPostResponse = {
+    message:boolean;
+    post:Post;
+}
+
+export type UploadPostData = {
+    file:File;
+    caption:string;
+    token:string;
 }

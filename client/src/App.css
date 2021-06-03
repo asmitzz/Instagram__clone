@@ -24,3 +24,36 @@ body{
     background:var(--primary-color);
     font-family: 'Montserrat', sans-serif;
 }
+
+.valid__feedback{
+    color:var(--success-color);
+}
+
+.invalid__feedback,.valid__feedback{
+    padding:0.5rem;
+    box-sizing:border-box;
+    animation:toast 0.3s 1 linear;
+    position:fixed;
+    top:4rem;
+    border-radius:3px;
+    right:1rem;
+}
+
+.invalid__feedback{
+    color:var(--secondary-color);
+    background:var(--danger-color);
+}
+
+.valid__feedback{
+    color:var(--secondary-color);
+    background:var(--success-color);
+}
+
+@keyframes toast{
+    from{
+        transform:translateX(100%);
+    }
+    to{
+        transform:translateX(0);
+    }
+}
