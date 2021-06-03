@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { PostData,PostsIntialState, UploadPostResponse,UploadPostData } from "./posts.types";
+import { PostData,PostsIntialState, PostResponse,UploadPostData } from "./posts.types";
 
 import axios from "axios";
 
@@ -8,25 +8,32 @@ const initialState:PostsIntialState = {
     status:"idle"
 };
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts",async(token:string) => {
-    const res = await axios.get<PostData>("http://localhost:5000/posts",{
+export const fetchPosts = createAsyncThunk<PostData,{token:string}>("posts/fetchPosts",async({token}) => {
+    const res = await axios.get("http://localhost:5000/posts",{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
-export const uploadPost = createAsyncThunk("posts/uploadpost",async({file,caption,token}:UploadPostData) => {
+export const uploadPost = createAsyncThunk<PostResponse,UploadPostData>("posts/uploadpost",async({file,caption,token}) => {
     const formData = new FormData();
           formData.append("file",file);
           formData.append("caption",caption);
 
-    const res = await axios.post<UploadPostResponse>("http://localhost:5000/posts",formData,{
+    const res = await axios.post("http://localhost:5000/posts",formData,{
             headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
-const postSlice = createSlice({
+export const likePressed = createAsyncThunk<PostResponse,{token:string,postId:string}>("posts/updatelike",async({token,postId}) => {
+    const res = await axios.post(`http://localhost:5000/posts/${postId}/like`,{},{
+         headers:{ authorization:`Bearer ${token}` }
+    });
+    return res.data;
+})
+
+const postsSlice = createSlice({
     name:"posts",
     initialState,
     reducers:{
@@ -45,10 +52,15 @@ const postSlice = createSlice({
             state.posts = action.payload.posts
         })
 
-        builder.addCase(uploadPost.fulfilled,(state:PostsIntialState,action:PayloadAction<UploadPostResponse>) => {
+        builder.addCase(uploadPost.fulfilled,(state:PostsIntialState,action:PayloadAction<PostResponse>) => {
            state.posts.push(action.payload.post)
+        })
+
+        builder.addCase(likePressed.fulfilled,(state:PostsIntialState,action:PayloadAction<PostResponse>) => {
+            const postIndex = state.posts.findIndex((post) => post._id === action.payload.post._id );
+            state.posts[postIndex] = action.payload.post;
         })
     }
 })
 
-export default postSlice.reducer;
+export default postsSlice.reducer;

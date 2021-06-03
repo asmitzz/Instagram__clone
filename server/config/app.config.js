@@ -3,9 +3,10 @@ const cors = require("cors");
 const authRoutes = require("../routes/auth.routes");
 const postRoutes = require("../routes/post.routes");
 const profileRoutes = require("../routes/profile.routes");
+const savedpostRoutes = require("../routes/savedpost.routes");
+
 const verifyToken = require("../custom-middlewares/verifyToken.middleware");
 const multer = require("multer");
-
 
 const App = (app) => {
 
@@ -32,8 +33,9 @@ const App = (app) => {
     })
 
     app.use(authRoutes);
-    app.use(verifyToken,postRoutes)
+    app.use(verifyToken,postRoutes);
     app.use(verifyToken,profileRoutes);
+    app.use(verifyToken,savedpostRoutes);
 
     app.use("*",(req, res, next) => {
         res.status(404).json({ message:"route not found" })

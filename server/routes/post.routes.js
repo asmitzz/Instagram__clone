@@ -8,7 +8,7 @@ router.route("/posts")
 .get(getPosts)
 .post(uploadPost);
 
-router.route("/posts/:postId/:userId")
+router.route("/posts/:postId/like")
 .post(checkPost,updateLikesOnPost);
 
 module.exports = router;

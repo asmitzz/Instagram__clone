@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { fetchPosts } from "../../features/posts/postsSlice";
+import { fetchSavedPosts } from "../../features/savedposts/savedpostsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Post from "../Post/Post";
 import ProfileBox from "./components/ProfileBox";
@@ -8,14 +9,23 @@ import "./HomeContent.css";
 
 const HomeContent = () => {
     const token = useAppSelector(state => state.auth.token);
-    const {status,posts} = useAppSelector(state => state.posts);
+    const posts = useAppSelector(state => state.posts.posts);
+    const postsRequestStatus = useAppSelector(state => state.posts.status);
+    const savedpostsRequestStatus = useAppSelector(state => state.savedposts.status);
     const dispatch = useAppDispatch();
     
     useEffect(() => {
-       if(status === "idle" && token !== null){
-           dispatch(fetchPosts(token))
+       if(postsRequestStatus === "idle" && token !== null){
+           dispatch(fetchPosts({token}));
        }
-    },[token,status,dispatch])
+       
+    },[postsRequestStatus,token,dispatch])
+
+    useEffect(() => {
+        if(savedpostsRequestStatus === "idle" && token !== null){
+            dispatch(fetchSavedPosts({token}));
+         }
+    },[savedpostsRequestStatus,token,dispatch])
 
     return (
         <div className="home__content">

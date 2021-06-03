@@ -30,8 +30,8 @@ export type PostsIntialState = {
     status:Status
 }
 
-export type UploadPostResponse = {
-    message:boolean;
+export type PostResponse = {
+    message:string;
     post:Post;
 }
 

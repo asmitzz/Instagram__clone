@@ -54,11 +54,10 @@ const uploadPost = async(req,res) => {
 }
 
 const updateLikesOnPost = async(req,res) => {
-   let { post } = req;
-   const { userId } = req.params;
+   let { post,user:{ _id } } = req;
 
-   const checkUserAlreadyLikedOrNot = post.likes.find(uid => uid == userId)
-   checkUserAlreadyLikedOrNot ? post.likes.remove(userId) : post.likes.push(userId)
+   const checkUserAlreadyLikedOrNot = post.likes.find(uid => uid == _id);
+   checkUserAlreadyLikedOrNot ? post.likes.remove(_id) : post.likes.push(_id)
    await post.save((err,post) => {
        if(err){
           return res.status(422).json({ message:err.message})

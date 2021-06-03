@@ -7,7 +7,7 @@ import PostIcons from "./PostIcons";
 
 import "./Post.css";
 
-const PostCard = ({file,postedBy,caption,comments,likes,updatedAt}:Post) => {
+const PostCard = ({_id,file,postedBy,caption,comments,likes,updatedAt}:Post) => {
     const time = timestamp(new Date(updatedAt));
     const userId = useAppSelector(state => state.auth.user?._id);
     const like = likes.find( uid => uid === userId );
@@ -25,7 +25,7 @@ const PostCard = ({file,postedBy,caption,comments,likes,updatedAt}:Post) => {
             <img alt="pic" width="100%" style={{ maxHeight:"700px" }} height="auto" src={file}/>
             
             <div className="post__footer">
-                <PostIcons like={like ? true : false}/>
+                <PostIcons postId={_id} like={like ? true : false}/>
                 <h6 className="post__likes">{likes.length} likes</h6>
                 <div className="post__caption">
                     <strong>{postedBy.username}</strong> {caption}
