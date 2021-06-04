@@ -4,6 +4,8 @@ export type User = {
     username:string;
     fullname:string;
     private:boolean;
+    website:string;
+    bio:string;
 }
 
 export type AuthState = {

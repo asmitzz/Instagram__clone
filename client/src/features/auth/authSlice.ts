@@ -50,7 +50,7 @@ export const authSlice = createSlice({
        }
     },
     extraReducers:(builder) => {
-       builder.addCase(loginUser.fulfilled,(state,action:PayloadAction<AuthResponse|ServerError>) => {
+       builder.addCase(loginUser.fulfilled,(state:AuthState,action:PayloadAction<AuthResponse|ServerError>) => {
             if("token" in action.payload){
                 const { token,login,user } = action.payload;
                 state.token = token;
@@ -60,7 +60,7 @@ export const authSlice = createSlice({
             }
        })
 
-       builder.addCase(checkAuth.fulfilled,(state,action:PayloadAction<AuthResponse|ServerError>) => {
+       builder.addCase(checkAuth.fulfilled,(state:AuthState,action:PayloadAction<AuthResponse|ServerError>) => {
         if("token" in action.payload){
             const { token,login,user } = action.payload;
             state.token = token;

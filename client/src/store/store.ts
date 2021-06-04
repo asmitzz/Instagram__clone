@@ -2,12 +2,14 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
 import postsReducer from "../features/posts/postsSlice";
 import savedpostsReducer from "../features/savedposts/savedpostsSlice";
+import profileReducer from "../features/profile/profileSlice";
 
 export const store = configureStore({
     reducer:{
         auth:authReducer,
         posts:postsReducer,
         savedposts:savedpostsReducer,
+        profile:profileReducer,
     }
 })
 

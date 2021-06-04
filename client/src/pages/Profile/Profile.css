@@ -42,7 +42,7 @@
 
 .profile__details .section__1 .username__desktop{
     font-size:1.3rem;
-    font-weight:400;
+    font-weight:600;
     color:var(--primary-text-color);
 }
 
@@ -145,10 +145,10 @@
 
 @media(max-width:730px){
 .profile__container .posts__section .section__2{
-  gap:3px;
+     gap:3px;
 }
 .profile__container .posts__section{
-  padding:0;
+     padding:0;
 }
 
 .profile__container{
@@ -173,6 +173,7 @@
     width:100px;
     height:100px;
  }
+
 }
 
 @media(max-width:480px){
@@ -188,7 +189,6 @@
 
     .profile__container .profile__section{
         grid-template-columns:1fr;
-        place-items:center;
     }
 
     .profile__container .profile__section .fullname{
@@ -197,7 +197,7 @@
 
     .profile__container .posts__section{
         margin-top:1rem;
-        margin-bottom:1.5rem;
+        margin-bottom:2.5rem;
     }
 
     .profile__container .profile__section .section__1{
@@ -210,10 +210,20 @@
 
     .profile__container .profile__section .username__mobile{
         display:block;
+        text-align:center;
     }
 
     .profile__container .profile__section .edit__profile__btn{
         margin-top:0.5rem;
         font-size:0.7rem;
+    }
+
+    .profile__container .profile__avatar{
+        display:block;
+        margin: auto;
+     }
+
+     .profile__container .posts__section .section__2{
+        grid-template-columns:1fr 1fr;
     }
 }

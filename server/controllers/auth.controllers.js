@@ -39,12 +39,12 @@ const signin = async(req,res) => {
   if(!user.authenticate(password)){
       return res.status(401).json({ message:"Sorry, your password was incorrect. Please double-check your password"})
   }
-  const { _id,pic,username,fullname,private } = user;
+  const { _id,pic,username,fullname,private,website,bio } = user;
 
   // create token
-  const token = jwt.sign({ _id,pic,username,fullname,private },process.env.SECRET_KEY,{ expiresIn:"30d" });
+  const token = jwt.sign({ _id,pic,username,fullname,private,website,bio },process.env.SECRET_KEY,{ expiresIn:"30d" });
   // send response to frontend
-  return res.status(200).json({token,login:true,user:{ _id,pic,username,fullname,private }})
+  return res.status(200).json({token,login:true,user:{ _id,pic,username,fullname,private,website,bio }})
 }
 
 module.exports = { signup,signin };

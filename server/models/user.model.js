@@ -34,10 +34,12 @@ const UserSchema = new mongoose.Schema({
        required:true
     },
     website:{
-        type:String
+        type:String,
+        default:""
     },
     bio:{
-        type:String
+        type:String,
+        default:""
     },
     gender:{
        type:String,

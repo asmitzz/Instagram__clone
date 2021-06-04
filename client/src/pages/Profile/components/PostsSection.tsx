@@ -1,8 +1,10 @@
-import { Link,useLocation } from "react-router-dom";
+import ReactPlayer from "react-player";
+import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../store/hooks";
 
 const PostsSection = () => {
-    const {pathname} = useLocation();
-    console.log(pathname);
+    const posts = useAppSelector(state => state.profile.userposts);
+    
     return (
         <div className="posts__section">
              <div className="section__1">
@@ -16,27 +18,20 @@ const PostsSection = () => {
                  </button>
              </div>
              <div className="section__2">
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
-                 <Link to="/viewprofile">
-                    <img width="100%" alt="post" height="auto" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
-                 </Link>
+                 {
+                    posts.map( post => {
+                       const extension = post.file.split(".").pop();
+                       const isImg = extension?.split('.').pop() === "jpg" || extension?.split('.').pop() === "png" || extension?.split('.').pop() === "jpeg";
+                       const isVideo = extension?.split('.').pop() === "mp3" || extension?.split('.').pop() === "mp4";
+                       return(
+                        <Link to="/profile" key={post._id}>
+                          { isImg && <img width="100%" alt="post" height="auto" src={post.file}/>}
+                          { isVideo && <ReactPlayer url={post.file} width="100%" height="100%"/>}
+                       </Link>
+                       )
+                    })
+                 }
+                
              </div>
         </div>
     )

@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { checkUserProfile,getUserProfile } = require("../controllers/profile.controllers");
+const { getUserProfile } = require("../controllers/profile.controllers");
 
-router.param("userId",checkUserProfile);
-
-router.route("/profile/:userId")
+router.route("/profile")
 .get(getUserProfile);
 
 module.exports = router;
