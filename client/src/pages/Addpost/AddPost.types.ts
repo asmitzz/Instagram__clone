@@ -1,4 +1,5 @@
 export type Post = {
-    file:ArrayBuffer|string|null;
+    src:ArrayBuffer|string|null;
     caption:string;
+    extension:string;
 }

@@ -1,38 +1,55 @@
 import Input from "../../utils/form/Input/Input";
-
+import ReactPlayer from "react-player";
 import { useState } from "react";
 import { Post } from "./AddPost.types";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { uploadPost } from "../../features/posts/postsSlice";
 import { Status } from "../../generic.types";
 import { unwrapResult } from "@reduxjs/toolkit";
-
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 import "./AddPost.css";
 
 const AddPost = () => {
     const isMountedRef = useIsMountedRef();
 
-    const [post,setPost] = useState<Post>({file:null,caption:""});
+    const [post,setPost] = useState<Post>({src:null,extension:"",caption:""});
     const [file,setFile] = useState<File|null>(null);
     const [uploadPostStatus,setUploadPostStatus] = useState<Status>("idle");
+    const [extensionErr,setExtensionErr] = useState<boolean>(false);
+    const [processing,setProcessing] = useState<boolean>(false);
 
     const canSave = [post.caption,file].every(Boolean) && uploadPostStatus === "idle";
+    const isImg = post.extension.split('.').pop() === "jpg" || post.extension.split('.').pop() === "png" || post.extension.split('.').pop() === "jpeg";
+    const isVideo = post.extension.split('.').pop() === "mp3" || post.extension.split('.').pop() === "mp4";
    
     const {token} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setExtensionErr(false)
         const {name,value,files} = e.target;
-        if(name === "file" && files){
-            const file = new FileReader();
-            file.readAsDataURL(files[0]);
-            file.onloadend = () => {
-                setFile(files[0]);
-                setPost(state => ({ ...state,[name]:file.result }));
+
+        if(name === "src" && files){
+            let extension =  files[0].name;
+
+            if(extension.split('.').pop() === "png" || extension.split('.').pop() === "jpeg" || extension.split('.').pop() === "jpg" || extension.split('.').pop() === "mp3" || extension.split('.').pop() === "mp4" ){
+                const file = new FileReader();
+                file.readAsDataURL(files[0]);
+                file.onloadstart = () => {
+                    setProcessing(true)
+                }
+                file.onloadend = () => {
+                    setProcessing(false)
+                    setFile(files[0]);
+                    setPost(state => ({ ...state,[name]:file.result,extension }));
+                }
+            }
+            else{
+                setExtensionErr(true)
             }
             return;
         }
+
         setPost(state => ({ ...state,[name]:value }))
     }
 
@@ -44,7 +61,7 @@ const AddPost = () => {
                 setUploadPostStatus("pending");
                 const resultAction = await dispatch(uploadPost({file,caption:post.caption,token}));
                 unwrapResult(resultAction);
-                setPost({file:null,caption:""});
+                setPost({src:null,caption:"",extension:""});
                 setFile(null);
                 setUploadPostStatus("succeeded");
             } catch(error){
@@ -60,23 +77,34 @@ const AddPost = () => {
  
     return (
         <div className="addpost__container">
+            {extensionErr && <div className="invalid__feedback">Please select only image and videos</div>}
+            {processing && <div className="valid__feedback">Processing...</div>}
             {uploadPostStatus === "failed" && <div className="invalid__feedback">something went wrong!!</div>}
             {uploadPostStatus === "succeeded" && <div className="valid__feedback">post successfully uploaded!!</div>}
+ 
+            {   
+                isImg && typeof post.src === "string" &&
+                <div className="file__container">
+                    <button className="dismiss__btn" onClick={() => setPost(state => ({...state,src:null}))}><i className="fa fa-window-close"></i></button>
+                    <img className="file" alt="users" src={post.src}/>
+                </div>
+            }
 
             {   
-                typeof post.file === "string" && 
+                isVideo && typeof post.src === "string" &&
                 <div className="file__container">
-                    <button className="dismiss__btn" onClick={() => setPost(state => ({...state,file:null}))}><i className="fa fa-window-close"></i></button>
-                    <img className="file" alt="users" src={post.file}/>
+                    <button className="dismiss__btn" onClick={() => setPost(state => ({...state,src:null}))}><i className="fa fa-window-close"></i></button>
+                    <ReactPlayer width="100%" height="100%" controls={true} url={post.src}/>
                 </div>
             }
             
             <form onSubmit={handlePost}>
                 { 
-                  !post.file && 
+                  !post.src && !processing && 
                   <div className="form__group upload__icon">
                     <i className="fa fa-plus"></i>
-                    <input type="file" name="file" className="upload__file" onChange={handleChange} accept=".jpg,.jpeg,.png,.mp3,.mp4"/>
+                    <input type="file" name="src" className="upload__file" onChange={handleChange} accept=".jpg,.jpeg,.png,.mp3,.mp4"/>
+                    <small></small>
                   </div>
                 }
 

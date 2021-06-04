@@ -35,10 +35,14 @@ const getPosts = async(req, res) => {
 const uploadPost = async(req,res) => {
     const {file,user:{ _id }} = req;
     const {caption} = req.body;
+    const extension = file.originalname.split('.').pop();
+    const isVideo = extension === "mp3" || extension === "mp4"
 
     try {
-        const uploadResponse = await cloudinary.uploader.upload(file.path);
-
+        const uploadResponse = await cloudinary.uploader.upload(file.path,{
+            resource_type: isVideo ? "video" : "image"
+        });
+        
         await Posts({ postedBy:_id,file:uploadResponse.secure_url,caption }).save(async(err,post) => {
           if(err){
               return res.status(422).json({ message:"Not able to save in DB" })
