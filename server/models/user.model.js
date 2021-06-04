@@ -4,7 +4,8 @@ const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
     pic:{
-       type:String
+       type:String,
+       default:"https://www.svgrepo.com/show/122119/user-image-with-black-background.svg"
     },
     fullname:{
         type:String,
@@ -40,7 +41,8 @@ const UserSchema = new mongoose.Schema({
     },
     gender:{
        type:String,
-       enum:["male","female"]
+       enum:["male","female"],
+       default:"male"
     },
     private:{
         type:Boolean,

@@ -1,11 +1,15 @@
 export type User = {
-    _id:string
+    _id:string;
+    pic:string;
+    username:string;
+    fullname:string;
+    private:boolean;
 }
 
 export type AuthState = {
-    token:string,
-    login:boolean,
-    user?:User
+    token:string;
+    login:boolean;
+    user?:User;
 }
 
 export type AuthResponse = {

@@ -28,8 +28,8 @@ const App = (app) => {
 
     app.get("/protected",verifyToken,(req,res) => {
         const { user,token } = req;
-        const { _id } = user;
-        res.status(200).json({ login:true,token,user:{_id} })
+        const { _id,pic,username,fullname } = user;
+        res.status(200).json({ login:true,token,user:{ _id,pic,username,fullname } })
     })
 
     app.use(authRoutes);

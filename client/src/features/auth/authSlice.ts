@@ -56,7 +56,6 @@ export const authSlice = createSlice({
                 state.token = token;
                 state.login = login;
                 state.user = user;
-
                 localStorage.setItem("token",JSON.stringify({token}));
             }
        })
