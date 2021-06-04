@@ -6,9 +6,20 @@ export type User = {
     username:string;
 }
 
-export type Comment = {
+export type Reply = {
+    _id:string;
     text:string;
     user:User;
+    likes:string[];
+}
+
+export type Comment = {
+    _id:string;
+    text:string;
+    user:User;
+    likes:string[];
+    replies:Reply;
+    createdAt:string;
 }
 
 export type Post = {
@@ -18,7 +29,7 @@ export type Post = {
     caption:string;
     likes:string[];
     comments:Comment[];
-    updatedAt:"string";
+    createdAt:"string";
 }
 
 export type PostData = {

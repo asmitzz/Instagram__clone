@@ -56,7 +56,7 @@ const App = () => {
            </Route>
            <Route path="/profile/followers" element={<Followers/>}/>
            <Route path="/profile/following" element={<Following/>}/>
-           <Route path="/comments" element={<Comments/>}/>
+           <Route path="/comments/:postId" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
            <Route path="/chats" element={<Chats/>}/>
            <Route path="/chats/:chatID" element={width >= 700 ? <Chats/>: <UserChatsMobile/>}/>

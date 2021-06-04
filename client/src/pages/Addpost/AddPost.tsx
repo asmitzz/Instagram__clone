@@ -80,6 +80,7 @@ const AddPost = () => {
             {extensionErr && <div className="invalid__feedback">Please select only image and videos</div>}
             {processing && <div className="valid__feedback">Processing...</div>}
             {uploadPostStatus === "failed" && <div className="invalid__feedback">something went wrong!!</div>}
+            {uploadPostStatus === "pending" && <div className="valid__feedback">Uploading...</div>}
             {uploadPostStatus === "succeeded" && <div className="valid__feedback">post successfully uploaded!!</div>}
  
             {   

@@ -14,7 +14,7 @@ const ReplySchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     }]
-});
+},{timestamps:true});
 
 const CommentSchema = new mongoose.Schema({
     text:{
@@ -31,7 +31,7 @@ const CommentSchema = new mongoose.Schema({
         ref:"User"
     }],
     replies:[ReplySchema]
-});
+},{timestamps:true});
 
 const PostSchema = new mongoose.Schema({
      postedBy:{

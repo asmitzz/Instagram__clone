@@ -15,14 +15,14 @@ const HomeContent = () => {
     const dispatch = useAppDispatch();
     
     useEffect(() => {
-       if(postsRequestStatus === "idle" && token !== null){
+       if(postsRequestStatus === "idle"){
            dispatch(fetchPosts({token}));
        }
        
     },[postsRequestStatus,token,dispatch])
 
     useEffect(() => {
-        if(savedpostsRequestStatus === "idle" && token !== null){
+        if(savedpostsRequestStatus === "idle"){
             dispatch(fetchSavedPosts({token}));
          }
     },[savedpostsRequestStatus,token,dispatch])
