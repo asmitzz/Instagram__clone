@@ -12,7 +12,7 @@ const PostIcons = ({like,postId}:PostIconProps) => {
     const {token} = useAppSelector(state => state.auth);
     const {posts} = useAppSelector(state => state.savedposts);
 
-    const checkPostIsSavedOrNot = posts.find(pid => pid === postId);
+    const checkPostIsSavedOrNot = posts.find(p => p._id === postId);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();

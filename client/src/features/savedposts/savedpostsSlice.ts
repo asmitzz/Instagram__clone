@@ -3,7 +3,7 @@ import { SavedPostsInitialState, SavedPostsResponse } from "./savedposts.types";
 
 import axios from "axios";
 
-export const fetchSavedPosts = createAsyncThunk<{posts:string[]},{token:string}>("savedposts/fetchsavedposts",async({token}) => {
+export const fetchSavedPosts = createAsyncThunk<SavedPostsResponse,{token:string}>("savedposts/fetchsavedposts",async({token}) => {
     const res = await axios.get("http://localhost:5000/savedposts",{
          headers:{ "Authorization":`Bearer ${token}` }
     });
@@ -34,7 +34,7 @@ const savedpostsSlice = createSlice({
         builder.addCase(fetchSavedPosts.rejected,(state:SavedPostsInitialState) => {
             state.status = "failed";
         })
-        builder.addCase(fetchSavedPosts.fulfilled,(state:SavedPostsInitialState,action:PayloadAction<{posts:string[]}>) => {
+        builder.addCase(fetchSavedPosts.fulfilled,(state:SavedPostsInitialState,action:PayloadAction<SavedPostsResponse>) => {
              state.posts = action.payload.posts;
              state.status = "succeeded";
         })
