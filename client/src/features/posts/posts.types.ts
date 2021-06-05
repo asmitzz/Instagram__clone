@@ -4,6 +4,7 @@ export type User = {
     _id:string;
     pic:string;
     username:string;
+    fullname:string;
 }
 
 export type Reply = {

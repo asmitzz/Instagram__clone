@@ -16,7 +16,7 @@ const getSavedPosts = async(req,res) => {
             "_id": {
                 $in:savedposts.posts
             }
-        },{ updatedAt:0,__v:0 }).lean().populate({ path:"postedBy",select:"pic username" });
+        },{ updatedAt:0,__v:0 }).lean();
         return res.status(200).json({ posts })
     }
     return res.status(404).json({ message:"no savedposts found" })
@@ -39,7 +39,7 @@ const updatePostsInSavedPost = async(req,res) => {
                     "_id": {
                         $in:savedposts.posts
                     }
-                },{ updatedAt:0,__v:0 }).lean().populate({ path:"postedBy",select:"pic username" });
+                },{ updatedAt:0,__v:0 }).lean();
                 return res.status(200).json({ posts })
             }
          });
@@ -55,7 +55,7 @@ const updatePostsInSavedPost = async(req,res) => {
                 "_id": {
                     $in:savedposts.posts
                 }
-            },{ updatedAt:0,__v:0 }).lean().populate({ path:"postedBy",select:"pic username" });
+            },{ updatedAt:0,__v:0 }).lean();
             return res.status(200).json({ posts })
         }
      });

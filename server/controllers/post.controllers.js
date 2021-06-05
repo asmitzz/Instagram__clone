@@ -3,17 +3,6 @@ const Posts = require("../models/post.model");
 const cloudinary = require("../config/cloudinery.config");
 const {validationResult} = require("express-validator");
 
-const checkPost = async(req,res,next,postId) => {
-    const post = await Posts.findById(postId);
-
-    if(!post){
-        return res.status(404).json({message:"post not found"})
-    }
-
-    req.post = post;
-    next()
-}
-
 const getPosts = async(req, res) => {
     const { user:{ _id } } = req;
 
@@ -24,13 +13,24 @@ const getPosts = async(req, res) => {
             "postedBy": {
                 $in:[...following.users,_id]
             }
-        }).lean().populate({ path:"postedBy",select:"pic username" })
+        }).lean().populate({ path:"postedBy",select:"pic username fullname" })
         return res.status(201).json({ posts })
     }
     
     const posts = await Posts.find({ _id }).lean()
     return res.status(201).json({ posts })
 
+}
+
+const checkPost = async(req,res,next,postId) => {
+    const post = await Posts.findById(postId);
+
+    if(!post){
+        return res.status(404).json({message:"post not found"})
+    }
+
+    req.post = post;
+    next()
 }
 
 const getCommentsOnPosts = async(req, res) => {
@@ -56,7 +56,7 @@ const uploadPost = async(req,res) => {
               return res.status(422).json({ message:"Not able to save in DB" })
           }
           if(post){
-              await post.populate({ path:"postedBy",select:"pic username" })
+              await post.populate({ path:"postedBy",select:"pic username fullname" })
               return res.status(200).json({ post,message:"Post uploaded succesfully" })
           }
         });
@@ -76,7 +76,7 @@ const updateLikesOnPost = async(req,res) => {
           return res.status(422).json({ message:err.message})
        }
        if(post){
-          await post.execPopulate({path:"postedBy",select:"pic username"})
+          await post.execPopulate({path:"postedBy",select:"pic username fullname"})
           return res.status(200).json({ post,message:"Post likes updated successfully" })
        }
    });

@@ -1,5 +1,7 @@
 import ReactPlayer from "react-player";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Post as Savedpost } from "../../../features/savedposts/savedposts.types";
+import { Post } from "../../../features/posts/posts.types";
 import { useAppSelector } from "../../../store/hooks";
 
 const PostsSection = () => {
@@ -23,7 +25,7 @@ const PostsSection = () => {
              </div>
              <div className="section__2">
                  {
-                       filteredPosts.map( post => {
+                       filteredPosts.map( (post:Savedpost|Post) => {
                        const extension = post.file.split(".").pop();
                        const isImg = extension?.split('.').pop() === "jpg" || extension?.split('.').pop() === "png" || extension?.split('.').pop() === "jpeg";
                        const isVideo = extension?.split('.').pop() === "mp3" || extension?.split('.').pop() === "mp4";
@@ -38,7 +40,7 @@ const PostsSection = () => {
                 
              </div>
         </div>
-    )
-}
+    );
+};
 
-export default PostsSection
+export default PostsSection;
