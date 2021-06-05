@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
+// import { Link } from "react-router-dom";
+// import { useAppSelector } from "../../store/hooks";
 
 const Following = () => {
-    const following = useAppSelector(state => state.profile.connections.following);
+    // const following = useAppSelector(state => state.profile.connections.following);
 
     return (
         <div className="follow__container">
-            <h4 className="follow__heading">Following</h4>
+            {/* <h4 className="follow__heading">Following</h4>
             {
               following.map( user => (
                 <div className="follower" key={user._id}>
@@ -20,7 +20,7 @@ const Following = () => {
                <button className="removeBtn">Following</button>
             </div>
               ) )
-            }
+            } */}
         </div>
     );
 };

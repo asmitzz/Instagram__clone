@@ -21,7 +21,7 @@ import UserChatsMobile from "./pages/Chats/components/UserChatMobile";
 import Followers from "./pages/Followers/Followers";
 import Following from "./pages/Following/Following";
 import PostsSection from "./pages/Profile/components/PostsSection";
-
+import ViewProfile from "./pages/ViewProfile/ViewProfile";
 import AddPost from "./pages/Addpost/AddPost";
 
 import "./App.css";
@@ -56,6 +56,7 @@ const App = () => {
            </Route>
            <Route path="/profile/followers" element={<Followers/>}/>
            <Route path="/profile/following" element={<Following/>}/>
+           <Route path="/viewprofile/:userId" element={<ViewProfile/>}/>
            <Route path="/comments/:postId" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
            <Route path="/chats" element={<Chats/>}/>

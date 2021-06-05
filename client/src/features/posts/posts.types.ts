@@ -23,14 +23,24 @@ export type Comment = {
     createdAt:string;
 }
 
-export type Post = {
+export type PostWithComments = {
     _id:string;
     file:string;
     postedBy:User;
     caption:string;
     likes:string[];
     comments:Comment[];
-    createdAt:"string";
+    createdAt:string;
+}
+
+export type Post = {
+    _id:string;
+    file:string;
+    postedBy:User;
+    caption:string;
+    likes:string[];
+    comments:string[];
+    createdAt:string;
 }
 
 export type PostData = {

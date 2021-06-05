@@ -1,9 +1,8 @@
 import { Status } from "../../generic.types"
-import { Post, User } from "../posts/posts.types"
 
 export type Connection = {
-    followers:User[];
-    following:User[];
+    followers:string[];
+    following:string[];
 }
 
 export type InitialProfileState = {
@@ -15,4 +14,26 @@ export type InitialProfileState = {
 export type ProfileData = {
     userposts:Post[];
     connections:Connection;
+}
+
+export type UserProfile = {
+    _id:string;
+    username:string;
+    fullname:string;
+    pic:string;
+    website:string;
+    bio:string;
+    private:boolean;
+}
+
+export type Post = {
+    _id:string;
+    file:string;
+    postedBy:string;
+}
+
+export type ViewProfileData = {
+    userposts:Post[];
+    connections:Connection;
+    profile:UserProfile;
 }

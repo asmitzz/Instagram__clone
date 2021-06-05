@@ -1,0 +1,43 @@
+.viewprofile .follow__btn{
+    background:var(--primary-btn-color);
+    padding:0.5rem 0.8rem;
+    border-radius:5px;
+    color:var(--primary-color);
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.viewprofile .following__btn,.viewprofile .message__btn{
+    background:transparent;
+    padding:0.5rem;
+    border-radius:5px;
+    color:var(--primary-text-color);
+    border:1px solid var(--tertiary-color);
+    font-weight:600;
+    cursor:pointer;
+}
+
+.viewprofile .profile__btn__container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px;
+}
+
+.viewprofile .private__account__template{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:var(--primary-text-color);
+    font-size:1rem;
+    font-weight:600;
+    height:30vh;
+}
+
+.viewprofile .private__account__template .template__content{
+    text-align:center;
+    font-weight:500;
+    margin:1rem 0;
+    font-size:0.8rem;
+}

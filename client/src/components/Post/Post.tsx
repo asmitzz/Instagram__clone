@@ -33,7 +33,7 @@ const PostCard = ({_id,file,postedBy,caption,comments,likes,createdAt}:Post) => 
     return (
         <div className="post">
             <div className="post__header">
-                <Link to="/" className="avatar">
+                <Link to={postedBy._id === userId ? "/profile" : `/viewprofile/${postedBy._id}`} className="avatar">
                   <img className="avatar__img" alt="profile" src={postedBy.pic}/>
                   <span className="username">{postedBy.username}</span>
                 </Link>

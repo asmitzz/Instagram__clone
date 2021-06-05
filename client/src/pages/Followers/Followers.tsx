@@ -1,12 +1,12 @@
-import { useAppSelector } from "../../store/hooks";
+// import { useAppSelector } from "../../store/hooks";
 import "./Followers.css";
 
 const Followers = () => {
-    const followers = useAppSelector(state => state.profile.connections.followers);
+    // const followers = useAppSelector(state => state.profile.connections.followers);
     
     return (
         <div className="follow__container">
-            <h4 className="follow__heading">Followers</h4>
+            {/* <h4 className="follow__heading">Followers</h4>
             {
               followers.map( user => (
                 <div className="follower" key={user._id}>
@@ -20,7 +20,7 @@ const Followers = () => {
                <button className="removeBtn">Remove</button>
                </div>
               ) )
-            }
+            } */}
         </div>
     );
 };

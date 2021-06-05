@@ -13,7 +13,7 @@ const getPosts = async(req, res) => {
             "postedBy": {
                 $in:[...following.users,_id]
             }
-        }).lean().populate({ path:"postedBy",select:"pic username fullname" })
+        }).select({__v:0,updatedAt:0}).lean().populate({ path:"postedBy",select:"pic username fullname" })
         return res.status(201).json({ posts })
     }
     
@@ -23,7 +23,7 @@ const getPosts = async(req, res) => {
 }
 
 const checkPost = async(req,res,next,postId) => {
-    const post = await Posts.findById(postId);
+    const post = await Posts.findById(postId).select({__v:0,updatedAt:0});
 
     if(!post){
         return res.status(404).json({message:"post not found"})
@@ -33,7 +33,7 @@ const checkPost = async(req,res,next,postId) => {
     next()
 }
 
-const getCommentsOnPosts = async(req, res) => {
+const getCommentsOfPost = async(req, res) => {
     let { post } = req;
 
     await post.execPopulate([{ path:"postedBy",select:"pic username createdAt" },{path:"comments.user",select:"pic username createdAt"},{path:"comments.replies.user",select:"pic username"}])
@@ -107,4 +107,4 @@ const updateCommentsOnPost = async(req,res) => {
     
 }
 
-module.exports = { checkPost,getPosts,getCommentsOnPosts,uploadPost,updateLikesOnPost,updateCommentsOnPost };
+module.exports = { checkPost,getPosts,getCommentsOfPost,uploadPost,updateLikesOnPost,updateCommentsOnPost };

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitialProfileState, ProfileData } from "./profileSlice.types";
+import { InitialProfileState, ProfileData, ViewProfileData } from "./profileSlice.types";
 
 import axios from "axios";
 
@@ -14,6 +14,13 @@ const initialState:InitialProfileState = {
 
 export const fetchProfile = createAsyncThunk<ProfileData,{token:string}>("profile/fetchprofile",async({token}) => {
     const res = await axios.get("http://localhost:5000/profile",{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+})
+
+export const fetchViewProfile = createAsyncThunk<ViewProfileData,{token:string,userId:string}>("profile/fetchprofile",async({token,userId}) => {
+    const res = await axios.get(`http://localhost:5000/profile/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;

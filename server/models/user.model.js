@@ -27,11 +27,13 @@ const UserSchema = new mongoose.Schema({
         index:1
     },
     salt:{
-        type:String
+        type:String,
+        select:false
     },
     encry_password:{
        type:String,
-       required:true
+       required:true,
+       select:false
     },
     website:{
         type:String,

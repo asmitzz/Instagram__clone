@@ -1,7 +1,7 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Post } from "../../features/posts/posts.types";
+import { PostWithComments } from "../../features/posts/posts.types";
 import { fetchComments } from "../../features/posts/postsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
@@ -13,7 +13,7 @@ const Comments = () => {
     const dispatch = useAppDispatch();
     const { postId } = useParams();
     const { token } = useAppSelector(state => state.auth);
-    const [data,setData] = useState<Post|null>(null);
+    const [data,setData] = useState<PostWithComments|null>(null);
     const time = data?.createdAt ? timestamp(new Date(data?.createdAt)) : 0;
     const navigate = useNavigate();
 

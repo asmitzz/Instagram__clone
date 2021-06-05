@@ -195,7 +195,7 @@
     .profile__container .profile__section .section__1,
     .profile__container .profile__section .section__2,
     .profile__container .profile__section .section__3{
-        padding:0;
+        padding:0 0.5rem;
     }
 
     .profile__container .profile__section{
