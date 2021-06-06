@@ -46,6 +46,7 @@ export const authSlice = createSlice({
     initialState,
     reducers:{
        logout:() => {
+           localStorage.removeItem("token");
            return { login:false,token:"" }
        }
     },
@@ -56,7 +57,7 @@ export const authSlice = createSlice({
                 state.token = token;
                 state.login = login;
                 state.user = user;
-                localStorage.setItem("token",JSON.stringify({token}));
+                localStorage.setItem("token",JSON.stringify({token,login:true}));
             }
        })
 
@@ -66,8 +67,10 @@ export const authSlice = createSlice({
             state.token = token;
             state.login = login;
             state.user = user;
+            localStorage.setItem("token",JSON.stringify({token,login:true}));
         }
-    })
+       })
+
     }
 });
 

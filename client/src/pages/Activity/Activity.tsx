@@ -41,7 +41,7 @@ const Activity = () => {
                         <img alt="profile" className="userpic" src={activity.user.pic}/>
                         <p className="description"><strong>{activity.user.username}</strong> {activity.text}</p>
                       </div>
-                      <img alt="profile" width="40px" height="40px" src={activity.file}/>
+                      <img alt="post" className="post" src={activity.file}/>
                     </Link>
                 ) )
             }

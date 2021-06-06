@@ -15,7 +15,6 @@ const DropBox = ({toggle}:DropBoxProps) => {
 
     const handleBtn = (path:string) => {
         if(path === "/"){
-            localStorage.removeItem("token");
             dispatch(logout());
         }
         navigate(path);

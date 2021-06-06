@@ -73,7 +73,7 @@ const Signup = () => {
                 <Input type="text" name="fullname" value={state.fullname} error={error.fullname} onChange={handleChange} placeholder="Full Name"/>
                 <Input type="text" name="username" value={state.username} error={error.username} onChange={handleChange} placeholder="Username"/>
                 <Input type={togglePassword ? "text" :"password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
-                <input type="submit" className="submit__btn" disabled={error.disabled || signupStatus !== "idle"} value={signupStatus === "idle" ? "Sign up" : "Signing..."}/>
+                <input type="submit" className="submit__btn" disabled={error.disabled || signupStatus !== "idle"} value={signupStatus === "pending" ? "Signing..." : "Sign up" }/>
                 <small className="auth__invalid__feedback">{feedback}</small>
                 { signupStatus === "succeeded" && <small className="auth__valid__feedback">User registered successfully</small>}
             </form>
