@@ -1,29 +1,50 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { fetchActivity } from "../../features/activity/activitySlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./Activity.css";
 
 const Activity = () => {
+    const { activities,status } = useAppSelector(state => state.activity);
+    const token = useAppSelector(state => state.auth.token);
+    const dispatch = useAppDispatch()
+    
+    useEffect(() => {
+        if(status === "idle"){
+            dispatch(fetchActivity({token}));
+        }
+     },[status,token,dispatch])
+
     return (
         <div className="activity">
-            <h3 className="activity__heading">Activity</h3>
+            <h4 className="activity__heading">Activity</h4>
 
-            <Link to="/" className="activity__content">
-                <div className="userpic__and__activity">
-                   <img alt="profile" width="40px" height="40px" src="https://www.svgrepo.com/show/122119/user-image-with-black-background.svg"/>
-                   <p className="description"><strong>asmitzz</strong> liked your photo</p>
-                </div>
-                <div>
-                  <button className="primary__btn">Confirm</button>
-                  <button className="secondary__btn">Delete</button>
-                </div>
-            </Link>
+            {
+                activities?.requests.map( user => (
+                    <div className="activity__content" key={user._id}>
+                      <Link to="" className="userpic__and__activity">
+                         <img alt="profile" className="userpic" src="https://www.svgrepo.com/show/122119/user-image-with-black-background.svg"/>
+                         <p className="description"><strong>{user.username}</strong> requested to follow you.</p>
+                      </Link>
+                      <div>
+                         <button className="primary__btn">Confirm</button>
+                         <button className="secondary__btn">Delete</button>
+                      </div>
+                   </div>
+                ))
+            }
 
-            <Link to="/" className="activity__content">
-                <div className="userpic__and__activity">
-                   <img alt="profile" width="40px" height="40px" src="https://www.svgrepo.com/show/122119/user-image-with-black-background.svg"/>
-                   <p className="description"><strong>asmitzz</strong> liked your photo</p>
-                </div>
-                <img alt="profile" width="40px" height="40px" src="https://www.svgrepo.com/show/122119/user-image-with-black-background.svg"/>
-            </Link>
+            {
+                activities?.activity.map( activity => (
+                    <Link to="/" className="activity__content" key={activity._id}>
+                      <div className="userpic__and__activity">
+                        <img alt="profile" className="userpic" src={activity.user.pic}/>
+                        <p className="description"><strong>{activity.user.username}</strong> {activity.text}</p>
+                      </div>
+                      <img alt="profile" width="40px" height="40px" src={activity.file}/>
+                    </Link>
+                ) )
+            }
         </div>
     );
 };

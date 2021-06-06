@@ -3,6 +3,7 @@ import authReducer from "../features/auth/authSlice";
 import postsReducer from "../features/posts/postsSlice";
 import savedpostsReducer from "../features/savedposts/savedpostsSlice";
 import profileReducer from "../features/profile/profileSlice";
+import activityReducer from "../features/activity/activitySlice";
 
 export const store = configureStore({
     reducer:{
@@ -10,6 +11,7 @@ export const store = configureStore({
         posts:postsReducer,
         savedposts:savedpostsReducer,
         profile:profileReducer,
+        activity:activityReducer
     }
 })
 

@@ -13,13 +13,22 @@
 .activity .activity__content{
     display:flex;
     justify-content:space-between;
+    align-items:center;
     margin:0.3rem 0;
+    font-size:0.8rem;
     text-decoration:none;
 }
 
 .activity .userpic__and__activity{
     display:flex;
     align-items:center;
+    text-decoration:none;
+}
+
+.activity .userpic{
+    width:40px;
+    height:40px;
+    border-radius:50%;
 }
 
 .activity .description{

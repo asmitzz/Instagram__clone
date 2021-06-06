@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { getUserProfile,getViewProfile } = require("../controllers/profile.controllers");
 
-router.route("/profile")
+router.route("/")
 .get(getUserProfile);
 
-router.route("/profile/:userId")
+router.route("/:userId")
 .get(getViewProfile)
 
 module.exports = router;

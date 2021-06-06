@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { checkSavedPost,updatePostsInSavedPost,getSavedPosts } = require("../controllers/savedpost.controllers");
 
-router.route("/savedposts")
+router.route("/")
 .get(checkSavedPost,getSavedPosts)
 
-router.route("/savedposts/:postId")
+router.route("/:postId")
 .post(checkSavedPost,updatePostsInSavedPost);
 
 module.exports = router;

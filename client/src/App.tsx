@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { useAppSelector,useAppDispatch } from "./store/hooks";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
 import { checkAuth } from "./features/auth/authSlice";
 
@@ -32,6 +32,7 @@ const App = () => {
   const { token,login } = auth;
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
+  const path = useLocation().pathname;
 
   useEffect(() => {
         if(token){
@@ -42,7 +43,7 @@ const App = () => {
   return (
     <div>
        { login && <Header/>}
-       <ScrollToTop/>
+       { path !== "/" && <ScrollToTop/>}
        { !login ? 
        <Routes>
            <Route path="/" element={<Login/>}/>

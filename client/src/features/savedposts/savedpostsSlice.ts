@@ -10,7 +10,7 @@ export const fetchSavedPosts = createAsyncThunk<SavedPostsResponse,{token:string
     return res.data;
 })
 
-export const savedPostPressed = createAsyncThunk<SavedPostsResponse,{token:string,postId:string}>("/posts/updatesavedposts",async({token,postId}) => {
+export const savedPostPressed = createAsyncThunk<SavedPostsResponse,{token:string,postId:string}>("/savedposts/updatesavedposts",async({token,postId}) => {
     const res = await axios.post(`http://localhost:5000/savedposts/${postId}`,{},{
         headers:{ authorization:`Bearer ${token}` }
     });

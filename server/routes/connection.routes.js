@@ -4,10 +4,10 @@ const { checkConnections,getFollowers,getFollowing } = require("../controllers/c
 
 router.param("userId",checkConnections);
 
-router.route("/connections/followers/:userId")
+router.route("/followers/:userId")
 .get(getFollowers);
 
-router.route("/connections/following/:userId")
+router.route("/following/:userId")
 .get(getFollowing);
 
 module.exports = router;
