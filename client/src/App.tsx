@@ -25,6 +25,7 @@ import ViewProfile from "./pages/ViewProfile/ViewProfile";
 import AddPost from "./pages/Addpost/AddPost";
 
 import "./App.css";
+import Activity from "./pages/Activity/Activity";
 
 const App = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -59,6 +60,7 @@ const App = () => {
            <Route path="/viewprofile/:userId" element={<ViewProfile/>}/>
            <Route path="/comments/:postId" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
+           <Route path="/activity" element={<Activity/>}/>
            <Route path="/chats" element={<Chats/>}/>
            <Route path="/chats/:chatID" element={width >= 700 ? <Chats/>: <UserChatsMobile/>}/>
            <Route path="/post/add" element={<AddPost/>}/>

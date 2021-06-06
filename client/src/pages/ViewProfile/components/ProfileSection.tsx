@@ -22,10 +22,10 @@ const ProfileSection = ({profile,connections}:ProfileSectionProps) => {
                        <div className="profile__btn__container">
                           { 
                           isFollow ? 
-                          <button className="following__btn">Following</button>:
-                          <button className="follow__btn">Follow</button>
+                          <button className="secondary__btn">Following</button>:
+                          <button className="primary__btn">Follow</button>
                           }
-                          <button className="message__btn">Message</button>
+                          <button className="secondary__btn">Message</button>
                        </div>
                    </div>
                    <div className="section__2">
