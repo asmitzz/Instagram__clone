@@ -9,3 +9,5 @@ router.route("/connections/followers/:userId")
 
 router.route("/connections/following/:userId")
 .get(getFollowing);
+
+module.exports = router;

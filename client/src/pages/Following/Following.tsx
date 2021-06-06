@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link,useParams } from "react-router-dom";
 import { fetchFollowing } from "../../features/profile/profileSlice";
 import { FollowersOrFollowing } from "../../features/profile/profileSlice.types";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -15,7 +14,7 @@ const Following = () => {
     useEffect(() => {
       dispatch(fetchFollowing({token,userId}))
      .then(unwrapResult)
-     .then( originalPromiseResult => setFollowing(originalPromiseResult) )
+     .then( originalPromiseResult => setFollowing(originalPromiseResult.following) )
     },[token,userId,dispatch]);
 
     return (

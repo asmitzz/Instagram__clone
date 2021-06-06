@@ -17,7 +17,7 @@ const Followers = () => {
     useEffect(() => {
            dispatch(fetchFollowers({token,userId}))
           .then(unwrapResult)
-          .then( originalPromiseResult => setFollowers(originalPromiseResult) )
+          .then( originalPromiseResult => setFollowers(originalPromiseResult.followers) )
     },[token,userId,dispatch]);
     
     return (

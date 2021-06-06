@@ -7,6 +7,14 @@ export type FollowersOrFollowing = {
     pic:string;
 }
 
+export type FollowersResponse = {
+    followers:FollowersOrFollowing[]
+}
+
+export type FollowingResponse = {
+    following:FollowersOrFollowing[]
+}
+
 export type Connection = {
     followers:string[];
     following:string[];
