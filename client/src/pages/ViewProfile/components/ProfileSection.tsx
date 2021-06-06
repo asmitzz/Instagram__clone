@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Connection, UserProfile } from "../../../features/profile/profileSlice.types";
 import { useAppSelector } from "../../../store/hooks";
 
@@ -30,8 +30,8 @@ const ProfileSection = ({profile,connections}:ProfileSectionProps) => {
                    </div>
                    <div className="section__2">
                        <div><span>15</span> posts</div>
-                       <NavLink to={ isFollow || !profile.private ? "/profile/followers" : ""} className="nav__link"><span>{connections?.followers.length}</span> followers</NavLink>
-                       <NavLink to={ isFollow || !profile.private ? "/profile/followers" : ""} className="nav__link"><span>{connections?.following.length}</span> following</NavLink>
+                       <Link to={ isFollow || !profile.private ? `/followers/${profile._id}` : ""} className="nav__link"><span>{connections?.followers.length}</span> followers</Link>
+                       <Link to={ isFollow || !profile.private ? `/following/${profile._id}` : ""} className="nav__link"><span>{connections?.following.length}</span> following</Link>
                    </div>
                    <div className="section__3">
                        <div className="fullname">{profile.fullname}</div>

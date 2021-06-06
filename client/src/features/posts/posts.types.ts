@@ -17,19 +17,28 @@ export type Reply = {
 export type Comment = {
     _id:string;
     text:string;
+    user:string;
+    likes:string[];
+    replies:Reply;
+    createdAt:string;
+}
+
+export type PopulateComment = {
+    _id:string;
+    text:string;
     user:User;
     likes:string[];
     replies:Reply;
     createdAt:string;
 }
 
-export type PostWithComments = {
+export type PostWithPopulateComment = {
     _id:string;
     file:string;
     postedBy:User;
     caption:string;
     likes:string[];
-    comments:Comment[];
+    comments:PopulateComment[];
     createdAt:string;
 }
 
@@ -39,7 +48,7 @@ export type Post = {
     postedBy:User;
     caption:string;
     likes:string[];
-    comments:string[];
+    comments:Comment[];
     createdAt:string;
 }
 

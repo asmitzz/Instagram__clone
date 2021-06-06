@@ -16,8 +16,8 @@ const ProfileSection = () => {
                    </div>
                    <div className="section__2">
                        <div><span>15</span> posts</div>
-                       <NavLink to="/profile/followers" className="nav__link"><span>{connections?.followers.length}</span> followers</NavLink>
-                       <NavLink to="/profile/following" className="nav__link"><span>{connections?.following.length}</span> following</NavLink>
+                       <NavLink to={`/followers/${user?._id}`} className="nav__link"><span>{connections?.followers.length}</span> followers</NavLink>
+                       <NavLink to={`/following/${user?._id}`} className="nav__link"><span>{connections?.following.length}</span> following</NavLink>
                    </div>
                    <div className="section__3">
                        <div className="fullname">{user?.fullname}</div>

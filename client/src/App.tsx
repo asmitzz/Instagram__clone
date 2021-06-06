@@ -54,8 +54,8 @@ const App = () => {
               <Route path="/" element={<PostsSection/>}/>
               <Route path="/save" element={<PostsSection/>}/>
            </Route>
-           <Route path="/profile/followers" element={<Followers/>}/>
-           <Route path="/profile/following" element={<Following/>}/>
+           <Route path="/followers/:userId" element={<Followers/>}/>
+           <Route path="/following/:userId" element={<Following/>}/>
            <Route path="/viewprofile/:userId" element={<ViewProfile/>}/>
            <Route path="/comments/:postId" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>

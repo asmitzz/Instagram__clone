@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { PostData,PostsIntialState, PostResponse,UploadPostData, PostWithComments } from "./posts.types";
+import { PostData,PostsIntialState, PostResponse,UploadPostData, PostWithPopulateComment } from "./posts.types";
 
 import axios from "axios";
 
@@ -15,7 +15,7 @@ export const fetchPosts = createAsyncThunk<PostData,{token:string}>("posts/fetch
     return res.data;
 })
 
-export const fetchComments = createAsyncThunk<{post:PostWithComments},{token:string,postId:string}>("posts/fetchcomments",async({token,postId},thunkApi) => {
+export const fetchComments = createAsyncThunk<{post:PostWithPopulateComment},{token:string,postId:string}>("posts/fetchcomments",async({token,postId},thunkApi) => {
     const res = await axios.get(`http://localhost:5000/posts/${postId}/comment`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });

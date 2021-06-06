@@ -1,4 +1,4 @@
-const Following = require("../models/following.model");
+const Connections = require("../models/connection.model");
 const Posts = require("../models/post.model");
 const cloudinary = require("../config/cloudinery.config");
 const {validationResult} = require("express-validator");
@@ -6,12 +6,12 @@ const {validationResult} = require("express-validator");
 const getPosts = async(req, res) => {
     const { user:{ _id } } = req;
 
-    const following = await Following.findById(_id).lean();
+    const connections = await Connections.findById(_id).lean();
 
-    if(following && following.users){
+    if(connections){
         const posts = await Posts.find({
             "postedBy": {
-                $in:[...following.users,_id]
+                $in:[...connections.following,_id]
             }
         }).select({__v:0,updatedAt:0}).lean().populate({ path:"postedBy",select:"pic username fullname" })
         return res.status(201).json({ posts })

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitialProfileState, ProfileData, ViewProfileData } from "./profileSlice.types";
+import { FollowersOrFollowing, InitialProfileState, ProfileData, ViewProfileData } from "./profileSlice.types";
 
 import axios from "axios";
 
@@ -17,14 +17,28 @@ export const fetchProfile = createAsyncThunk<ProfileData,{token:string}>("profil
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
-})
+});
 
 export const fetchViewProfile = createAsyncThunk<ViewProfileData,{token:string,userId:string}>("profile/fetchprofile",async({token,userId}) => {
     const res = await axios.get(`http://localhost:5000/profile/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
-})
+});
+
+export const fetchFollowers = createAsyncThunk<FollowersOrFollowing[],{token:string,userId:string}>("profile/fetchfollowers",async({token,userId}) => {
+    const res = await axios.get(`/connections/followers/${userId}`,{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+});
+
+export const fetchFollowing = createAsyncThunk<FollowersOrFollowing[],{token:string,userId:string}>("profile/fetchfollowing",async({token,userId}) => {
+    const res = await axios.get(`/connections/following/${userId}`,{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+});
 
 const profileSlice = createSlice({
     name:"profile",

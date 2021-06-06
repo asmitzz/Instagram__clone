@@ -1,12 +1,26 @@
-// import { Link } from "react-router-dom";
-// import { useAppSelector } from "../../store/hooks";
+import { Link } from "react-router-dom";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { fetchFollowing } from "../../features/profile/profileSlice";
+import { FollowersOrFollowing } from "../../features/profile/profileSlice.types";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const Following = () => {
-    // const following = useAppSelector(state => state.profile.connections.following);
+    const [following,setFollowing] = useState<FollowersOrFollowing[]>([]);
+    const dispatch = useAppDispatch();
+    const token = useAppSelector(state => state.auth.token);
+    const userId = useParams().userId;
+
+    useEffect(() => {
+      dispatch(fetchFollowing({token,userId}))
+     .then(unwrapResult)
+     .then( originalPromiseResult => setFollowing(originalPromiseResult) )
+    },[token,userId,dispatch]);
 
     return (
         <div className="follow__container">
-            {/* <h4 className="follow__heading">Following</h4>
+            <h4 className="follow__heading">Following</h4>
             {
               following.map( user => (
                 <div className="follower" key={user._id}>
@@ -20,7 +34,9 @@ const Following = () => {
                <button className="removeBtn">Following</button>
             </div>
               ) )
-            } */}
+            }
+
+           { following.length === 0 && <p className="no__followers__found">No following found</p> }
         </div>
     );
 };

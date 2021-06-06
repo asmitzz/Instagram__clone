@@ -53,6 +53,13 @@
     border-radius:5px;
 }
 
+.no__followers__found{
+    text-align:center;
+    font-weight:600;
+    font-size:0.8rem;
+    color:var(--tertiary-color-shade-1);
+}
+
 @media(min-width:1000px){
     .follow__container{
        width:50%;

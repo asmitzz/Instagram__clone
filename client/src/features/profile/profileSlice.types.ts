@@ -1,5 +1,12 @@
 import { Status } from "../../generic.types"
 
+export type FollowersOrFollowing = {
+    _id:string;
+    username:string;
+    fullname:string;
+    pic:string;
+}
+
 export type Connection = {
     followers:string[];
     following:string[];
