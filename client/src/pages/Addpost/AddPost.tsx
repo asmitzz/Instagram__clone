@@ -111,7 +111,7 @@ const AddPost = () => {
 
                 <Input type="text" name="caption" value={post.caption} error={false} onChange={handleChange} placeholder="Caption" />
                 <div className="form__group">
-                  <input type="submit" disabled={!canSave} className="submit__btn" value={uploadPostStatus === "idle" ? "POST" : "POSTING..."}/>
+                  <input type="submit" disabled={!canSave} className="submit__btn" value={["idle","succeeded"].includes(uploadPostStatus) ? "POST" : "POSTING..."}/>
                 </div>
             </form>
         </div>

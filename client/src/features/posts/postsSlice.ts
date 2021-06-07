@@ -67,7 +67,7 @@ const postsSlice = createSlice({
         })
 
         builder.addCase(uploadPost.fulfilled,(state:PostsIntialState,action:PayloadAction<PostResponse>) => {
-           state.posts.push(action.payload.post)
+           state.posts.unshift(action.payload.post)
         })
 
         builder.addCase(likePressed.fulfilled,(state:PostsIntialState,action:PayloadAction<PostResponse>) => {

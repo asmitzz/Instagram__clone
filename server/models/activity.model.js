@@ -13,8 +13,12 @@ const activitySchema = new mongoose.Schema({
      file:{
         type:String,
         required:false
+     },
+     createdAt:{
+        type:Number,
+        default:Date.now
      }
-})
+},{ timestamps:true })
 
 const ActivitySchema = new mongoose.Schema({
       _id:{

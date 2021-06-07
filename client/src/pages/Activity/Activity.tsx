@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import ReactPlayer from "react-player";
 import { Link } from "react-router-dom";
 import { fetchActivity } from "../../features/activity/activitySlice";
+import { updateProfile } from "../../features/profile/profileSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./Activity.css";
 
@@ -25,9 +26,9 @@ const Activity = () => {
                     <div className="activity__content" key={user._id}>
                       <Link to="" className="userpic__and__activity">
                          <img alt="profile" className="userpic" src={user.pic}/>
-                         <p className="description"><strong>{user.username}</strong> requested to follow you.</p>
+                         <p className="description"><strong>{user.username}</strong> has requested to follow you.</p>
                       </Link>
-                      <button className="primary__btn">Confirm</button>
+                      <button className="primary__btn" onClick={() => dispatch(updateProfile({hello:"world"}))}>Confirm</button>
                       <button className="secondary__btn">Delete</button>
                    </div>
                 ))
@@ -35,7 +36,7 @@ const Activity = () => {
 
             {
                 activities?.activity.map( activity => {
-                 const extension = activity.file.split(".").pop();
+                 const extension = activity?.file?.split(".").pop();
                  const isImg = ["jpg","png","jpeg"].some(type => type === extension);
                  const isVideo = ["mp3","mp4"].some(type => type === extension);
                  

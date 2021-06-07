@@ -9,21 +9,20 @@ const checkConnections = async (req, res, next, userId) => {
 };
 
 const getFollowers = async (req, res) => {
-    const { userId } = req.params;
-    const connections = await Connections.findById(userId);
+    const { connections } = req;
     
     if (connections) {
         await connections.populate({
-            path: "followers",
-            select: "username pic fullname",
+            path:"followers",
+            select:"username pic fullname",
         }).execPopulate();
 
         return res.status(200).json({
-            followers: connections.followers,
+            followers:connections.followers,
         });
     }
     res.status(404).json({
-        message: "Followers not found",
+        message:"Followers not found",
     });
 };
 
@@ -32,55 +31,59 @@ const getFollowing = async (req, res) => {
     if (connections) {
 
         await connections.populate({
-            path: "following",
-            select: "username pic fullname",
+            path:"following",
+            select:"username pic fullname",
         }).execPopulate();
 
         return res.status(200).json({
-            following: connections.following,
+            following:connections.following,
         });
     }
     res.status(404).json({
-        message: "Following not found",
+        message:"Following not found",
     });
 };
 
 const updateConnections = async (req, res) => {
     const {
-        user: { _id }
+        user:{ _id }
     } = req;
     const { userId } = req.params;
 
     try {
         let [user, useractivities, userconnections, senderconnections] =
             await Promise.all([
-                Users.findById(userId),
+                Users.findById(userId).select({ private:1 }),
                 Activities.findById(userId),
                 Connections.findById(userId),
                 Connections.findById(_id),
             ]);
 
-        const isUserAlreadyFollowed = userconnections.followers.some(_id);
-
+        const isUserAlreadyFollowed = userconnections.followers.includes(_id);
         if(isUserAlreadyFollowed){
             userconnections.followers.remove(_id);
             senderconnections.following.remove(userId);
-            await Promise.all([ userconnections.save(),senderconnections.save() ])
-            return res.status(200).json({ message:"unfollowed user successfully" })
+            await Promise.all([ userconnections.save(),senderconnections.save() ]);
+            return res.status(200).json({ connections:userconnections,activities:{ requests: useractivities.requests},message:"unfollowed user successfully" })
         }
 
         // if user account is private
-        if (user.private) {          
-            useractivities.requests.push(_id);
+        if (user.private) {   
+            const isAlreadyRequested = useractivities.requests.find( uid => uid == _id );     
+            isAlreadyRequested ? useractivities.requests.remove(_id) :useractivities.requests.push(_id);
+
+            await useractivities.save();
             return res.status(200).json({
-                message: "follow request sent successfully",
+                connections:userconnections,
+                activities:{ requests: useractivities.requests },
+                message:"follow request sent successfully",
             });
         }
 
         // send notification to user
         useractivities.activity.push({
-            user: userId,
-            text: "started following you.",
+            user:userId,
+            text:"started following you.",
         });
 
         // update user followers and sender following
@@ -91,17 +94,17 @@ const updateConnections = async (req, res) => {
         await Promise.all([ userconnections.save(),senderconnections.save(),useractivities.save() ])
 
         res.status(200).json({
-            connections: senderconnections
+            connections:userconnections,
+            activities:{ requests: useractivities.requests},
+            message:"follow user successfully"
         });
 
     } catch (error) {
         res.status(500).json({
-            message: error.message,
+            message:error.message,
         });
     }
 };
-
-
 
 module.exports = {
     checkConnections,

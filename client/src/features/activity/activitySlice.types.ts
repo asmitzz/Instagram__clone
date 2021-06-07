@@ -10,7 +10,7 @@ export type Activity = {
     _id:string;
     user:User;
     text:string;
-    file:string;
+    file?:string;
 }
 
 export type Activities = {

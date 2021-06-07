@@ -9,18 +9,13 @@ const getPosts = async(req, res) => {
 
     const connections = await Connections.findById(_id).lean();
 
-    if(connections){
-        const posts = await Posts.find({
+    const posts = await Posts.find({
             "postedBy": {
                 $in:[...connections.following,_id]
             }
-        }).select({__v:0,updatedAt:0}).lean().populate({ path:"postedBy",select:"pic username fullname" })
-        return res.status(201).json({ posts })
-    }
+    }).select({__v:0,updatedAt:0}).sort({createdAt:-1}).lean().populate({ path:"postedBy",select:"pic username fullname" });
     
-    const posts = await Posts.find({ _id }).lean()
     return res.status(201).json({ posts })
-
 }
 
 const checkPost = async(req,res,next,postId) => {
@@ -45,7 +40,7 @@ const uploadPost = async(req,res) => {
     const {file,user:{ _id }} = req;
     const {caption} = req.body;
     const extension = file.originalname.split('.').pop();
-    const isVideo = extension === "mp3" || extension === "mp4"
+    const isVideo = extension == "mp3" || extension == "mp4"
 
     try {
         const uploadResponse = await cloudinary.uploader.upload(file.path,{

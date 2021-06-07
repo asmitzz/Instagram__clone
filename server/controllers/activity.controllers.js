@@ -5,7 +5,7 @@ const getUserActivity = async(req, res) => {
     const { user:{ _id } } = req;
     
     const activities = await Activities.findById(_id).select({ __v:0,createdAt:0,updatedAt:0 })
-    .populate([{ path:"requests",select:"username pic" },{ path:"activity.user",select:"pic username" }])
+    .populate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username",options:{sort:{createdAt:-1}} }])
     .lean();
 
     if(!activities){

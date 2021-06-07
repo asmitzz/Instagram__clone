@@ -1,10 +1,15 @@
+import { Dispatch, SetStateAction } from "react";
 import { useAppSelector } from "../../store/hooks";
 
 import SearchBoxResult from "./SearchBoxResult";
 
 import "./SearchBox.css";
 
-const SearchBox = () => {
+type SearchBoxProps = {
+  setToggleDropbox:Dispatch<SetStateAction<boolean>>
+}
+
+const SearchBox = ({setToggleDropbox}:SearchBoxProps) => {
     const { users,status } = useAppSelector(state => state.users)
     
     return (
@@ -14,7 +19,7 @@ const SearchBox = () => {
                  <div className="searchBox__results">
                       {
                           users.map(user => (
-                            <SearchBoxResult key={user._id} user={user}/>
+                            <SearchBoxResult key={user._id} user={user} setToggleDropbox={setToggleDropbox}/>
                           ))
                       }
                  </div>

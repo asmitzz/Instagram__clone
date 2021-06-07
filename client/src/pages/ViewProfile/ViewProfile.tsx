@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchViewProfile } from "../../features/profile/profileSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-
-import ProfileSection from "./components/ProfileSection";
-import PostsSection from "./components/PostsSection";
-
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 import { useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { ViewProfileData } from "../../features/profile/profileSlice.types";
+
+import ProfileSection from "./components/ProfileSection";
+import PostsSection from "./components/PostsSection";
 
 import "../Profile/Profile.css";
 import "./ViewProfile.css";
@@ -30,10 +29,10 @@ const ViewProfile = () => {
                 })
           }})()
     },[dispatch,token,userId,mountedRef])
-
+  
     return (
         <div className="profile__container viewprofile">
-            { data && <ProfileSection profile={data?.profile} connections={data?.connections}/>}
+            { data && <ProfileSection profile={data?.profile} activities={data.activities} posts={data?.userposts} connections={data?.connections} setData={setData}/>}
             { data && <PostsSection posts={data?.userposts}/>}
         </div>
     );

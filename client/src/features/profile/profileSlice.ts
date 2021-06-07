@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FollowersResponse, FollowingResponse, InitialProfileState, ProfileData, ViewProfileData } from "./profileSlice.types";
+import { FollowersResponse, FollowingResponse, InitialProfileState, ProfileData, UpdateConnectionsResponse, ViewProfileData } from "./profileSlice.types";
 
 import axios from "axios";
 
@@ -40,10 +40,21 @@ export const fetchFollowing = createAsyncThunk<FollowingResponse,{token:string,u
     return res.data;
 });
 
+export const updateConnections = createAsyncThunk<UpdateConnectionsResponse,{token:string,userId:string}>("profile/updateconnections",async({token,userId}) => {
+    const res = await axios.post(`http://localhost:5000/connections/${userId}`,{},{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+});
+
+
 const profileSlice = createSlice({
     name:"profile",
     initialState,
     reducers:{
+        updateProfile:(state,action) => {
+            console.log(action.payload);
+        }
     },
     extraReducers:(builder) => {
         builder.addCase(fetchProfile.pending,(state:InitialProfileState) => {
@@ -57,7 +68,10 @@ const profileSlice = createSlice({
              state.connections = action.payload.connections;
              state.userposts = action.payload.userposts;
         })
+
     }
 })
+
+export const { updateProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;

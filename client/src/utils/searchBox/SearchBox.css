@@ -15,18 +15,6 @@
     overflow-y:auto;
 }
 
-.searchBox::after{
-    position:absolute;
-    right:45%;
-    top:-0.5rem;
-    transform:rotate(45deg);
-    content:"";
-    height:16px;
-    width:16px;
-    box-shadow:-1px -1px var(--tertiary-color);
-    background:var(--secondary-color);
-}
-
 .searchBox .searchBox__heading{
     color:var(--primary-text-color);
 }

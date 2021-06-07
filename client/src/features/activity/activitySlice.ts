@@ -8,7 +8,14 @@ export const fetchActivity = createAsyncThunk<ActivityResponse,{token:string}>("
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
-})
+});
+
+export const confirmRequest = createAsyncThunk<ActivityResponse,{token:string}>("activity/fetchactivity",async({token}) => {
+    const res = await axios.get("http://localhost:5000/activities",{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+});
 
 const initialState:ActivityInitialState = {
     activities:null,
@@ -30,7 +37,6 @@ const savedpostsSlice = createSlice({
         builder.addCase(fetchActivity.fulfilled,(state:ActivityInitialState,action:PayloadAction<ActivityResponse>) => {
              state.activities = action.payload.activities;
              state.status = "succeeded";
-            console.log(action.payload);
         })
       
     }

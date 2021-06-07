@@ -47,7 +47,7 @@ export const authSlice = createSlice({
     reducers:{
        logout:() => {
            localStorage.removeItem("token");
-           return { login:false,token:"" }
+           window.location.href = "http://localhost:3000"
        }
     },
     extraReducers:(builder) => {

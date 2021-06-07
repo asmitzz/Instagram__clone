@@ -47,8 +47,18 @@ export type Post = {
     postedBy:string;
 }
 
+export type UserActivity = {
+     requests:string[];
+}
+
 export type ViewProfileData = {
     userposts:Post[];
     connections:Connection;
     profile:UserProfile;
+    activities:UserActivity;
+}
+
+export type UpdateConnectionsResponse = {
+    connections:Connection;
+    activities:UserActivity;
 }
