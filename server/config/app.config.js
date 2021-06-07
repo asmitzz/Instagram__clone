@@ -6,6 +6,7 @@ const profileRoutes = require("../routes/profile.routes");
 const savedpostRoutes = require("../routes/savedpost.routes");
 const connectionRoutes = require("../routes/connection.routes");
 const activityRoutes = require("../routes/activity.routes");
+const userRoutes = require("../routes/user.routes");
 
 const verifyToken = require("../custom-middlewares/verifyToken.middleware");
 const multer = require("multer");
@@ -39,9 +40,15 @@ const App = (app) => {
     app.use("/savedposts",verifyToken,savedpostRoutes);
     app.use("/connections",verifyToken,connectionRoutes);
     app.use("/activities",verifyToken,activityRoutes);
+    app.use("/users",verifyToken,userRoutes);
 
     app.use("*",(req, res, next) => {
         res.status(404).json({ message:"route not found" })
+    })
+
+    app.use((err,req, res, next) => {
+        console.log(err.stack);
+        res.status(500).json({ message:"Internal server error" })
     })
 }
 

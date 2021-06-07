@@ -6,8 +6,12 @@ const getUserProfile = async(req, res) => {
     const { user:{ _id } } = req;
    
     try {
-        const userposts = await Posts.find({ postedBy:_id }).select({ file:1,postedBy:1 }).lean();
-        const connections = await Connections.findById(_id).select({ __v:0,createdAt:0,updatedAt:0 }).lean();
+
+        let [userposts, connections] = await Promise.all(
+            [
+                Posts.find({ postedBy:_id }).select({ file:1,postedBy:1 }).lean(),
+                Connections.findById(_id).select({ __v:0,createdAt:0,updatedAt:0 }).lean()
+            ])
     
         if(!connections){
            const connections = await Connections({ _id }).save();
@@ -27,10 +31,14 @@ const getViewProfile = async(req,res) => {
     const { userId } = req.params;
 
     try {
-        const userposts = await Posts.find({ postedBy:userId }).select({ file:1,postedBy:1 }).lean();
-        const profile = await Users.findById(userId).select({ gender:0,email:0,__v:0,createdAt:0,updatedAt:0 }).lean();
-        const connections = await Connections.findById(userId).select({ __v:0,createdAt:0,updatedAt:0 }).lean();
     
+        let [userposts,connections,profile] = await Promise.all(
+            [
+                Posts.find({ postedBy:userId }).select({ file:1,postedBy:1 }).lean(),
+                Connections.findById(userId).select({ __v:0,createdAt:0,updatedAt:0 }).lean(),
+                Users.findById(userId).select({ gender:0,email:0,__v:0,createdAt:0,updatedAt:0 }).lean()
+            ]);
+
         if(!connections){
            const connections = await Connections({ _id:userId }).save();
            connections.__v = undefined;

@@ -12,7 +12,7 @@ const activitySchema = new mongoose.Schema({
      },
      file:{
         type:String,
-        required:true
+        required:false
      }
 })
 

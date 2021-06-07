@@ -1,14 +1,25 @@
-const SearchBoxResult = () => {
+import { Link } from "react-router-dom";
+import { User } from "../../features/users/usersSlice.types";
+import { useAppSelector } from "../../store/hooks";
+
+type SearchBoxResultProps = {
+  user:User
+}
+
+const SearchBoxResult = ({user}:SearchBoxResultProps) => {
+
+  const userId = useAppSelector(state => state.auth.user?._id);
+ 
   return (
-    <div className="searchBox__result">
+    <Link to={user._id === userId ? "/profile" : `/viewprofile/${user._id}`} className="searchBox__result">
       <div className="avatar">
-        <img className="avatar__img" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g" alt="avatar"/>
+        <img className="avatar__img" src={user.pic} alt="avatar"/>
       </div>
       <div className="result__content">
-        <h5 className="username">smit__asmit008</h5>
-        <div className="fullname">Asmit shrivastava</div>
+        <h5 className="username">{user.username}</h5>
+        <div className="fullname">{user.fullname}</div>
       </div>
-    </div>
+    </Link>
   );
 };
 

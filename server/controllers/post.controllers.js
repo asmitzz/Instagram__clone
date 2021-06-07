@@ -81,7 +81,9 @@ const updateLikesOnPost = async(req,res) => {
       }
       else{
          let removeItem = activities.activity.find(act => act.user == _id && act.file == post.file);
-         activities.activity = activities.activity.filter(act => act._id != removeItem._id)
+         if(removeItem){
+            activities.activity = activities.activity.filter(act => act._id != removeItem._id)
+         }
       }
       await activities.save();
    }
@@ -108,14 +110,18 @@ const updateCommentsOnPost = async(req,res) => {
     }
     let { post,user:{ _id } } = req;
     const { comment } = req.body;
-    post.comments.push({ text:comment,user:_id })
+
+   // send the like notification to user
 
     if( _id != post.postedBy ){
         let activities = await Activities.findById(post.postedBy);
         activities.activity.push({ user:_id,text:`commented: ${comment}`,file:post.file });
         await activities.save();
     }
- 
+
+    // update comments on post
+    post.comments.push({ text:comment,user:_id })
+
     await post.save(async(err,post) => {
         if(err){
            return res.status(422).json({ message:err.message})

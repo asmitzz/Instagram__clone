@@ -27,8 +27,9 @@ const PostsSection = () => {
                  {
                        filteredPosts.map( (post:Savedpost|Post) => {
                        const extension = post.file.split(".").pop();
-                       const isImg = extension?.split('.').pop() === "jpg" || extension?.split('.').pop() === "png" || extension?.split('.').pop() === "jpeg";
-                       const isVideo = extension?.split('.').pop() === "mp3" || extension?.split('.').pop() === "mp4";
+                       const isImg = ["jpg","png","jpeg"].some(type => type === extension);
+                       const isVideo = ["mp3","mp4"].some(type => type === extension);
+
                        return(
                         <Link to="/profile" key={post._id}>
                           { isImg && <img width="100%" alt="post" height="auto" src={post.file}/>}

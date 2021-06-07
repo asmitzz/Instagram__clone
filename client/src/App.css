@@ -82,3 +82,21 @@ body{
     font-weight:600;
     cursor:pointer;
 }
+
+.spinner{
+    height:30px;
+    width:30px;
+    border:5px solid var(--tertiary-color-shade-1);
+    border-top:5px solid var(--tertiary-color-shade-2);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}

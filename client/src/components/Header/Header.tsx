@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
 import Backdrop from "../../utils/Backdrop/Backdrop";
 import DropBox from "../../utils/DropBox/DropBox";
 import SearchBar from "../SearchBar/SearchBar";
@@ -11,6 +12,8 @@ const Header = () => {
   const handleProfile = () => {
      setToggleDropbox(state => !state)
   }
+
+  const { user } = useAppSelector(state => state.auth)
 
   return (
         <div className="header">
@@ -48,7 +51,7 @@ const Header = () => {
               </NavLink>
 
               <button className="profile__btn" onClick={handleProfile}>
-                  <img className="profile__icon" alt="profile" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
+                  <img className="profile__icon" alt="profile" src={user?.pic}/>
               </button>
 
               {toggleDropbox && <DropBox toggle={setToggleDropbox}/>}
