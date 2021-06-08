@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Link } from "react-router-dom";
-import { updateConnections } from "../../../features/profile/profileSlice";
+import { UpdateConnections, updateConnections } from "../../../features/profile/profileSlice";
 import { Connection, UserActivity, UserProfile, ViewProfileData } from "../../../features/profile/profileSlice.types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -16,14 +16,14 @@ type ProfileSectionProps = {
     connections:Connection;
     activities:UserActivity;
     setData:Dispatch<SetStateAction<ViewProfileData|undefined>>;
+    isYouFollowingUser:string|undefined;
 }
 
-const ProfileSection = ({profile,posts,activities,connections,setData}:ProfileSectionProps) => {
+const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections,setData}:ProfileSectionProps) => {
 
     const userId = useAppSelector(state => state.auth.user?._id);
     const token = useAppSelector(state => state.auth.token);
-    const isFollow = connections.followers.find( uid => uid === userId );
-    const isFollowing = connections.following.find( uid => uid === userId );
+    const isUserFollowingYou = connections.following.find( uid => uid === userId );
     const isRequested = activities.requests.find( uid => uid === userId)
     const dispatch = useAppDispatch();
 
@@ -32,9 +32,10 @@ const ProfileSection = ({profile,posts,activities,connections,setData}:ProfileSe
         .then(unwrapResult).then( originalPromiseResult => {
             setData(state => {
                 if(state){
-                    return ({...state,connections:originalPromiseResult.connections,activities:originalPromiseResult.activities})
+                    return ({...state,connections:originalPromiseResult.userconnections,activities:originalPromiseResult.activities})
                 }
             })
+            dispatch(UpdateConnections({connections:originalPromiseResult.yourconnections}))
         })
     }
         
@@ -47,18 +48,18 @@ const ProfileSection = ({profile,posts,activities,connections,setData}:ProfileSe
                        <span className="username__desktop">{profile.username}</span>
                        <div className="profile__btn__container">
 
-                          { isFollow && <button className="secondary__btn" onClick={handleConnections}>Following</button>}
-                          { isRequested && <button className="secondary__btn" onClick={handleConnections}>Requested</button> }
-                          { isFollowing && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow back</button> }
-                          { !isFollowing && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow</button> }
+                          { isYouFollowingUser && <button className="secondary__btn" onClick={handleConnections}>Following</button>}
+                          { !isYouFollowingUser && isRequested && <button className="secondary__btn" onClick={handleConnections}>Requested</button> }
+                          { !isYouFollowingUser && isUserFollowingYou  && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow back</button> }
+                          { !isYouFollowingUser && !isUserFollowingYou && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow</button> }
                         
                           <button className="secondary__btn">Message</button>
                        </div>
                    </div>
                    <div className="section__2">
                        <div><span>{posts.length}</span> posts</div>
-                       <Link to={ isFollow || !profile.private ? `/followers/${profile._id}` : ""} className="nav__link"><span>{connections?.followers.length}</span> followers</Link>
-                       <Link to={ isFollow || !profile.private ? `/following/${profile._id}` : ""} className="nav__link"><span>{connections?.following.length}</span> following</Link>
+                       <Link to={ isYouFollowingUser || !profile.private ? `/followers/${profile._id}` : ""} className="nav__link"><span>{connections?.followers.length}</span> followers</Link>
+                       <Link to={ isYouFollowingUser || !profile.private ? `/following/${profile._id}` : ""} className="nav__link"><span>{connections?.following.length}</span> following</Link>
                    </div>
                    <div className="section__3">
                        <div className="fullname">{profile.fullname}</div>

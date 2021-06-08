@@ -21,6 +21,7 @@ const getUserProfile = async(req, res) => {
 };
 
 const getViewProfile = async(req,res) => {
+    const {user:{ _id }} = req;
     const { userId } = req.params;
 
     try {
@@ -37,7 +38,11 @@ const getViewProfile = async(req,res) => {
            return res.status(404).json({ message:"user not found" })
         }
 
-        res.status(200).json({ userposts,profile,connections,activities })
+        if(!connections.followers.find(uid => uid == _id) && profile.private) {
+           return res.status(200).json({ userposts:[],profile,connections,activities })
+        }
+
+         res.status(200).json({ userposts,profile,connections,activities })
     } catch (error) {
         res.status(500).json({ message:"Something went wrong" })
     }

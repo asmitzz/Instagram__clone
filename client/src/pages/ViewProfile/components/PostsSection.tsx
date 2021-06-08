@@ -7,10 +7,12 @@ type Post = {
 }
 
 type PostsSectionProps = {
-   posts:Post[]
+   posts:Post[];
+   accountPrivate:boolean;
+   isYouFollowingUser:string|undefined;
 }
 
-const PostsSection = ({posts}:PostsSectionProps) => {
+const PostsSection = ({posts,accountPrivate,isYouFollowingUser}:PostsSectionProps) => {
 
     return (
         <div className="posts__section">
@@ -21,7 +23,7 @@ const PostsSection = ({posts}:PostsSectionProps) => {
                  </button>
              </div>
              
-             <div className="section__2">
+         {  (!accountPrivate || isYouFollowingUser) &&  <div className="section__2">
                  {
                        posts.map( (post:Post) => {
                         const extension = post.file.split(".").pop();
@@ -36,11 +38,13 @@ const PostsSection = ({posts}:PostsSectionProps) => {
                     })
                  }
 
-             </div>
-             {/* <div className="private__account__template">
+             </div>}
+            { !isYouFollowingUser && accountPrivate &&
+             <div className="private__account__template">
                   <i className="fa fa-lock"> This Account is Private</i>
                   <p className="template__content">Follow to see their photos and videos.</p>
-             </div> */}
+             </div>
+             }
         </div>
     );
 };

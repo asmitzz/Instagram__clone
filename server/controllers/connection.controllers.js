@@ -64,7 +64,7 @@ const updateConnections = async (req, res) => {
             userconnections.followers.remove(_id);
             senderconnections.following.remove(userId);
             await Promise.all([ userconnections.save(),senderconnections.save() ]);
-            return res.status(200).json({ connections:userconnections,activities:{ requests: useractivities.requests},message:"unfollowed user successfully" })
+            return res.status(200).json({ userconnections,yourconnections:senderconnections,activities:{ requests: useractivities.requests},message:"unfollowed user successfully" })
         }
 
         // if user account is private
@@ -74,7 +74,8 @@ const updateConnections = async (req, res) => {
 
             await useractivities.save();
             return res.status(200).json({
-                connections:userconnections,
+                userconnections,
+                yourconnections:senderconnections,
                 activities:{ requests: useractivities.requests },
                 message:"follow request sent successfully",
             });
@@ -94,7 +95,8 @@ const updateConnections = async (req, res) => {
         await Promise.all([ userconnections.save(),senderconnections.save(),useractivities.save() ])
 
         res.status(200).json({
-            connections:userconnections,
+            userconnections,
+            yourconnections:senderconnections,
             activities:{ requests: useractivities.requests},
             message:"follow user successfully"
         });

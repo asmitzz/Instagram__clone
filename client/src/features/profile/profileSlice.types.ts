@@ -59,6 +59,7 @@ export type ViewProfileData = {
 }
 
 export type UpdateConnectionsResponse = {
-    connections:Connection;
+    yourconnections:Connection;
+    userconnections:Connection;
     activities:UserActivity;
 }

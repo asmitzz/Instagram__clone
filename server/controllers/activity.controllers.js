@@ -23,7 +23,7 @@ const confirmFollowRequest = async (req, res) => {
     } = req;
 
     try {
-        let [userconnections,senderconnections,activities] = await Promise.all(
+        let [connections,senderconnections,activities] = await Promise.all(
             [
                 Connections.findById(_id),
                 Connections.findById(userId),
@@ -31,7 +31,7 @@ const confirmFollowRequest = async (req, res) => {
             ]);
 
         // update user followers and senders following
-        userconnections.followers.push(userId);
+        connections.followers.push(userId);
         senderconnections.following.push(_id);
 
         // delete request from activities
@@ -43,8 +43,9 @@ const confirmFollowRequest = async (req, res) => {
              text: "started following you.",
         });
 
-        // save activities
-        await Promise.all([userconnections.save(),senderconnections.save(),activities.save()])
+        // save all data
+        await Promise.all([connections.save(),senderconnections.save(),activities.save()])
+        await activities.populate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username",options:{sort:{createdAt:-1}} }]).execPopulate()
         return res.status(200).json({ activities,connections});
         
     } catch (error) {
@@ -65,8 +66,12 @@ const deleteFollowRequest = async (req, res) => {
         if (userId) {
             // delete request from activities
             activities.requests.remove(userId);
-            await activities.save();
-            return res.status(200).json({ activities });
+            await activities.save(async(err,activities) => {
+                if(activities){
+                   await activities.populate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username",options:{sort:{createdAt:-1}} }]).execPopulate()
+                   return res.status(200).json({ activities });
+                }
+            });
         }
     } catch (error) {
         return res.status(500).json({

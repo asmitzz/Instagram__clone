@@ -1,4 +1,5 @@
 import { Status } from "../../generic.types";
+import { Connection } from "../profile/profileSlice.types";
 
 export type User = {
     _id:string;
@@ -27,4 +28,9 @@ export type ActivityResponse = {
 export type ActivityInitialState = {
     activities:Activities|null;
     status:Status;
+}
+
+export type ConfirmRequestResponse = {
+    activities:Activities;
+    connections:Connection;
 }

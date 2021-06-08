@@ -1,8 +1,9 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import ReactPlayer from "react-player";
 import { Link } from "react-router-dom";
-import { fetchActivity } from "../../features/activity/activitySlice";
-import { updateProfile } from "../../features/profile/profileSlice";
+import { confirmRequest, deleteRequest, fetchActivity } from "../../features/activity/activitySlice";
+import { UpdateConnections } from "../../features/profile/profileSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./Activity.css";
 
@@ -15,7 +16,19 @@ const Activity = () => {
         if(status === "idle"){
             dispatch(fetchActivity({token}));
         }
-     },[status,token,dispatch])
+     },[status,token,dispatch]);
+
+     const handleConfirm = (userId:string) => {
+         dispatch(confirmRequest({token,userId}))
+         .then(unwrapResult)
+         .then(originalPromiseResult => {
+             dispatch(UpdateConnections({connections:originalPromiseResult.connections}))
+         })
+     }
+     
+     const handleDelete = (userId:string) => {
+        dispatch(deleteRequest({token,userId}))
+    }
 
     return (
         <div className="activity">
@@ -28,8 +41,8 @@ const Activity = () => {
                          <img alt="profile" className="userpic" src={user.pic}/>
                          <p className="description"><strong>{user.username}</strong> has requested to follow you.</p>
                       </Link>
-                      <button className="primary__btn" onClick={() => dispatch(updateProfile({hello:"world"}))}>Confirm</button>
-                      <button className="secondary__btn">Delete</button>
+                      <button className="primary__btn" onClick={() => handleConfirm(user._id)}>Confirm</button>
+                      <button className="secondary__btn" onClick={() => handleDelete(user._id)}>Delete</button>
                    </div>
                 ))
             }

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FollowersResponse, FollowingResponse, InitialProfileState, ProfileData, UpdateConnectionsResponse, ViewProfileData } from "./profileSlice.types";
+import { Connection, FollowersResponse, FollowingResponse, InitialProfileState, ProfileData, UpdateConnectionsResponse, ViewProfileData } from "./profileSlice.types";
 
 import axios from "axios";
 
@@ -52,8 +52,8 @@ const profileSlice = createSlice({
     name:"profile",
     initialState,
     reducers:{
-        updateProfile:(state,action) => {
-            console.log(action.payload);
+        UpdateConnections:(state,action:PayloadAction<{connections:Connection}>) => {
+            state.connections = action.payload.connections
         }
     },
     extraReducers:(builder) => {
@@ -72,6 +72,6 @@ const profileSlice = createSlice({
     }
 })
 
-export const { updateProfile } = profileSlice.actions;
+export const { UpdateConnections } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ActivityResponse,ActivityInitialState } from "./activitySlice.types";
+import { ActivityResponse,ActivityInitialState, ConfirmRequestResponse } from "./activitySlice.types";
 
 import axios from "axios";
 
@@ -10,8 +10,15 @@ export const fetchActivity = createAsyncThunk<ActivityResponse,{token:string}>("
     return res.data;
 });
 
-export const confirmRequest = createAsyncThunk<ActivityResponse,{token:string}>("activity/fetchactivity",async({token}) => {
-    const res = await axios.get("http://localhost:5000/activities",{
+export const confirmRequest = createAsyncThunk<ConfirmRequestResponse,{token:string,userId:string}>("activity/confirmrequest",async({token,userId}) => {
+    const res = await axios.post(`http://localhost:5000/activities/requests/${userId}`,{},{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+});
+
+export const deleteRequest = createAsyncThunk<ActivityResponse,{token:string,userId:string}>("activity/deleterequest",async({token,userId}) => {
+    const res = await axios.delete(`http://localhost:5000/activities/requests/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
@@ -38,7 +45,14 @@ const savedpostsSlice = createSlice({
              state.activities = action.payload.activities;
              state.status = "succeeded";
         })
-      
+
+        builder.addCase(confirmRequest.fulfilled,(state:ActivityInitialState,action:PayloadAction<ConfirmRequestResponse>) => {
+            state.activities = action.payload.activities;
+        })
+
+        builder.addCase(deleteRequest.fulfilled,(state:ActivityInitialState,action:PayloadAction<ActivityResponse>) => {
+            state.activities = action.payload.activities;
+        })
     }
 })
 

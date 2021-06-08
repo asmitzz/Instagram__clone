@@ -16,8 +16,10 @@ const ViewProfile = () => {
     const dispatch = useAppDispatch();
     const mountedRef = useIsMountedRef();
     const token = useAppSelector(state => state.auth.token);
+    const yourUserId = useAppSelector(state => state.auth.user?._id);
     const userId = useParams().userId;
     const [data,setData] = useState<ViewProfileData>();
+    const isYouFollowingUser = data?.connections.followers.find( uid => uid === yourUserId );
 
     useEffect(() => {
         (async function(){
@@ -32,8 +34,8 @@ const ViewProfile = () => {
   
     return (
         <div className="profile__container viewprofile">
-            { data && <ProfileSection profile={data?.profile} activities={data.activities} posts={data?.userposts} connections={data?.connections} setData={setData}/>}
-            { data && <PostsSection posts={data?.userposts}/>}
+            { data && <ProfileSection isYouFollowingUser={isYouFollowingUser} profile={data?.profile} activities={data.activities} posts={data?.userposts} connections={data?.connections} setData={setData}/>}
+            { data && <PostsSection isYouFollowingUser={isYouFollowingUser} posts={data?.userposts} accountPrivate={data.profile.private}/>}
         </div>
     );
 };
