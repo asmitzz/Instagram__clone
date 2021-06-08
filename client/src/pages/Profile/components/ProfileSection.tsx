@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../store/hooks";
 
 const ProfileSection = () => {
@@ -16,8 +16,8 @@ const ProfileSection = () => {
                    </div>
                    <div className="section__2">
                        <div><span>15</span> posts</div>
-                       <NavLink to={`/followers/${user?._id}`} className="nav__link"><span>{connections?.followers.length}</span> followers</NavLink>
-                       <NavLink to={`/following/${user?._id}`} className="nav__link"><span>{connections?.following.length}</span> following</NavLink>
+                       <Link to={`/followers/${user?._id}`} className="nav__link"><span>{connections?.followers.length}</span> followers</Link>
+                       <Link to={`/following/${user?._id}`} className="nav__link"><span>{connections?.following.length}</span> following</Link>
                    </div>
                    <div className="section__3">
                        <div className="fullname">{user?.fullname}</div>

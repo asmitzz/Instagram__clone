@@ -3,22 +3,41 @@ import { useAppSelector } from "../../../store/hooks";
 
 const ProfileBox = () => {
   const user = useAppSelector(state => state.auth.user);
+  const profile = useAppSelector(state => state.profile)
   
   return (
-     <div>
+     <div className="profile__box">
          <Link to="/profile" className="avatar">
          <img
             className="avatar__img"
-            width="50px"
-            height="50px"
             alt="profile"
             src={user?.pic}
          />
-         <div>
-           <h4 className="username">{user?.username}</h4>
-           <span className="fullname">{user?.fullname}</span>
-         </div>
+         
+          <span className="fullname">{user?.fullname}</span>
          </Link>
+         <div className="profile__details">
+            <div className="profile__detail">
+               <div>
+                  <span> {profile.userposts.length}</span>
+               </div>
+               <span> Posts</span>
+            </div>
+            <Link to={`/followers/${user?._id}`} className="profile__detail">
+               <div>
+                 <i className="far fa-user"></i>
+                 <span> {profile.connections.followers.length}</span>
+               </div>
+               <span> Followers</span>
+            </Link>
+            <Link to={`/following/${user?._id}`} className="profile__detail">
+               <div>
+                 <i className="far fa-user"></i>
+                 <span> {profile.connections.following.length}</span>
+               </div>
+               <span> Following</span>
+            </Link>
+         </div>
      </div>
   );
 };

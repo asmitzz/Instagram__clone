@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { confirmRequest, deleteRequest, fetchActivity } from "../../features/activity/activitySlice";
 import { UpdateConnections } from "../../features/profile/profileSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { timestamp } from "../../utils/timestamp/timestamp";
 import "./Activity.css";
 
 const Activity = () => {
@@ -44,7 +45,7 @@ const Activity = () => {
                       <button className="primary__btn" onClick={() => handleConfirm(user._id)}>Confirm</button>
                       <button className="secondary__btn" onClick={() => handleDelete(user._id)}>Delete</button>
                    </div>
-                ))
+                )).reverse()
             }
 
             {
@@ -54,15 +55,18 @@ const Activity = () => {
                  const isVideo = ["mp3","mp4"].some(type => type === extension);
                  
                  return(
-                    <Link to="/" className="activity__content" key={activity._id}>
+                    <Link to={`/viewprofile/${activity.user._id}`} className="activity__content" key={activity._id}>
                       <div className="userpic__and__activity">
                         <img alt="profile" className="userpic" src={activity.user.pic}/>
-                        <p className="description"><strong>{activity.user.username}</strong> {activity.text}</p>
+                        <div>
+                           <p className="description"><strong>{activity.user.username}</strong> {activity.text}</p>
+                           <span className="timestamp">{timestamp(new Date(activity.createdAt))}</span>
+                        </div>
                       </div>
                       {isImg && <img alt="post" className="post" src={activity.file}/>}
                       {isVideo && <ReactPlayer width="50px" height="50px" url={activity.file}/>}
                     </Link>
-                )})
+                )}).reverse()
             }
         </div>
     );

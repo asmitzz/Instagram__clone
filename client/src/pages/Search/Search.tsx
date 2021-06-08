@@ -14,23 +14,25 @@ const Search = () => {
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {value} = e.target;
         setInput(value);
-        setTimeout(() => {
-            if(status === "idle" && value !== ""){
-              dispatch(fetchUsers({ token,searchTerm:value }))
-            }
-         },300)
+    }
+
+    const handleSubmit = (e:React.SyntheticEvent) => {
+        e.preventDefault()
+        if(status === "idle" && input !== ""){
+            dispatch(fetchUsers({ token,searchTerm:input }))
+        }
     }
 
     return (
         <div className="search__container">
-            <div className="search__header">
+            <form onSubmit={handleSubmit} className="search__header">
                { show && 
                   <button className="back__btn">
                       <i className="fa fa-arrow-left" aria-hidden="true"></i>
                   </button>
                }
-               <input className="search__input" value={input} placeholder="Search" onChange={handleChange} onBlur={() => setShow(false)} onFocus={() => setShow(true)}/>
-            </div>
+                <input className="search__input" value={input} placeholder="Search" onChange={handleChange} onBlur={() => setShow(false)} onFocus={() => setShow(true)}/>
+            </form>
 
             <div className="searchBox__results">
                { 

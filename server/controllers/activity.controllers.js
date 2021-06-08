@@ -5,12 +5,12 @@ const getUserActivity = async(req, res) => {
     const { user:{ _id } } = req;
     
     const activities = await Activities.findById(_id).select({ __v:0,createdAt:0,updatedAt:0 })
-    .populate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username",options:{sort:{createdAt:-1}} }])
+    .populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}])
     .lean();
 
     if(!activities){
        const createActivities = await Activities({ _id }).save();
-       await createActivities.execPopulate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username" }])
+       await createActivities.populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}]).execPopulate()
        return res.status(200).json({ activities:createActivities })
     }
     res.status(200).json({ activities })
@@ -45,7 +45,7 @@ const confirmFollowRequest = async (req, res) => {
 
         // save all data
         await Promise.all([connections.save(),senderconnections.save(),activities.save()])
-        await activities.populate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username",options:{sort:{createdAt:-1}} }]).execPopulate()
+        await activities.populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}]).execPopulate()
         return res.status(200).json({ activities,connections});
         
     } catch (error) {
@@ -68,7 +68,7 @@ const deleteFollowRequest = async (req, res) => {
             activities.requests.remove(userId);
             await activities.save(async(err,activities) => {
                 if(activities){
-                   await activities.populate([{ path:"requests",select:"username pic" },{ path:"activity",populate:"user",select:"pic username",options:{sort:{createdAt:-1}} }]).execPopulate()
+                   await activities.populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}]).execPopulate()
                    return res.status(200).json({ activities });
                 }
             });

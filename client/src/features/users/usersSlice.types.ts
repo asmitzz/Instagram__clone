@@ -8,10 +8,10 @@ export type User = {
 }
 
 export type UsersInitialState = {
-    users:User[],
-    status:Status
+    users:User[];
+    status:Status;
 };
 
 export type UsersResponse = {
-    users:User[],
+    users:User[];
 };

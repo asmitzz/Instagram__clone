@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { fetchUsers } from "../../features/users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -17,18 +18,22 @@ const SearchBar = () => {
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         setSearchTerm(value);
-        setTimeout(() => {
-           if(status === "idle" && value !== ""){
-             dispatch(fetchUsers({ token,searchTerm:value }))
-           }
-        },300)
+    }
+
+    const handleSubmit = (e:React.SyntheticEvent) => {
+        e.preventDefault()
+        if(status === "idle" && searchTerm !== ""){
+            dispatch(fetchUsers({ token,searchTerm }))
+        }
     }
 
     return (
         <div className="search__bar">
             { toggleDropbox && <Backdrop toggle={setToggleDropbox} className="search__bar__backdrop"/>}
             <i className="fa fa-search"></i>
-            <input type="search" value={searchTerm} onFocus={() => setToggleDropbox(true)} onChange={handleChange} className="search__input" placeholder="Search"/>
+            <form onSubmit={handleSubmit}>
+              <input type="search" value={searchTerm} onFocus={() => setToggleDropbox(true)} onChange={handleChange} className="search__input" placeholder="Search"/>
+            </form>
             { toggleDropbox && <SearchBox setToggleDropbox={setToggleDropbox}/> }
         </div>
     );

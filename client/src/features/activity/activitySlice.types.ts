@@ -12,6 +12,7 @@ export type Activity = {
     user:User;
     text:string;
     file?:string;
+    createdAt:number;
 }
 
 export type Activities = {

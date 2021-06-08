@@ -1,6 +1,8 @@
 .follow__container{
     display:flex;
     flex-direction:column;
+    background:var(--secondary-color);
+    min-height:90vh;
 }
 
 .follow__container .follow__heading{

@@ -47,7 +47,6 @@ export const updateConnections = createAsyncThunk<UpdateConnectionsResponse,{tok
     return res.data;
 });
 
-
 const profileSlice = createSlice({
     name:"profile",
     initialState,
