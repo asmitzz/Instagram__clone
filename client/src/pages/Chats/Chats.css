@@ -104,10 +104,14 @@
    position:relative;
    max-height:80vh;
    min-height:80vh;
+   background:var(--secondary-color);
+
 }
 
-.userchatsmobile{
-    height:92vh;
+.userchats .typing{
+    font-size:0.8rem;
+    font-weight:500;
+    margin-left:1.5rem;
 }
 
 .userchats .userchats__header{
@@ -169,7 +173,6 @@
 .userchats .userchats__form{
    position:absolute;
    background:var(--secondary-color);
-   padding-top:1rem;
    bottom:10px;
    width:100%;
 }
@@ -224,11 +227,24 @@
      }
 
      .userchats .chats{
-        height:75vh;
+        height:74vh;
      }
  }
  
  @media(max-width:700px){
+    .userchats{
+      height:100%;
+    }
+    .userchats .chats{
+        height:100%;
+    }
+    .userchats .userchats__form{
+        position:fixed;
+        background:var(--secondary-color);
+        bottom:0;
+        width:100%;
+        padding-bottom:0.5rem;
+     }
     .chats__box{
         align-items:flex-start;
     }
@@ -261,13 +277,7 @@
 
  }
 
- @media(max-width:550px){
-    .userchats__form{
-        bottom:3.5rem!important;
-    }
- }
-
-.chats__box ::-webkit-scrollbar {
+  .chats__box ::-webkit-scrollbar {
     width:10px;
   }
   

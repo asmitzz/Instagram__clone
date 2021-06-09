@@ -26,6 +26,11 @@ const chatsSlice = createSlice({
     name:"chats",
     initialState,
     reducers:{
+        updateChat:(state:ChatsInitialState,action:PayloadAction<{chat:Chat}>) => {
+            const { chat } = action.payload;
+            const chatIndex = state.chats.findIndex(c => c._id === chat._id);
+            state.chats[chatIndex] = chat;
+        }
     },
     extraReducers:(builder) => {
         builder.addCase(fetchChats.pending,(state:ChatsInitialState) => {
@@ -38,12 +43,14 @@ const chatsSlice = createSlice({
              state.chats = action.payload.chats;
              state.status = "succeeded";
         })
-        builder.addCase(sendMessage.fulfilled,(state:ChatsInitialState,action:PayloadAction<{chat:Chat}>) => {
-           const { chat } = action.payload;
-           const chatIndex = state.chats.findIndex(c => c._id === chat._id);
-           state.chats[chatIndex] = chat;
-        })
+        // builder.addCase(sendMessage.fulfilled,(state:ChatsInitialState,action:PayloadAction<{chat:Chat}>) => {
+        //    const { chat } = action.payload;
+        //    const chatIndex = state.chats.findIndex(c => c._id === chat._id);
+        //    state.chats[chatIndex] = chat;
+        // })
     }
 })
+
+export const {updateChat} = chatsSlice.actions;
 
 export default chatsSlice.reducer;

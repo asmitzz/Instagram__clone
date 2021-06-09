@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { sendMessage } from "../../../features/chats/chatsSlice";
+import { sendMessage, updateChat } from "../../../features/chats/chatsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Chat } from "../../../features/chats/chatsSlice.types";
+import io from "socket.io-client";
+
+let socket:any;
+let endpoint = "http://localhost:5000";
 
 const UserChatsDesktop = () => {
+
     const [input,setInput] = useState<string>("");
+    const [typing,setTyping] = useState<boolean>(false);
+
     const messagesEndRef = useRef<any>(null);
+    const typingRef = useRef<any>(null);
 
     const { chatId } = useParams();
     const { chats } = useAppSelector((state) => state.chats);
@@ -16,18 +26,50 @@ const UserChatsDesktop = () => {
     const chat = chats.find(chat => chat._id === chatId);
     const user = chat?.users.find( user => user._id !== userId );
 
-    const handleSubmit = (e:React.SyntheticEvent) => {
-        e.preventDefault();
-        if( chat && input !=="" ){
-          dispatch(sendMessage({ token,text:input,chatId:chat?._id }));
-          setInput("");
-        }
-    }
+    useEffect(() => {
+       socket = io(endpoint)
+       if(userId){
+          socket.emit("joinRoom",chatId,userId)
+       }
+       socket.on("receiveMsg",(chat:Chat) => {
+          dispatch(updateChat({chat}))
+       })
+       socket.on("typing",() => {
+          setTyping(true)
+       })
+       socket.on("stopTyping",() => {
+          setTyping(false)
+       })
+    },[chatId,userId,dispatch])
 
     useEffect(() => {
       messagesEndRef.current?.scrollIntoView();
     },[chat?.messages])
-    
+
+    const handleSubmit = (e:React.SyntheticEvent) => {
+      e.preventDefault();
+      if( chat && input !=="" ){
+        dispatch(sendMessage({ token,text:input,chatId:chat?._id }))
+        .then(unwrapResult)
+        .then((originalPromiseResult) => {
+           socket.emit("sendMessage",chatId,originalPromiseResult.chat)
+        });
+        setInput("");
+      }
+    }
+
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+       setInput(e.target.value)
+       if(typingRef.current !== null){
+          clearTimeout(typingRef.current)
+       }
+       socket.emit("typing",chatId);
+       typingRef.current = setTimeout(() => {
+         typingRef.current = null;
+         socket.emit("stopTyping",chatId);
+       },500)
+    }
+     
     return (
         <div className="userchats">
             <header className="userchats__header">
@@ -55,13 +97,14 @@ const UserChatsDesktop = () => {
                     )
                     )
                  }
-
                <div ref={messagesEndRef}/>
+
             </div>
 
             <form className="userchats__form" onSubmit={handleSubmit}>
+                {typing && <span className="typing"><strong>{user?.username}</strong> is typing...</span>}
                 <div className="form__group">
-                  <input type="text" value={input} onChange={(e) => setInput(e.target.value)} className="chats__input" placeholder="Message..."/>
+                  <input type="text" value={input} onChange={handleChange} className="chats__input" placeholder="Message..."/>
                   <input type="submit" className="send__btn" disabled={input === ""} value="Send"/>
                 </div>
             </form>
