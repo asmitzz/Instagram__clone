@@ -6,6 +6,7 @@
     width:100%;
     padding:0.5rem 0;
     border-bottom:1px solid var(--tertiary-color);
+    box-sizing:border-box;
 }
 
 .header .insta__logo{
@@ -51,6 +52,15 @@
     display:block;
 }
 
+.header .logout__btn{
+    background:none;
+    border:none;
+    font-size:1.4rem;
+    color:var(--primary-text-color);
+    display:none;
+    margin-left:0.5rem;
+}
+
 .header .profile__btn{
     display:flex;
     justify-content:center;
@@ -73,18 +83,15 @@
 
 @media(max-width:550px){
     .header{
-        justify-content:space-around;
+        justify-content:space-between;
+        padding:1rem;
     }
 
-    .header .nav__link{
+    .header .nav__link,.header .profile__btn{
         display:none;
     }
     
-    .header .profile__btn{
-        display:none;
-    }
-
-    .header .messenger{
+    .header .messenger,.header .logout__btn{
         display:block;
     }
 

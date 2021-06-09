@@ -7,6 +7,7 @@ const savedpostRoutes = require("../routes/savedpost.routes");
 const connectionRoutes = require("../routes/connection.routes");
 const activityRoutes = require("../routes/activity.routes");
 const userRoutes = require("../routes/user.routes");
+const chatsRoutes = require("../routes/chat.routes");
 
 const verifyToken = require("../custom-middlewares/verifyToken.middleware");
 const multer = require("multer");
@@ -41,6 +42,7 @@ const App = (app) => {
     app.use("/connections",verifyToken,connectionRoutes);
     app.use("/activities",verifyToken,activityRoutes);
     app.use("/users",verifyToken,userRoutes);
+    app.use("/chats",verifyToken,chatsRoutes);
 
     app.use("*",(req, res, next) => {
         res.status(404).json({ message:"route not found" })

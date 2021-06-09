@@ -21,7 +21,7 @@
 }
 
 .home__content .right__section .profile__box{
-   background:#515258;
+   background:var(--primary-text-color);
    height:82vh;
    border-radius:15px;
    box-shadow:4px 4px 10px var(--tertiary-color-shade-2),-4px -4px 10px var(--tertiary-color-shade-2);

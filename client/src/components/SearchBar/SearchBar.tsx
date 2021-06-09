@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { fetchUsers } from "../../features/users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -10,9 +10,9 @@ const SearchBar = () => {
     
     const [toggleDropbox,setToggleDropbox] = useState(false);
     const [searchTerm,setSearchTerm] = useState<string>("");
+    const timeoutRef = useRef<any>(null);
 
     const token = useAppSelector(state => state.auth.token);
-    const { status } = useAppSelector(state => state.users);
     const dispatch = useAppDispatch();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -20,20 +20,25 @@ const SearchBar = () => {
         setSearchTerm(value);
     }
 
-    const handleSubmit = (e:React.SyntheticEvent) => {
-        e.preventDefault()
-        if(status === "idle" && searchTerm !== ""){
-            dispatch(fetchUsers({ token,searchTerm }))
+    useEffect(() => {
+        if(timeoutRef.current !== null){
+            clearTimeout(timeoutRef.current)
         }
-    }
+
+        timeoutRef.current = setTimeout(() => {
+           timeoutRef.current = null;
+           if(searchTerm !== ""){
+              dispatch(fetchUsers({ token,searchTerm }))
+           }
+        },1000)
+
+    },[searchTerm,token,dispatch])
 
     return (
         <div className="search__bar">
             { toggleDropbox && <Backdrop toggle={setToggleDropbox} className="search__bar__backdrop"/>}
             <i className="fa fa-search"></i>
-            <form onSubmit={handleSubmit}>
-              <input type="search" value={searchTerm} onFocus={() => setToggleDropbox(true)} onChange={handleChange} className="search__input" placeholder="Search"/>
-            </form>
+            <input type="search" value={searchTerm} onFocus={() => setToggleDropbox(true)} onChange={handleChange} className="search__input" placeholder="Search"/>
             { toggleDropbox && <SearchBox setToggleDropbox={setToggleDropbox}/> }
         </div>
     );

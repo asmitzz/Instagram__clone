@@ -17,7 +17,8 @@ import Profile from "./pages/Profile/Profile";
 import Comments from "./pages/Comments/Comments";
 import Search from "./pages/Search/Search";
 import Chats from "./pages/Chats/Chats";
-import UserChatsMobile from "./pages/Chats/components/UserChatMobile";
+import UserChatsMobile from "./pages/Chats/components/UserChatsMobile";
+import UserChatsDesktop from "./pages/Chats/components/UserChatsDesktop";
 import Followers from "./pages/Followers/Followers";
 import Following from "./pages/Following/Following";
 import PostsSection from "./pages/Profile/components/PostsSection";
@@ -62,8 +63,14 @@ const App = () => {
            <Route path="/comments/:postId" element={<Comments/>}/>
            <Route path="/search" element={<Search/>}/>
            <Route path="/activity" element={<Activity/>}/>
-           <Route path="/chats" element={<Chats/>}/>
-           <Route path="/chats/:chatID" element={width >= 700 ? <Chats/>: <UserChatsMobile/>}/>
+           { 
+             width >= 700 &&
+             <Route path="/chats" element={<Chats/>}>
+               <Route path="/:chatId" element={<UserChatsDesktop/>}/>
+             </Route> 
+           } 
+           { width < 700 && <Route path="/chats" element={<Chats/>}/>}
+           { width < 700 && <Route path="/chats/:chatId" element={<UserChatsMobile/>}/>}
            <Route path="/post/add" element={<AddPost/>}/>
         </Routes>
        }

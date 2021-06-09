@@ -5,6 +5,7 @@ import savedpostsReducer from "../features/savedposts/savedpostsSlice";
 import profileReducer from "../features/profile/profileSlice";
 import activityReducer from "../features/activity/activitySlice";
 import usersReducer from "../features/users/usersSlice";
+import chatsReducer from "../features/chats/chatsSlice";
 
 export const store = configureStore({
     reducer:{
@@ -13,7 +14,8 @@ export const store = configureStore({
         savedposts:savedpostsReducer,
         profile:profileReducer,
         activity:activityReducer,
-        users:usersReducer
+        users:usersReducer,
+        chats:chatsReducer
     }
 })
 
