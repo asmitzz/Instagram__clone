@@ -27,6 +27,7 @@ import AddPost from "./pages/Addpost/AddPost";
 
 import "./App.css";
 import Activity from "./pages/Activity/Activity";
+import EditProfile from "./pages/EditProfile/EditProfile";
 
 const App = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -57,6 +58,7 @@ const App = () => {
               <Route path="/" element={<PostsSection/>}/>
               <Route path="/save" element={<PostsSection/>}/>
            </Route>
+           <Route path="/profile/edit" element={<EditProfile/>}/>
            <Route path="/followers/:userId" element={<Followers/>}/>
            <Route path="/following/:userId" element={<Following/>}/>
            <Route path="/viewprofile/:userId" element={<ViewProfile/>}/>

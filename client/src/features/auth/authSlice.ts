@@ -3,7 +3,7 @@ import axios from "axios";
 import { LoginState } from "../../auth/login/Login.types";
 import { SignupState } from "../../auth/signup/signup.types";
 import { ServerError } from "../../generic.types";
-import { AuthState,AuthResponse } from "./authSlice.types";
+import { AuthState,AuthResponse, User } from "./authSlice.types";
 
 let user:AuthState = JSON.parse(localStorage?.getItem("token")||"{}")
   
@@ -12,7 +12,7 @@ const initialState:AuthState = user && user.token ? user : {
     login:false
 }
 
-export const signupUser = createAsyncThunk("posts/signup",async(state:SignupState,thunkApi) => {
+export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState,thunkApi) => {
         try {
             const res = await axios.post<{success:boolean}>("http://localhost:5000/signup",state);
             return res.data;
@@ -24,7 +24,7 @@ export const signupUser = createAsyncThunk("posts/signup",async(state:SignupStat
         }
 })
 
-export const loginUser = createAsyncThunk("posts/login",async(state:LoginState,thunkApi) => {
+export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,thunkApi) => {
     try {
         const res = await axios.post<AuthResponse>("http://localhost:5000/signin",state);
         return res.data;
@@ -36,10 +36,17 @@ export const loginUser = createAsyncThunk("posts/login",async(state:LoginState,t
     }
 })
 
-export const checkAuth = createAsyncThunk("posts/checkauth",async(token:string) => {
+export const checkAuth = createAsyncThunk("auth/checkauth",async(token:string) => {
        const res = await axios.get<AuthResponse>("http://localhost:5000/protected",{headers:{ authorization:`Bearer ${token}` }});
        return res.data;
 })
+
+export const updateUser = createAsyncThunk<AuthResponse,{token:string,data:User}>("auth/userupdate",async({token,data}) => {
+    const res = await axios.post(`http://localhost:5000/users`,data,{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+});
 
 export const authSlice = createSlice({
     name:"auth",
@@ -62,6 +69,16 @@ export const authSlice = createSlice({
        })
 
        builder.addCase(checkAuth.fulfilled,(state:AuthState,action:PayloadAction<AuthResponse|ServerError>) => {
+        if("token" in action.payload){
+            const { token,login,user } = action.payload;
+            state.token = token;
+            state.login = login;
+            state.user = user;
+            localStorage.setItem("token",JSON.stringify({token,login:true}));
+        }
+       })
+
+       builder.addCase(updateUser.fulfilled,(state:AuthState,action:PayloadAction<AuthResponse|ServerError>) => {
         if("token" in action.payload){
             const { token,login,user } = action.payload;
             state.token = token;

@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store/hooks";
 
 const ProfileSection = () => {
     const user = useAppSelector(state => state.auth.user);
     const {connections} = useAppSelector(state => state.profile);
+    const navigate = useNavigate();
 
     return (
         <div className="profile__section">
@@ -12,7 +13,7 @@ const ProfileSection = () => {
                <div className="profile__details">
                    <div className="section__1">
                        <span className="username__desktop">{user?.username}</span>
-                       <button className="edit__profile__btn">Edit Profile</button>
+                       <button className="edit__profile__btn" onClick={() => navigate("/profile/edit")}>Edit Profile</button>
                    </div>
                    <div className="section__2">
                        <div><span>15</span> posts</div>

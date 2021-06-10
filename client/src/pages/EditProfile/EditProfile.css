@@ -1,0 +1,50 @@
+.edit__profile{
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
+    padding:1rem;
+}
+
+.edit__profile .userPic{
+    border-radius:50%;
+    width:40px;
+    height:40px;
+}
+
+.edit__profile .section__1{
+    display:flex;
+    align-items:center;
+}
+
+.edit__profile .username__container{
+    padding:1rem;
+}
+
+.edit__profile .username{
+    font-weight:500;
+}
+
+.edit__profile .change__pic__btn{
+    color:var(--primary-btn-color);
+    background:none;
+    border:none;
+    font-weight:600;
+}
+
+.edit__profile .section__2{
+    display:flex;
+    flex-direction:column;
+}
+
+.edit__profile .gender__label,.edit__profile .private__label{
+    font-weight:500;
+    font-size:0.8rem;
+    display:flex;
+    align-items:center;
+    margin:0.5rem 0;
+}
+
+.edit__profile .radio__input{
+    margin-left:0.5rem;
+    margin-right:0.2rem;
+}

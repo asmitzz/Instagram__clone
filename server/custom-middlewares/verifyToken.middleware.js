@@ -5,6 +5,8 @@ const verifyToken = (req,res,next) => {
     try {
        if(token){
           const decoded = jwt.verify(token,process.env.SECRET_KEY);
+          decoded.iat = undefined;
+          decoded.exp = undefined;
           req.user = decoded;
           req.token = token;
           next();

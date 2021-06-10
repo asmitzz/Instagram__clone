@@ -1,11 +1,13 @@
 export type User = {
     _id:string;
+    email:string;
     pic:string;
     username:string;
     fullname:string;
     private:boolean;
     website:string;
     bio:string;
+    gender:string;
 }
 
 export type AuthState = {

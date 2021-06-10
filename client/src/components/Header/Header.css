@@ -84,7 +84,7 @@
 @media(max-width:550px){
     .header{
         justify-content:space-between;
-        padding:1rem;
+        padding:0.5rem;
     }
 
     .header .nav__link,.header .profile__btn{
