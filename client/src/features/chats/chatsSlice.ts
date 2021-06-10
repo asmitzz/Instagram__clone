@@ -10,6 +10,13 @@ export const fetchChats = createAsyncThunk<FetchChatsResponse,{token:string}>("c
     return res.data;
 })
 
+export const createChat = createAsyncThunk<{chat:Chat},{token:string,userId:string}>("chats/createChat",async({token,userId}) => {
+    const res = await axios.post(`http://localhost:5000/chats/${userId}`,{},{
+         headers:{ "Authorization":`Bearer ${token}` }
+    });
+    return res.data;
+})
+
 export const sendMessage = createAsyncThunk<{chat:Chat},{token:string,text:string,chatId:string}>("chats/sendmessage",async({token,text,chatId}) => {
     const res = await axios.post(`http://localhost:5000/chats/message/${chatId}`,{ text },{
          headers:{ "Authorization":`Bearer ${token}` }
@@ -43,11 +50,10 @@ const chatsSlice = createSlice({
              state.chats = action.payload.chats;
              state.status = "succeeded";
         })
-        // builder.addCase(sendMessage.fulfilled,(state:ChatsInitialState,action:PayloadAction<{chat:Chat}>) => {
-        //    const { chat } = action.payload;
-        //    const chatIndex = state.chats.findIndex(c => c._id === chat._id);
-        //    state.chats[chatIndex] = chat;
-        // })
+        builder.addCase(createChat.fulfilled,(state:ChatsInitialState,action:PayloadAction<{chat:Chat}>) => {
+           const { chat } = action.payload;
+           state.chats.push(chat);
+        })
     }
 })
 

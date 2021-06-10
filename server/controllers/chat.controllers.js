@@ -1,26 +1,24 @@
 const Chats = require("../models/chat.model");
 
-const checkChat = async(req,res,next,userId) => {
+const createChat = async(req,res) => {
     const { user:{ _id } } = req;
-
-    if(_id == userId){
-      return res.status(400).json({ message:"Bad request" })
-    }
-    
+    const { userId } = req.params;
+    console.log(userId);
     let chat = await Chats.findOne({ $or: [{ users:[_id,userId] }, { users:[userId,_id] }] }).select({ messages:1 }).lean();
+   
     if(!chat){
-        let creatChat = await Chats({ users:[_id,userId] }).save()
-        req.chat = creatChat;
-        next();
+        await Chats({ users:[_id,userId] }).save(async(err,chat) => {
+            if(err){
+                console.log(err);
+            }
+            if(chat){
+                await chat.populate({path:"messages.user",select:"pic"}).populate({ path:"users",select:"pic username" }).execPopulate();
+                res.status(200).json({ chat })
+            }
+        })
         return
     }
-    req.chat = chat;
-    next();
-}
-
-const accessChat = async(req,res) => {
-    const { chat } = req;
-    res.status(200).json({ chat })
+    res.status(400).json({ message:"Chat already exists" })
 }
 
 const getAllChats = async(req, res) => {
@@ -47,4 +45,4 @@ const sendmessage = async(req, res) => {
     });
 }
 
-module.exports = { checkChat,accessChat,getAllChats,sendmessage }
+module.exports = { createChat,getAllChats,sendmessage }

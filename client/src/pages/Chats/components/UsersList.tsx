@@ -1,3 +1,4 @@
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../store/hooks";
 
@@ -5,8 +6,9 @@ const UsersList = () => {
   const { chats } = useAppSelector((state) => state.chats);
   const userId = useAppSelector((state) => state.auth.user?._id);
   const username = useAppSelector((state) => state.auth.user?.username);
+  const { pathname } = useLocation();
 
-  const filteredChats = chats.filter( chat => chat.messages.length !== 0 )
+  const filteredChats = chats.filter( chat => chat.messages.length !== 0 || pathname === `/chats/${chat._id}` )
 
   return (
     <div className="userslist">
@@ -33,6 +35,10 @@ const UsersList = () => {
           </Link>
         );
       })}
+
+      {
+         filteredChats.length === 0 && <div className="nochatsfound">No chats found</div>
+      }
     </div>
   );
 };

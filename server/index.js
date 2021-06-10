@@ -33,10 +33,10 @@ io.on("connection",(socket) => {
         io.in(chatId).emit("receiveMsg",chat)
     })
     socket.on("typing",(chatId) => {
-        socket.to(chatId).emit("typing")
+        socket.broadcast.to(chatId).emit("typing")
     })
     socket.on("stopTyping",(chatId) => {
-        socket.to(chatId).emit("stopTyping")
+        socket.broadcast.to(chatId).emit("stopTyping")
     })
 })
 

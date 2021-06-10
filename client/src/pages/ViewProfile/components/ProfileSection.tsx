@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
-import { Link } from "react-router-dom";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { UpdateConnections, updateConnections } from "../../../features/profile/profileSlice";
 import { Connection, UserActivity, UserProfile, ViewProfileData } from "../../../features/profile/profileSlice.types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { fetchChats,createChat } from "../../../features/chats/chatsSlice";
 
 type Post = {
     _id:string;
@@ -23,9 +24,12 @@ const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections
 
     const userId = useAppSelector(state => state.auth.user?._id);
     const token = useAppSelector(state => state.auth.token);
-    const isUserFollowingYou = connections.following.find( uid => uid === userId );
-    const isRequested = activities.requests.find( uid => uid === userId)
+    const { chats,status } = useAppSelector(state => state.chats);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    
+    const isUserFollowingYou = connections.following.find( uid => uid === userId );
+    const isRequested = activities.requests.find( uid => uid === userId);
 
     const handleConnections = () => {
         dispatch(updateConnections({token,userId:profile._id}))
@@ -38,6 +42,26 @@ const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections
             dispatch(UpdateConnections({connections:originalPromiseResult.yourconnections}))
         })
     }
+
+    const handleMessage = (userId:string) => {
+        const chatId = chats.find(chat => chat.users.find( user => user._id === userId));
+        if(!chatId){
+            console.log("not found");
+            dispatch(createChat({token,userId}))
+            .then(unwrapResult).then(originalPromiseResult => {
+                navigate(`/chats/${originalPromiseResult.chat._id}`)
+            })
+            return
+        }
+        console.log("found");
+        navigate(`/chats/${chatId._id}`)
+    }
+
+    useEffect(() => {
+        if (status === "idle") {
+          dispatch(fetchChats({ token }));
+        }
+    }, [status,dispatch,token]);
         
     return (
         <div className="profile__section">
@@ -53,7 +77,7 @@ const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections
                           { !isYouFollowingUser && isUserFollowingYou  && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow back</button> }
                           { !isYouFollowingUser && !isUserFollowingYou && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow</button> }
                         
-                          <button className="secondary__btn">Message</button>
+                          <button className="secondary__btn" onClick={() => handleMessage(profile._id)}>Message</button>
                        </div>
                    </div>
                    <div className="section__2">

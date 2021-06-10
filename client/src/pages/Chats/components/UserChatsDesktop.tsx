@@ -4,6 +4,8 @@ import { sendMessage, updateChat } from "../../../features/chats/chatsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Chat } from "../../../features/chats/chatsSlice.types";
+import { Link } from "react-router-dom";
+
 import io from "socket.io-client";
 
 let socket:any;
@@ -72,9 +74,11 @@ const UserChatsDesktop = () => {
      
     return (
         <div className="userchats">
-            <header className="userchats__header">
-               <img width="30px" className="user__pic" alt="users" height="30px" src={user?.pic}/>
-               <div className="username">{user?.username}</div>
+            <header >
+               <Link to={`/viewprofile/${user?._id}`} className="userchats__header">
+                 <img width="30px" className="user__pic" alt="users" height="30px" src={user?.pic}/>
+                 <div className="username">{user?.username}</div>
+               </Link>
             </header>
 
             <div className="chats">

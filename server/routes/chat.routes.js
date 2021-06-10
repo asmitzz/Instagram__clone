@@ -1,14 +1,12 @@
 const express = require("express");
-const { checkChat,accessChat,getAllChats,sendmessage } = require("../controllers/chat.controllers");
+const { createChat,getAllChats,sendmessage } = require("../controllers/chat.controllers");
 const router = express.Router();
-
-router.param("userId",checkChat)
-
-router.route('/:userId')
-.get(accessChat)
 
 router.route("/")
 .get(getAllChats);
+
+router.route("/:userId")
+.post(createChat);
 
 router.route("/message/:chatId")
 .post(sendmessage);

@@ -17,10 +17,6 @@ const ChatsSchema = new mongoose.Schema({
        ref:"User"
     }],
     messages:[messageSchema],
-    updatedAt:{
-       type:Number,
-       default:Date.now
-    }
 },{ timestamps:true });
 
 ChatsSchema.index({ users:1 })

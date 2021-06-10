@@ -17,12 +17,12 @@ const ProfileBox = () => {
           <span className="fullname">{user?.fullname}</span>
          </Link>
          <div className="profile__details">
-            <div className="profile__detail">
+            <Link to="/profile" className="profile__detail">
                <div>
                   <span> {profile.userposts.length}</span>
                </div>
                <span> Posts</span>
-            </div>
+            </Link>
             <Link to={`/followers/${user?._id}`} className="profile__detail">
                <div>
                  <i className="far fa-user"></i>

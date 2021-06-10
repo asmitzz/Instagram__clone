@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { sendMessage, updateChat } from "../../../features/chats/chatsSlice";
+import { fetchChats, sendMessage, updateChat } from "../../../features/chats/chatsSlice";
 import { Chat } from "../../../features/chats/chatsSlice.types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import io from "socket.io-client";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 let socket:any;
 let endpoint = "http://localhost:5000";
@@ -26,16 +27,24 @@ const UserChatsMobile = () => {
     const user = chat?.users.find( user => user._id !== userId );
 
     const handleSubmit = (e:React.SyntheticEvent) => {
-        e.preventDefault();
-        if( chat && input !=="" ){
-          dispatch(sendMessage({ token,text:input,chatId:chat?._id }));
-          setInput("");
-        }
+      e.preventDefault();
+      if( chat && input !=="" ){
+        dispatch(sendMessage({ token,text:input,chatId:chat?._id }))
+        .then(unwrapResult)
+        .then((originalPromiseResult) => {
+           socket.emit("sendMessage",chatId,originalPromiseResult.chat)
+        });
+        setInput("");
+      }
     }
-    
+
+    const { status } = useAppSelector((state) => state.chats);
+
     useEffect(() => {
-      messagesEndRef.current?.scrollIntoView();
-    },[chat?.messages])
+        if (status === "idle") {
+          dispatch(fetchChats({ token }));
+        }
+    }, [status,dispatch,token]);
 
     useEffect(() => {
       socket = io(endpoint)
@@ -52,7 +61,10 @@ const UserChatsMobile = () => {
          setTyping(false)
       })
     },[chatId,userId,dispatch])
-
+    
+    useEffect(() => {
+      messagesEndRef.current?.scrollIntoView();
+    },[chat?.messages])
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
       setInput(e.target.value)
