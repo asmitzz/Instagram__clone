@@ -26,12 +26,12 @@ const PostsSection = () => {
              <div className="section__2">
                  {
                        filteredPosts.map( (post:Savedpost|Post) => {
-                       const extension = post.file.split(".").pop();
-                       const isImg = ["jpg","png","jpeg"].some(type => type === extension);
-                       const isVideo = ["mp3","mp4"].some(type => type === extension);
-
+                       const extension = post.file.split(".").pop() || "";
+                       const isImg = ["jpg","png","jpeg"].includes(extension);
+                       const isVideo = ["mp3","mp4"].includes(extension);
+                       
                        return(
-                        <Link to="/profile" key={post._id}>
+                        <Link to={`/posts/${post._id}`} key={post._id}>
                           { isImg && <img width="100%" alt="post" height="200px" src={post.file}/>}
                           { isVideo && <ReactPlayer url={post.file} controls={true} style={{background:"black"}} width="100%" height="200px"/>}
                        </Link>

@@ -4,6 +4,15 @@ const Posts = require("../models/post.model");
 const cloudinary = require("../config/cloudinery.config");
 const {validationResult} = require("express-validator");
 
+const getPost = async(req, res) => {
+    const { postId } = req.params;
+    const post = await Posts.findById(postId).select({__v:0,updatedAt:0}).lean().populate({ path:"postedBy",select:"pic username fullname" });
+    if(!post){
+       return res.status(404).json({ message:"post not found" })
+    }
+    res.status(200).json({ post })
+}
+
 const getPosts = async(req, res) => {
     const { user:{ _id } } = req;
 
@@ -39,8 +48,8 @@ const getCommentsOfPost = async(req, res) => {
 const uploadPost = async(req,res) => {
     const {file,user:{ _id }} = req;
     const {caption} = req.body;
-    const extension = file.originalname.split('.').pop();
-    const isVideo = extension == "mp3" || extension == "mp4";
+    const extension = file.originalname.split('.').pop() || "";
+    const isVideo =["mp3","mp4"].includes(extension);
 
     try {
         const uploadResponse = await cloudinary.uploader.upload(file.path,{
@@ -88,8 +97,8 @@ const updateLikesOnPost = async(req,res) => {
           return res.status(422).json({ message:err.message})
        }
        if(post){
-          await post.execPopulate({path:"postedBy",select:"pic username fullname"})
-          return res.status(200).json({ post,message:"Post likes updated successfully" })
+          await post.execPopulate({path:"postedBy",select:"pic username fullname"});
+          return res.status(200).json({ post,message:"Post likes updated successfully" });
        }
    });
    
@@ -129,4 +138,4 @@ const updateCommentsOnPost = async(req,res) => {
     
 }
 
-module.exports = { checkPost,getPosts,getCommentsOfPost,uploadPost,updateLikesOnPost,updateCommentsOnPost };
+module.exports = { checkPost,getPost,getPosts,getCommentsOfPost,uploadPost,updateLikesOnPost,updateCommentsOnPost };

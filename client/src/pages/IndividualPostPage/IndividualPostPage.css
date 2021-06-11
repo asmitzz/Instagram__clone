@@ -1,0 +1,10 @@
+.individualPost{
+    width:70%;
+    margin:auto;
+}
+
+@media(max-width:700px){
+    .individualPost{
+        width:100%;
+    }
+}

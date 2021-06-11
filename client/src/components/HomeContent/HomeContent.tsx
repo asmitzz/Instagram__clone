@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../store/hooks";
-import Post from "../Post/Post";
+import Post from "../Post/PostCard";
 import ProfileBox from "./components/ProfileBox";
 import "./HomeContent.css";
 

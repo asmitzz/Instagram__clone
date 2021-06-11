@@ -47,6 +47,13 @@ export const commentPressed = createAsyncThunk<PostResponse,{token:string,commen
     return res.data;
 })
 
+export const fetchPost = createAsyncThunk<PostResponse,{token:string,postId:string}>("posts/fetchpost",async({token,postId}) => {
+    const res = await axios.get(`http://localhost:5000/posts/${postId}`,{
+         headers:{ authorization:`Bearer ${token}` }
+    });
+    return res.data;
+})
+
 const postsSlice = createSlice({
     name:"posts",
     initialState,

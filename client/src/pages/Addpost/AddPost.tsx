@@ -19,10 +19,10 @@ const AddPost = () => {
     const [processing,setProcessing] = useState<boolean>(false);
 
     const canSave = [post.caption,file].every(Boolean) && uploadPostStatus === "idle";
-    const isImg = post.extension.split('.').pop() === "jpg" || post.extension.split('.').pop() === "png" || post.extension.split('.').pop() === "jpeg";
-    const isVideo = post.extension.split('.').pop() === "mp3" || post.extension.split('.').pop() === "mp4";
+    const isImg =  ["jpg", "png","jpeg"].includes(post.extension);
+    const isVideo = ["mp3", "mp4"].includes(post.extension);
    
-    const {token} = useAppSelector(state => state.auth);
+    const { token } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +30,10 @@ const AddPost = () => {
         const {name,type,value,files} = e.target;
 
         if(type === "file" && files){
-            let extension =  files[0].name;
+            let extension = files[0].name.split('.').pop() || "";
+            let isExtensionValid = extension ? ["jpg", "png", "jpeg","mp3","mp4"].includes(extension) : false;
 
-            if(extension.split('.').pop() === "png" || extension.split('.').pop() === "jpeg" || extension.split('.').pop() === "jpg" || extension.split('.').pop() === "mp3" || extension.split('.').pop() === "mp4" ){
+            if(isExtensionValid){
                 const file = new FileReader();
                 file.readAsDataURL(files[0]);
                 file.onloadstart = () => {

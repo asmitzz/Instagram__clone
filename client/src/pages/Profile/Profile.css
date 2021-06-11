@@ -114,6 +114,10 @@
     padding:0 2rem;
 }
 
+.profile__container .profile__section .post__file{
+    object-fit:cover;
+}
+
 .profile__container .posts__section .section__1{
      display:flex;
      justify-content:space-around;

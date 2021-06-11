@@ -33,6 +33,7 @@ import Activity from "./pages/Activity/Activity";
 import EditProfile from "./pages/EditProfile/EditProfile";
 
 import "./App.css";
+import IndividualPostPage from "./pages/IndividualPostPage/IndividualPostPage";
 
 const App = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -103,6 +104,7 @@ const App = () => {
            { width < 700 && <Route path="/chats" element={<Chats/>}/>}
            { width < 700 && <Route path="/chats/:chatId" element={<UserChatsMobile/>}/>}
            <Route path="/post/add" element={<AddPost/>}/>
+           <Route path="/posts/:postId" element={<IndividualPostPage/>}/>
         </Routes>
        }
 

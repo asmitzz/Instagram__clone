@@ -1,13 +1,16 @@
 const express = require("express");
 const {check} = require("express-validator");
 const router = express.Router();
-const { checkPost,getPosts,getCommentsOfPost,uploadPost,updateLikesOnPost,updateCommentsOnPost } = require("../controllers/post.controllers");
+const { checkPost,getPost,getPosts,getCommentsOfPost,uploadPost,updateLikesOnPost,updateCommentsOnPost } = require("../controllers/post.controllers");
 
 router.param("postId",checkPost)
 
 router.route("/")
 .get(getPosts)
 .post(uploadPost);
+
+router.route("/:postId")
+.get(getPost);
 
 router.route("/:postId/like")
 .post(checkPost,updateLikesOnPost);

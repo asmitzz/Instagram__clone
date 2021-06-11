@@ -17,10 +17,10 @@ const PostCard = ({_id,file,postedBy,caption,comments,likes,createdAt}:Post) => 
     const { token } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
     const like = likes.find( uid => uid === userId );
-    const extension = file.split(".").pop();
+    const extension = file.split(".").pop() || "";
 
-    const isImg = extension?.split('.').pop() === "jpg" || extension?.split('.').pop() === "png" || extension?.split('.').pop() === "jpeg";
-    const isVideo = extension?.split('.').pop() === "mp3" || extension?.split('.').pop() === "mp4";
+    const isImg = ["jpg","png","jpeg"].includes(extension);
+    const isVideo = ["mp3","mp4"].includes(extension);
 
     const [comment,setComment] = useState<string>("");
 
