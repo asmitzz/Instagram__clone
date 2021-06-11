@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 let socket:any;
-let endpoint = "http://localhost:5000";
+let endpoint = "https://insta-clone-10062000.herokuapp.com";
 
 const UserChatsMobile = () => {
   

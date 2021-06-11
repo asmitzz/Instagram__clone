@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 
 let socket:any;
-let endpoint = "http://localhost:5000";
+let endpoint = "https://insta-clone-10062000.herokuapp.com/";
 
 const UserChatsDesktop = () => {
 

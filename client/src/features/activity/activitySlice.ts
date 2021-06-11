@@ -4,21 +4,21 @@ import { ActivityResponse,ActivityInitialState, ConfirmRequestResponse } from ".
 import axios from "axios";
 
 export const fetchActivity = createAsyncThunk<ActivityResponse,{token:string}>("activity/fetchactivity",async({token}) => {
-    const res = await axios.get("http://localhost:5000/activities",{
+    const res = await axios.get("https://insta-clone-10062000.herokuapp.com/activities",{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const confirmRequest = createAsyncThunk<ConfirmRequestResponse,{token:string,userId:string}>("activity/confirmrequest",async({token,userId}) => {
-    const res = await axios.post(`http://localhost:5000/activities/requests/${userId}`,{},{
+    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/activities/requests/${userId}`,{},{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const deleteRequest = createAsyncThunk<ActivityResponse,{token:string,userId:string}>("activity/deleterequest",async({token,userId}) => {
-    const res = await axios.delete(`http://localhost:5000/activities/requests/${userId}`,{
+    const res = await axios.delete(`https://insta-clone-10062000.herokuapp.com/activities/requests/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;

@@ -4,14 +4,14 @@ import { SavedPostsInitialState, SavedPostsResponse } from "./savedposts.types";
 import axios from "axios";
 
 export const fetchSavedPosts = createAsyncThunk<SavedPostsResponse,{token:string}>("savedposts/fetchsavedposts",async({token}) => {
-    const res = await axios.get("http://localhost:5000/savedposts",{
+    const res = await axios.get("https://insta-clone-10062000.herokuapp.com/savedposts",{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const savedPostPressed = createAsyncThunk<SavedPostsResponse,{token:string,postId:string}>("/savedposts/updatesavedposts",async({token,postId}) => {
-    const res = await axios.post(`http://localhost:5000/savedposts/${postId}`,{},{
+    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/savedposts/${postId}`,{},{
         headers:{ authorization:`Bearer ${token}` }
     });
     return res.data;

@@ -9,14 +9,14 @@ const initialState:PostsIntialState = {
 };
 
 export const fetchPosts = createAsyncThunk<PostData,{token:string}>("posts/fetchPosts",async({token}) => {
-    const res = await axios.get("http://localhost:5000/posts",{
+    const res = await axios.get("https://insta-clone-10062000.herokuapp.com/posts",{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const fetchComments = createAsyncThunk<{post:PostWithPopulateComment},{token:string,postId:string}>("posts/fetchcomments",async({token,postId},thunkApi) => {
-    const res = await axios.get(`http://localhost:5000/posts/${postId}/comment`,{
+    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/posts/${postId}/comment`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
@@ -27,28 +27,28 @@ export const uploadPost = createAsyncThunk<PostResponse,UploadPostData>("posts/u
           formData.append("file",file);
           formData.append("caption",caption);
 
-    const res = await axios.post("http://localhost:5000/posts",formData,{
+    const res = await axios.post("https://insta-clone-10062000.herokuapp.com/posts",formData,{
             headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const likePressed = createAsyncThunk<PostResponse,{token:string,postId:string}>("posts/likepressed",async({token,postId}) => {
-    const res = await axios.post(`http://localhost:5000/posts/${postId}/like`,{},{
+    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/posts/${postId}/like`,{},{
          headers:{ authorization:`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const commentPressed = createAsyncThunk<PostResponse,{token:string,comment:string,postId:string}>("posts/commentpressed",async({token,comment,postId}) => {
-    const res = await axios.post(`http://localhost:5000/posts/${postId}/comment`,{comment},{
+    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/posts/${postId}/comment`,{comment},{
          headers:{ authorization:`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const fetchPost = createAsyncThunk<PostResponse,{token:string,postId:string}>("posts/fetchpost",async({token,postId}) => {
-    const res = await axios.get(`http://localhost:5000/posts/${postId}`,{
+    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/posts/${postId}`,{
          headers:{ authorization:`Bearer ${token}` }
     });
     return res.data;

@@ -25,35 +25,35 @@ const initialState:InitialProfileState = {
 }
 
 export const fetchProfile = createAsyncThunk<ProfileData,{token:string}>("profile/fetchprofile",async({token}) => {
-    const res = await axios.get("http://localhost:5000/profile",{
+    const res = await axios.get("https://insta-clone-10062000.herokuapp.com/profile",{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const fetchViewProfile = createAsyncThunk<ViewProfileData,{token:string,userId:string}>("profile/fetchprofile",async({token,userId}) => {
-    const res = await axios.get(`http://localhost:5000/profile/${userId}`,{
+    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/profile/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const fetchFollowers = createAsyncThunk<FollowersResponse,{token:string,userId:string}>("profile/fetchfollowers",async({token,userId}) => {
-    const res = await axios.get(`http://localhost:5000/connections/followers/${userId}`,{
+    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/connections/followers/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const fetchFollowing = createAsyncThunk<FollowingResponse,{token:string,userId:string}>("profile/fetchfollowing",async({token,userId}) => {
-    const res = await axios.get(`http://localhost:5000/connections/following/${userId}`,{
+    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/connections/following/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const updateConnections = createAsyncThunk<UpdateConnectionsResponse,{token:string,userId:string}>("profile/updateconnections",async({token,userId}) => {
-    const res = await axios.post(`http://localhost:5000/connections/${userId}`,{},{
+    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/connections/${userId}`,{},{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
@@ -70,7 +70,7 @@ export const updateProfile = createAsyncThunk<{profile:Profile},{token:string,da
     formData.append("data",profile);
     
     try {
-        const res = await axios.post(`http://localhost:5000/profile/update`,formData,{
+        const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/profile/update`,formData,{
             headers:{ "Authorization":`Bearer ${token}` }
        });
        return res.data;

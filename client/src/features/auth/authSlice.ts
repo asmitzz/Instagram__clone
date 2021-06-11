@@ -17,7 +17,7 @@ const initialState:AuthState = user && user.token ? user : {
 
 export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState,thunkApi) => {
         try {
-            const res = await axios.post<{success:boolean}>("http://localhost:5000/signup",state);
+            const res = await axios.post<{success:boolean}>("https://insta-clone-10062000.herokuapp.com/signup",state);
             return res.data;
         } catch (error) {
             if(error.response.status === 422){
@@ -29,7 +29,7 @@ export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState
 
 export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,thunkApi) => {
     try {
-        const res = await axios.post<AuthResponse>("http://localhost:5000/signin",state);
+        const res = await axios.post<AuthResponse>("https://insta-clone-10062000.herokuapp.com/signin",state);
         return res.data;
     } catch (error) {
         if(error.response.status === 401){
@@ -40,7 +40,7 @@ export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,th
 })
 
 export const checkAuth = createAsyncThunk("auth/checkauth",async(token:string) => {
-       const res = await axios.get<AuthResponse>("http://localhost:5000/protected",{headers:{ authorization:`Bearer ${token}` }});
+       const res = await axios.get<AuthResponse>("https://insta-clone-10062000.herokuapp.com/protected",{headers:{ authorization:`Bearer ${token}` }});
        return res.data;
 })
 
