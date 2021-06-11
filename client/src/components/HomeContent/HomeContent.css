@@ -21,7 +21,7 @@
 }
 
 .home__content .right__section .profile__box{
-   background:var(--primary-text-color);
+   background:var(--primary-color);
    height:82vh;
    border-radius:15px;
    box-shadow:4px 4px 10px var(--tertiary-color-shade-2),-4px -4px 10px var(--tertiary-color-shade-2);
@@ -43,9 +43,10 @@
     flex-direction:column;
     text-align:center;
     margin:1rem 0;
-    font-weight:500;
-    color:var(--primary-color);
-    border: 2px solid var(--tertiary-color);
+    font-weight:600;
+    color:var(--primary-text-color);
+    background:var(--secondary-color);
+    border:1px solid var(--tertiary-color);
     box-sizing: border-box;
     padding:1rem;
     border-radius:15px;
@@ -54,7 +55,7 @@
 }
 
 .home__content .profile__box .profile__detail:hover{
-    opacity:0.5;
+    opacity:0.7;
 }
 
 .home__content .right__section .avatar{
@@ -65,14 +66,16 @@
     align-items:center;
     justify-content:center;
     text-decoration:none;
-    background-color:#1e1e1e;
+    background:var(--secondary-color);
     border-radius:15px;
+    border-bottom: 2px solid var(--tertiary-color-shade-2);
 }
 
 .home__content .right__section .avatar__img{
     border-radius:50%;
     height:80px;
     width:80px;
+    object-fit:cover;
     margin-top:1rem;
 }
 
@@ -80,7 +83,7 @@
    font-size:0.9rem;
    margin-top:0.3rem;
    display:block;
-   color:var(--primary-color);
+   color:var(--primary-text-color);
    font-weight:600;
 }
 

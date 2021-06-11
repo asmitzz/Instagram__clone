@@ -20,25 +20,29 @@ export type Connection = {
     following:string[];
 }
 
+export type Profile = {
+    _id:string;
+    pic:string;
+    username:string;
+    fullname:string;
+    bio:string;
+    website:string;
+    gender:string;
+    private:boolean;
+    email:string;
+}
+
 export type InitialProfileState = {
+    profile:Profile;
     userposts:Post[];
     connections:Connection;
     status:Status;
 }
 
 export type ProfileData = {
+    profile:Profile;
     userposts:Post[];
     connections:Connection;
-}
-
-export type UserProfile = {
-    _id:string;
-    username:string;
-    fullname:string;
-    pic:string;
-    website:string;
-    bio:string;
-    private:boolean;
 }
 
 export type Post = {
@@ -54,7 +58,7 @@ export type UserActivity = {
 export type ViewProfileData = {
     userposts:Post[];
     connections:Connection;
-    profile:UserProfile;
+    profile:Profile;
     activities:UserActivity;
 }
 

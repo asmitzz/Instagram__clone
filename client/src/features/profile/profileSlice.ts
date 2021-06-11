@@ -1,9 +1,21 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Connection, FollowersResponse, FollowingResponse, InitialProfileState, ProfileData, UpdateConnectionsResponse, ViewProfileData } from "./profileSlice.types";
+import { Connection, FollowersResponse, FollowingResponse, InitialProfileState, Profile, ProfileData, UpdateConnectionsResponse, ViewProfileData } from "./profileSlice.types";
 
 import axios from "axios";
+import { ServerError } from "../../generic.types";
 
 const initialState:InitialProfileState = {
+    profile:{
+        _id:"",
+        pic:"",
+        username:"",
+        fullname:"",
+        bio:"",
+        website:"",
+        gender:"",
+        private:false,
+        email:""
+    },
     userposts:[],
     connections:{
         followers:[],
@@ -47,6 +59,29 @@ export const updateConnections = createAsyncThunk<UpdateConnectionsResponse,{tok
     return res.data;
 });
 
+export const updateProfile = createAsyncThunk<{profile:Profile},{token:string,data:Profile,file:File|null}>("profile/update",async({token,data,file},thunkApi) => {
+    
+    const profile = JSON.stringify(data)
+    
+    const formData = new FormData();
+    if(file){
+       formData.append("file",file);
+    }
+    formData.append("data",profile);
+    
+    try {
+        const res = await axios.post(`http://localhost:5000/profile/update`,formData,{
+            headers:{ "Authorization":`Bearer ${token}` }
+       });
+       return res.data;
+     } catch (error) {
+        if(error.response.status === 422){
+            return thunkApi.rejectWithValue(error.response.data as ServerError);
+         }
+         return thunkApi.rejectWithValue({ message:"something went wrong" });
+     }
+});
+
 const profileSlice = createSlice({
     name:"profile",
     initialState,
@@ -63,11 +98,17 @@ const profileSlice = createSlice({
             state.status = "failed";
         })
         builder.addCase(fetchProfile.fulfilled,(state:InitialProfileState,action:PayloadAction<ProfileData>) => {
+             const {userposts,profile,connections} = action.payload;
+           
+             state.profile = profile;
+             state.connections = connections;
+             state.userposts = userposts;
              state.status = "succeeded";
-             state.connections = action.payload.connections;
-             state.userposts = action.payload.userposts;
         })
 
+        builder.addCase(updateProfile.fulfilled,(state:InitialProfileState,action:PayloadAction<{profile:Profile}>) => {
+            state.profile = action.payload.profile
+        })
     }
 })
 

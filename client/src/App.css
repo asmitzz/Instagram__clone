@@ -30,13 +30,15 @@ body{
 }
 
 .invalid__feedback,.valid__feedback{
-    padding:0.5rem;
     box-sizing:border-box;
+    padding:1rem;
     animation:toast 0.3s 1 linear;
     position:fixed;
-    top:4rem;
-    border-radius:3px;
-    right:1rem;
+    bottom:0;
+    left:0;
+    width:100%;
+    font-size:0.9rem;
+    font-weight:500;
 }
 
 .invalid__feedback{
@@ -46,12 +48,19 @@ body{
 
 .valid__feedback{
     color:var(--secondary-color);
-    background:var(--success-color);
+    background:var(--primary-btn-color);
+}
+
+@media(max-width:550px){
+.invalid__feedback,.valid__feedback{
+    bottom:2.5rem;
+    padding:0.8rem;
+}
 }
 
 @keyframes toast{
     from{
-        transform:translateX(100%);
+        transform:translateY(100%);
     }
     to{
         transform:translateX(0);
@@ -100,3 +109,33 @@ body{
         transform:rotate(360deg);
     }
 }
+
+/* popup */
+.popup__container{
+    background:var(--primary-color);
+    position:fixed;
+    top:30%;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    border-radius:15px;
+    z-index:2;
+    width:300px;
+}
+
+.popup__heading{
+     color:var(--primary-text-color);
+     padding:2rem;
+}
+
+.popup__options{
+    background:var(--primary-color);
+    border:none;
+    border-top:1px solid var(--tertiary-color);
+    border-bottom:1px solid var(--tertiary-color);
+    padding:1rem 4rem;
+    cursor:pointer;
+}
+/* popup */

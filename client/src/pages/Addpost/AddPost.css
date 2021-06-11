@@ -36,7 +36,7 @@
     border:none;
     background:none;
     top:-1.5rem;
-    right:-1.5rem;
+    right:0;
     font-size:1.2rem;
     color:var(--danger-color);
     cursor:pointer;

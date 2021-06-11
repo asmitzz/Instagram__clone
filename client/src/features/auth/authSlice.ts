@@ -3,13 +3,16 @@ import axios from "axios";
 import { LoginState } from "../../auth/login/Login.types";
 import { SignupState } from "../../auth/signup/signup.types";
 import { ServerError } from "../../generic.types";
-import { AuthState,AuthResponse, User } from "./authSlice.types";
+import { AuthState,AuthResponse } from "./authSlice.types";
 
 let user:AuthState = JSON.parse(localStorage?.getItem("token")||"{}")
   
 const initialState:AuthState = user && user.token ? user : {
     token:"",
-    login:false
+    login:false,
+    user:{
+        _id:""
+    }
 }
 
 export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState,thunkApi) => {
@@ -41,13 +44,6 @@ export const checkAuth = createAsyncThunk("auth/checkauth",async(token:string) =
        return res.data;
 })
 
-export const updateUser = createAsyncThunk<AuthResponse,{token:string,data:User}>("auth/userupdate",async({token,data}) => {
-    const res = await axios.post(`http://localhost:5000/users`,data,{
-         headers:{ "Authorization":`Bearer ${token}` }
-    });
-    return res.data;
-});
-
 export const authSlice = createSlice({
     name:"auth",
     initialState,
@@ -77,17 +73,6 @@ export const authSlice = createSlice({
             localStorage.setItem("token",JSON.stringify({token,login:true}));
         }
        })
-
-       builder.addCase(updateUser.fulfilled,(state:AuthState,action:PayloadAction<AuthResponse|ServerError>) => {
-        if("token" in action.payload){
-            const { token,login,user } = action.payload;
-            state.token = token;
-            state.login = login;
-            state.user = user;
-            localStorage.setItem("token",JSON.stringify({token,login:true}));
-        }
-       })
-
     }
 });
 

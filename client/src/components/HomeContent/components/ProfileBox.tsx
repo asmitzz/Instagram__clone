@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../store/hooks";
 
 const ProfileBox = () => {
-  const user = useAppSelector(state => state.auth.user);
+  const user = useAppSelector(state => state.profile.profile);
   const profile = useAppSelector(state => state.profile)
   
   return (

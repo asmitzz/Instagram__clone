@@ -27,9 +27,9 @@ const AddPost = () => {
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setExtensionErr(false)
-        const {name,value,files} = e.target;
+        const {name,type,value,files} = e.target;
 
-        if(name === "src" && files){
+        if(type === "file" && files){
             let extension =  files[0].name;
 
             if(extension.split('.').pop() === "png" || extension.split('.').pop() === "jpeg" || extension.split('.').pop() === "jpg" || extension.split('.').pop() === "mp3" || extension.split('.').pop() === "mp4" ){

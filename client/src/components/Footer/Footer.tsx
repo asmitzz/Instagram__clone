@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
 import "./Footer.css";
 
 const Footer = () => {
+    const { profile } = useAppSelector(state => state.profile);
+
     return (
         <footer className="footer">
               <NavLink end to="/" className="nav__link" activeClassName="active__link">
@@ -25,7 +28,7 @@ const Footer = () => {
 
               <NavLink to="/profile">
                   <div className="avatar">
-                     <img className="avatar" alt="profile" src="https://media-exp1.licdn.com/dms/image/C4D03AQF8NZtG5CKsdg/profile-displayphoto-shrink_400_400/0/1619208093598?e=1627516800&v=beta&t=QfZr3d6rNxivr6T4Sda9R2TuaImCSEQ7tvHRyM6Xe5g"/>
+                     <img className="avatar" alt="profile" src={profile.pic}/>
                   </div>
               </NavLink>
         </footer>

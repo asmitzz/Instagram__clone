@@ -15,7 +15,7 @@ const Header = () => {
      setToggleDropbox(state => !state)
   }
 
-  const { user } = useAppSelector(state => state.auth)
+  const { profile } = useAppSelector(state => state.profile);
 
   return (
         <div className="header">
@@ -57,7 +57,7 @@ const Header = () => {
               </button>
 
               <button className="profile__btn" onClick={handleProfile}>
-                  <img className="profile__icon" alt="profile" src={user?.pic}/>
+                  <img className="profile__icon" alt="profile" src={profile.pic}/>
               </button>
 
               {toggleDropbox && <DropBox toggle={setToggleDropbox}/>}

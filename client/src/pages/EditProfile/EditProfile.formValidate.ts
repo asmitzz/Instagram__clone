@@ -1,8 +1,8 @@
 import { Dispatch,SetStateAction } from "react";
-import { User } from "../../features/auth/authSlice.types";
+import { Profile } from "../../features/profile/profileSlice.types";
 import { EditProfileErrors } from "./EditProfile";
 
-export const formValidate = (state:User,setError:Dispatch<SetStateAction<EditProfileErrors>>):void => {
+export const formValidate = (state:Profile,setError:Dispatch<SetStateAction<EditProfileErrors>>):void => {
     let username = false,fullname = false,email = false;
 
     if(!/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(state.email)){

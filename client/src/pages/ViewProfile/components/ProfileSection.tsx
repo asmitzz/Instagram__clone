@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UpdateConnections, updateConnections } from "../../../features/profile/profileSlice";
-import { Connection, UserActivity, UserProfile, ViewProfileData } from "../../../features/profile/profileSlice.types";
+import { Connection, UserActivity, Profile, ViewProfileData } from "../../../features/profile/profileSlice.types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchChats,createChat } from "../../../features/chats/chatsSlice";
@@ -12,7 +12,7 @@ type Post = {
 }
 
 type ProfileSectionProps = {
-    profile:UserProfile;
+    profile:Profile;
     posts:Post[];
     connections:Connection;
     activities:UserActivity;

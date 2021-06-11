@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { User } from "../../features/auth/authSlice.types";
+import { formValidate } from "./EditProfile.formValidate";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Profile } from "../../features/profile/profileSlice.types";
+import { updateProfile } from "../../features/profile/profileSlice";
 
 import Input from "../../utils/form/Input/Input";
+
 import "./EditProfile.css";
-import { formValidate } from "./EditProfile.formValidate";
-import { updateUser } from "../../features/auth/authSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
+import { Status } from "../../generic.types";
+import Backdrop from "../../utils/Backdrop/Backdrop";
 
 export type EditProfileErrors = {
     username:boolean;
@@ -16,18 +19,18 @@ export type EditProfileErrors = {
 }
 
 const EditProfile = () => {
-    const user = useAppSelector(state => state.auth.user);
+    const profile = useAppSelector(state => state.profile.profile);
     const dispatch = useAppDispatch();
 
     const token = useAppSelector(state => state.auth.token);
 
     useEffect(() => {
-       if(user){
-         setData(user)
+       if(profile){
+         setData(profile)
        }
-    },[user])
+    },[profile])
     
-    const [data,setData] = useState<User>({
+    const [data,setData] = useState<Profile>({
         _id:"",
         username:"",
         fullname:"",
@@ -46,35 +49,88 @@ const EditProfile = () => {
         disabled:true
     }); 
 
+    const [status,setStatus] = useState<Status>("idle");
+    const [errorMsg,setErrorMsg] = useState<string>("");
+    const [popup,setPopup] = useState<boolean>(false);
+    const [file,setFile] = useState<File|null>(null);
+
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        const { name,value } = e.target;
+        const { name,value,type,files } = e.target;
         if(name === "private"){
             setData( state => ({...state,[name]:value === "yes" ? true : false}) )
             formValidate({...data,[name]:value === "yes" ? true : false},setError)
             return
         }
+        if(type === "file" && files){
+            let extension =  files[0].name;
+            let isValidExtension = extension.split('.').pop() === "png" || extension.split('.').pop() === "jpeg" || extension.split('.').pop() === "jpg";
+ 
+            if(isValidExtension){
+                const file = new FileReader();
+                file.readAsDataURL(files[0]);
+                file.onloadend = () => {
+                    setFile(files[0]);
+                    setData(state => ({ ...state,[name]:file.result }));
+                }
+                setPopup(false)
+                setError(state => ({ ...state,disabled:false}))
+            }
+            else{
+                setStatus("failed");
+                setErrorMsg("Invalid image");
+                setTimeout(() => {
+                    setStatus("idle");
+                },2000)
+                setPopup(false)
+            }
+            return;
+         }
+
         setData( state => ({...state,[name]:value}) )
         formValidate({...data,[name]:value},setError)
     }
 
-    const handleSubmit = () => {
-        dispatch(updateUser({token,data}))
-        .then(unwrapResult)
-        .then((originalPromiseResult) => {
-            console.log(originalPromiseResult.user);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+    const handleSubmit = async() => {
+        try {
+        setStatus("pending");
+        const resultAction = await dispatch(updateProfile({token,data,file}));
+        unwrapResult(resultAction);
+        setStatus("succeeded");
+        } catch (error) {
+            setStatus("failed");
+            setErrorMsg(error.message);
+        }
+        finally{
+            setError({ username:false,fullname:false,email:false,disabled:true })
+            setTimeout(() => {
+               setStatus("idle")
+            },2000)
+        }
     }
     
     return (
         <div className="edit__profile">
+           { popup && 
+              <Backdrop toggle={setPopup} className="editprofile__backdrop"/>
+           }
+
+           {  popup && 
+                 <div className="popup__container">
+                      <h4 className="popup__heading">Change Profile Photo</h4>
+                      <div className="upload__btn__container">
+                         <input type="file" name="pic" accept=".png,.jpg,.jpeg" className="uploadfile" onChange={handleChange}/>
+                         <div className="popup__options upload__btn">Upload Photo</div>
+                      </div>
+                      <button className="popup__options cancel__btn" onClick={() => setPopup(false)}>Cancel</button>
+                  </div>
+            }
+
+
            <section className="section__1">
                <img src={data?.pic} alt="pic" className="userPic"/>
                <div className="username__container">
                    <div className="username">{data.username}</div>
-                   <button className="change__pic__btn">Change Profile Photo</button>
+                   <button className="change__pic__btn" onClick={() => setPopup(true)}>Change Profile Photo</button>
                </div>
            </section>
 
@@ -97,9 +153,12 @@ const EditProfile = () => {
                  <input type="radio" className="radio__input" onChange={handleChange} checked={!data.private} name="private" value="no"/>no
                </label>
 
-               <button className="submit__btn" onClick={handleSubmit} disabled={error.disabled}>Submit</button>
+               <button className="submit__btn" onClick={handleSubmit} disabled={error.disabled || status === "pending"}>{ status === "pending" ? "Saving..." : "Submit"}</button>
                
            </section>
+
+           { status === "succeeded" && <div className="valid__feedback">Profile saved.</div>}
+           { status === "failed" && <div className="invalid__feedback">{errorMsg}</div>}
         </div>
     );
 };
