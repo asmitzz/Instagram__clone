@@ -86,7 +86,9 @@ const UserChatsDesktop = () => {
                  {
                     chat?.messages.map(message => message?.user?._id !== userId ? (
                       <div className="received" key={message?._id}>
-                        <img width="30px" className="user__pic" alt="users" height="30px" src={message?.user?.pic}/>
+                        <Link to={`/viewprofile/${user?._id}`}>
+                           <img width="30px" className="user__pic" alt="users" height="30px" src={message?.user?.pic}/>
+                        </Link>
                         <p className="received__message">
                            {message?.text}
                         </p>

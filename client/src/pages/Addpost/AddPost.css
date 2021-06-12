@@ -83,3 +83,9 @@
         width:50%;
     }
 }
+
+@media(max-width:550px){
+.addpost__container{
+    padding:6rem 0;
+}
+}

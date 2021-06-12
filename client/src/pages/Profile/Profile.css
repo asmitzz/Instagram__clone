@@ -20,7 +20,7 @@
 .profile__container .profile__avatar{
     width:150px;
     height:150px;
-    object-fit:cover;
+    
     border-radius:50%;
 }
 
@@ -114,10 +114,6 @@
     padding:0 2rem;
 }
 
-.profile__container .profile__section .post__file{
-    object-fit:cover;
-}
-
 .profile__container .posts__section .section__1{
      display:flex;
      justify-content:space-around;
@@ -147,8 +143,10 @@
 
 .profile__container .posts__section .section__2{
     display:grid;
-    grid-template-columns:1fr 1fr 1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap:1.5rem;
+    justify-content:center;
+    align-items:center;
 }
 
 @media(max-width:1000px){

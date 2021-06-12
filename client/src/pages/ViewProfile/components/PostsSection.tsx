@@ -31,8 +31,8 @@ const PostsSection = ({posts,accountPrivate,isYouFollowingUser}:PostsSectionProp
                        const isVideo = ["mp3","mp4"].includes(extension);
                        return(
                         <Link to={`/posts/${post._id}`} key={post._id}>
-                          { isImg && <img width="100%" className="post__file" alt="post" height="200px" src={post.file}/>}
-                          { isVideo && <ReactPlayer url={post.file} width="100%" height="200px"/>}
+                          { isImg && <img width="100%" className="post__file" alt="post" height="auto" src={post.file}/>}
+                          { isVideo && <ReactPlayer url={post.file} width="100%" height="auto"/>}
                        </Link>
                        )
                     })

@@ -77,7 +77,7 @@
 .header .profile__icon{
     width:20px;
     height:20px;
-    object-fit:cover;
+    
     border-radius:50%;
     border:1px solid var(--primary-text-color);
 }

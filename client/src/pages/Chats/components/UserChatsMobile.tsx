@@ -5,6 +5,7 @@ import { Chat } from "../../../features/chats/chatsSlice.types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import io from "socket.io-client";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { Link } from "react-router-dom";
 
 let socket:any;
 let endpoint = "https://insta-clone-10062000.herokuapp.com";
@@ -85,7 +86,9 @@ const UserChatsMobile = () => {
                  {
                     chat?.messages.map(message => message?.user?._id !== userId ? (
                       <div className="received" key={message?._id}>
-                        <img width="30px" className="user__pic" alt="users" height="30px" src={message?.user?.pic}/>
+                        <Link to={`/viewprofile/${user?._id}`}>
+                           <img width="30px" className="user__pic" alt="users" height="30px" src={message?.user?.pic}/>
+                        </Link>
                         <p className="received__message">
                            {message?.text}
                         </p>

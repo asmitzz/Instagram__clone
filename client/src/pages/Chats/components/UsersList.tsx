@@ -13,9 +13,9 @@ const UsersList = () => {
   return (
     <div className="userslist">
       <header className="userslist__header">{username}</header>
-      <div className="userslist__search__bar">
+      {/* <div className="userslist__search__bar">
         <input className="search__input" placeholder="Search" />
-      </div>
+      </div> */}
 
       {filteredChats.map((chat) => {
         const user = chat.users.find( user => user._id !== userId )

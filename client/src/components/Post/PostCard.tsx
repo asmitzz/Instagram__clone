@@ -40,8 +40,8 @@ const PostCard = ({_id,file,postedBy,caption,comments,likes,createdAt}:Post) => 
                 <div className="options">...</div>
             </div>
 
-            {isImg && <img alt="pic" width="100%" style={{ maxHeight:"700px" }} height="auto" src={file}/>}
-            {isVideo && <ReactPlayer controls={true} url={file} width="100%" style={{ maxHeight:"700px" }} height="auto"/>}
+            {isImg && <img alt="pic" width="100%" height="auto" src={file}/>}
+            {isVideo && <ReactPlayer controls={true} url={file} width="100%" height="auto"/>}
             
             <div className="post__footer">
                 <PostIcons postId={_id} like={like ? true : false}/>

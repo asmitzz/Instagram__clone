@@ -32,8 +32,8 @@ const PostsSection = () => {
                        
                        return(
                         <Link to={`/posts/${post._id}`} key={post._id}>
-                          { isImg && <img width="100%" alt="post" height="200px" src={post.file}/>}
-                          { isVideo && <ReactPlayer url={post.file} controls={true} style={{background:"black"}} width="100%" height="200px"/>}
+                          { isImg && <img width="100%" alt="post" height="auto" src={post.file}/>}
+                          { isVideo && <ReactPlayer url={post.file} controls={true} style={{background:"black"}} width="100%" height="auto"/>}
                        </Link>
                        )
                     })

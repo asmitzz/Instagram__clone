@@ -114,7 +114,9 @@
    max-height:80vh;
    min-height:80vh;
    background:var(--secondary-color);
-
+   display:flex;
+   flex-direction:column;
+   justify-content:flex-end;
 }
 
 .userchats .typing{

@@ -34,6 +34,8 @@ const Activity = () => {
 
     return (
         <div className="activity">
+            { status !== "succeeded" && <div className="spinner__container"> <Spinner/> </div>} 
+
             <h4 className="activity__heading">Activity</h4>
 
             {
@@ -70,7 +72,6 @@ const Activity = () => {
                 )}).reverse()
             }
             
-            { status !== "succeeded" && <div className="spinner__container"> <Spinner/> </div>} 
         </div>
     );
 };

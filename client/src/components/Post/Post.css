@@ -11,6 +11,9 @@
 @media(max-width:600px){
   .left__section .post{
     margin-bottom:1rem;
+    border:none;
+    border-top:1px solid var(--tertiary-color);
+    border-bottom:1px solid var(--tertiary-color);
   }
 }
 
@@ -32,7 +35,7 @@
     width:30px;
     border-radius:50%;
     height:30px;
-    object-fit:cover;
+    
     cursor:pointer;
 }
 
