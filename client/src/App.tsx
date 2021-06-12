@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useAppSelector,useAppDispatch } from "./store/hooks";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
 import ScrollToTop from "./utils/custom-hooks/ScrollToTop";
+import Spinner from "./utils/Spinner/Spinner";
 
 import { checkAuth } from "./features/auth/authSlice";
 import { fetchPosts } from "./features/posts/postsSlice";
@@ -34,13 +35,12 @@ import EditProfile from "./pages/EditProfile/EditProfile";
 
 import "./App.css";
 import IndividualPostPage from "./pages/IndividualPostPage/IndividualPostPage";
+import { Status } from "./generic.types";
 
 const App = () => {
   const auth = useAppSelector((state) => state.auth);
-  const postsRequestStatus = useAppSelector(state => state.posts.status);
-  const savedpostsRequestStatus = useAppSelector(state => state.savedposts.status);
-  const profileRequestStatus = useAppSelector(state => state.profile.status);
-  
+
+  const [status,setStatus] = useState<Status>("idle");  
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
   const path = useLocation().pathname;
@@ -48,40 +48,35 @@ const App = () => {
   const { token,login } = auth;
 
   useEffect(() => {
-        if(token){
-             dispatch(checkAuth(token));
-        }
-  },[token,dispatch]);
-
-  useEffect(() => {
-    if(postsRequestStatus === "idle" && token){
-        dispatch(fetchPosts({token}));
-    }
+    console.log("As");
     
- },[postsRequestStatus,token,dispatch])
+    (async function(){
+       try {
+         if(status === "idle" && token){
+           await Promise.all([dispatch(checkAuth(token)),dispatch(fetchPosts({token})),dispatch(fetchSavedPosts({token})),dispatch(fetchProfile({token}))])
+           setStatus("succeeded")
+         }
+       } catch (error) {
+           setStatus("failed");
+           setTimeout(() => {
+             setStatus("idle");
+             localStorage.removeItem("token");
+           },2000)
+       }
+    })()
+ },[status,token,dispatch])
 
- useEffect(() => {
-     if(savedpostsRequestStatus === "idle" && token){
-         dispatch(fetchSavedPosts({token}));
-      }
- },[savedpostsRequestStatus,token,dispatch])
-
- useEffect(() => {
-     if(profileRequestStatus === "idle" && token){
-         dispatch(fetchProfile({token}))
-     }
- },[dispatch,profileRequestStatus,token])
-  
   return (
     <div>
-       { login && <Header/>}
-       { path !== "/" && <ScrollToTop/>}
        { !login ? 
        <Routes>
            <Route path="/" element={<Login/>}/>
            <Route path="/signup" element={<Signup/>}/>
        </Routes>
         :
+        ( status === "succeeded" ? <>
+        <Header/>
+        { path !== "/" && <ScrollToTop/>}
         <Routes>
            <Route path="/" element={<Home/>}/>
            <Route path="/profile" element={<Profile/>}>
@@ -106,9 +101,12 @@ const App = () => {
            <Route path="/post/add" element={<AddPost/>}/>
            <Route path="/posts/:postId" element={<IndividualPostPage/>}/>
         </Routes>
+        <Footer/>
+        </> : <div className="spinner__container"> <Spinner/> </div> )
        }
 
-      { login && <Footer/>}
+       { status === "failed" && <div className="invalid__feedback">Something went wrong !! please try again later</div> }
+
     </div>
   );
 };

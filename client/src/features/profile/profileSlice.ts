@@ -31,7 +31,7 @@ export const fetchProfile = createAsyncThunk<ProfileData,{token:string}>("profil
     return res.data;
 });
 
-export const fetchViewProfile = createAsyncThunk<ViewProfileData,{token:string,userId:string}>("profile/fetchprofile",async({token,userId}) => {
+export const fetchViewProfile = createAsyncThunk<ViewProfileData,{token:string,userId:string}>("profile/fetchviewprofile",async({token,userId}) => {
     const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/profile/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });

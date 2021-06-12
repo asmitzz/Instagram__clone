@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostWithPopulateComment } from "../../features/posts/posts.types";
 import { fetchComments } from "../../features/posts/postsSlice";
+import { Status } from "../../generic.types";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
+import Spinner from "../../utils/Spinner/Spinner";
 import { timestamp } from "../../utils/timestamp/timestamp";
 import "./Comments.css";
 
@@ -13,7 +15,9 @@ const Comments = () => {
     const dispatch = useAppDispatch();
     const { postId } = useParams();
     const { token } = useAppSelector(state => state.auth);
+
     const [data,setData] = useState<PostWithPopulateComment|null>(null);
+    const [status,setStatus] = useState<Status>("idle");
     const time = data?.createdAt ? timestamp(new Date(data?.createdAt)) : 0;
     const navigate = useNavigate();
 
@@ -24,12 +28,14 @@ const Comments = () => {
                 .then(unwrapResult)
                 .then(originalPromiseResult => {
                     setData(originalPromiseResult.post)
+                    setStatus("succeeded")
                 })
           }})()
     },[dispatch,token,postId,mountedRef])
 
     return (
         <div className="comments__container">
+           { status === "succeeded" &&  <>
             <div className="comments__header">
                 <button className="backBtn" onClick={() => navigate(-1)}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
                 <h3>Comments</h3>
@@ -49,6 +55,8 @@ const Comments = () => {
                     </div>
                 </div>
             </div>
+            </>
+            }
 
             {
                 data?.comments.map( comment => {
@@ -72,6 +80,12 @@ const Comments = () => {
                     </div>
                 )})
             }
+
+            { status !== "succeeded" && 
+              <div className="spinner__container">
+                  <Spinner/>
+              </div>
+            }       
 
         </div>
     );

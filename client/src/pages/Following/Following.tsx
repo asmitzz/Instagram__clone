@@ -3,18 +3,24 @@ import { useEffect, useState } from "react";
 import { Link,useParams } from "react-router-dom";
 import { fetchFollowing } from "../../features/profile/profileSlice";
 import { FollowersOrFollowing } from "../../features/profile/profileSlice.types";
+import { Status } from "../../generic.types";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import Spinner from "../../utils/Spinner/Spinner";
 
 const Following = () => {
     const [following,setFollowing] = useState<FollowersOrFollowing[]>([]);
     const dispatch = useAppDispatch();
     const token = useAppSelector(state => state.auth.token);
     const userId = useParams().userId;
+    const [status,setStatus] = useState<Status>("idle");
 
     useEffect(() => {
       dispatch(fetchFollowing({token,userId}))
      .then(unwrapResult)
-     .then( originalPromiseResult => setFollowing(originalPromiseResult.following) )
+     .then( originalPromiseResult => {
+       setFollowing(originalPromiseResult.following)
+       setStatus("succeeded")
+      } )
     },[token,userId,dispatch]);
 
     return (
@@ -35,7 +41,8 @@ const Following = () => {
               ) )
             }
 
-           { following.length === 0 && <p className="no__followers__found">No following found</p> }
+           { following.length === 0 && status === "succeeded" && <p className="no__followers__found">No following found</p> }
+           { status !== "succeeded" && <div className="spinner__container"> <Spinner/> </div>} 
         </div>
     );
 };

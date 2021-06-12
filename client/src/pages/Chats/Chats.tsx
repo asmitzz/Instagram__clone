@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchChats } from "../../features/chats/chatsSlice";
+import Spinner from "../../utils/Spinner/Spinner";
 import "./Chats.css";
 
 const Chats = () => {
@@ -17,10 +18,17 @@ const Chats = () => {
       }, [status,dispatch,token]);
     return (
         <div className="chats__box">
-             <div className="chats__container">
-                 <UsersList/>
-                 <Outlet/>
-             </div>
+             { status === "succeeded" && 
+               <div className="chats__container">
+                  <UsersList/>
+                  <Outlet/>
+               </div> 
+             }
+             { status !== "succeeded" && 
+               <div className="spinner__container">
+                  <Spinner/>
+               </div>
+             }
         </div>
     );
 };

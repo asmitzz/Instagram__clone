@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { confirmRequest, deleteRequest, fetchActivity } from "../../features/activity/activitySlice";
 import { UpdateConnections } from "../../features/profile/profileSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import Spinner from "../../utils/Spinner/Spinner";
 import { timestamp } from "../../utils/timestamp/timestamp";
 import "./Activity.css";
 
@@ -63,11 +64,13 @@ const Activity = () => {
                            <span className="timestamp">{timestamp(new Date(activity.createdAt))}</span>
                         </div>
                       </div>
-                      {isImg && <img alt="post" className="post" src={activity.file}/>}
-                      {isVideo && <ReactPlayer width="50px" height="50px" url={activity.file}/>}
+                      { isImg && <img alt="post" className="post" src={activity.file}/> }
+                      { isVideo && <ReactPlayer width="50px" height="50px" url={activity.file}/> }
                     </Link>
                 )}).reverse()
             }
+            
+            { status !== "succeeded" && <div className="spinner__container"> <Spinner/> </div>} 
         </div>
     );
 };

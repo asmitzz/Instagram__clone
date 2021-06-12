@@ -5,19 +5,25 @@ import { FollowersOrFollowing } from "../../features/profile/profileSlice.types"
 import { useAppDispatch } from "../../store/hooks";
 import { useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
+import Spinner from "../../utils/Spinner/Spinner";
 
 import "./Followers.css";
+import { Status } from "../../generic.types";
 
 const Followers = () => {
     const [followers,setFollowers] = useState<FollowersOrFollowing[]>([]);
     const dispatch = useAppDispatch();
     const token = useAppSelector(state => state.auth.token);
     const userId = useParams().userId;
+    const [status,setStatus] = useState<Status>("idle");
 
     useEffect(() => {
            dispatch(fetchFollowers({token,userId}))
           .then(unwrapResult)
-          .then( originalPromiseResult => setFollowers(originalPromiseResult.followers) )
+          .then( originalPromiseResult => {
+            setFollowers(originalPromiseResult.followers)
+            setStatus("succeeded")
+          } )
     },[token,userId,dispatch]);
     
     return (
@@ -33,12 +39,13 @@ const Followers = () => {
                     <span className="fullname">{user.fullname}</span>
                   </div>
                 </div>
-               <button className="removeBtn">Remove</button>
+                <button className="removeBtn">Remove</button>
                </div>
               ) )
             }
 
-            { followers.length === 0 && <p className="no__followers__found">No followers found</p> }
+            { followers.length === 0 && status === "succeeded" && <p className="no__followers__found">No followers found</p> }
+            { status !== "succeeded" && <div className="spinner__container"> <Spinner/> </div>} 
         </div>
     );
 };

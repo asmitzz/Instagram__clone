@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useAppSelector } from "../../store/hooks";
+import Spinner from "../Spinner/Spinner";
 
 import SearchBoxResult from "./SearchBoxResult";
 
@@ -36,9 +37,7 @@ const SearchBox = ({setToggleDropbox}:SearchBoxProps) => {
             }   
 
             { status === "pending" && 
-              <div className="spinner__container">
-                  <div className="spinner"></div>
-              </div>
+              <Spinner/>
             } 
         </div>
     );

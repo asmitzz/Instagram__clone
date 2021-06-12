@@ -10,12 +10,16 @@ import { useIsMountedRef } from "../../utils/custom-hooks/useIsMountedRef";
 import { unwrapResult } from "@reduxjs/toolkit";
 import PostIcons from "./IndividualPostIcon";
 import "./IndividualPostPage.css";
+import Spinner from "../../utils/Spinner/Spinner";
+import { Status } from "../../generic.types";
 
 const IndividualPostPage = () => {
     const mountedRef = useIsMountedRef();
     const dispatch = useAppDispatch();
     const { token } = useAppSelector(state => state.auth);
     const { postId } = useParams();
+
+    const [status,setStatus] = useState<Status>("idle");
 
     const [post,setPost] = useState<Post>({
         _id: "",
@@ -58,12 +62,19 @@ const IndividualPostPage = () => {
                 .then(unwrapResult)
                 .then(originalPromiseResult => {
                     setPost(originalPromiseResult.post)
+                    setStatus("succeeded");
                 })
           }})()
     },[dispatch,mountedRef,token,postId])
     
     return (
         <div className="post individualPost">
+            
+            { status !== "succeeded" && 
+              <div className="spinner__container">
+                  <Spinner/>
+              </div>
+            } 
             <div className="post__header">
                 <Link to={post.postedBy._id === userId ? "/profile" : `/viewprofile/${post.postedBy._id}`} className="avatar">
                   <img className="avatar__img" alt="profile" src={post.postedBy.pic}/>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { fetchUsers } from "../../features/users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import SearchBoxResult from "../../utils/searchBox/SearchBoxResult";
+import Spinner from "../../utils/Spinner/Spinner";
 import "./Search.css";
 
 const Search = () => {
@@ -9,7 +10,7 @@ const Search = () => {
     const [input,setInput] = useState<string>("");
     const timeoutRef = useRef<any>(null);
     const token = useAppSelector(state => state.auth.token);
-    const { users } = useAppSelector(state => state.users);
+    const { users,status } = useAppSelector(state => state.users);
     const dispatch = useAppDispatch();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +34,13 @@ const Search = () => {
 
     return (
         <div className="search__container">
+            
+            { status === "pending" && 
+              <div className="spinner__container">
+                  <Spinner/>
+              </div>
+            } 
+            
             <div className="search__header">
                { show && 
                   <button className="back__btn">
