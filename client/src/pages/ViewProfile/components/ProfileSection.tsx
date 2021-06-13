@@ -29,7 +29,7 @@ const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections
     const navigate = useNavigate();
     
     const isUserFollowingYou = connections.following.find( uid => uid === userId );
-    const isRequested = activities.requests.find( uid => uid === userId);
+    const isRequested = activities?.requests.find( uid => uid === userId);
 
     const handleConnections = () => {
         dispatch(updateConnections({token,userId:profile._id}))

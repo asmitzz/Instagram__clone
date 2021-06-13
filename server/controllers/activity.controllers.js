@@ -8,11 +8,6 @@ const getUserActivity = async(req, res) => {
     .populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}])
     .lean();
 
-    if(!activities){
-       const createActivities = await Activities({ _id }).save();
-       await createActivities.populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}]).execPopulate()
-       return res.status(200).json({ activities:createActivities })
-    }
     res.status(200).json({ activities })
 }
 

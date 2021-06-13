@@ -48,8 +48,6 @@ const App = () => {
   const { token,login } = auth;
 
   useEffect(() => {
-    console.log("As");
-    
     (async function(){
        try {
          if(status === "idle" && token){

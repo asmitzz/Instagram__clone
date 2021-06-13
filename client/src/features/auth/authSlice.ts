@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,th
         const res = await axios.post<AuthResponse>("https://insta-clone-10062000.herokuapp.com/signin",state);
         return res.data;
     } catch (error) {
-        if(error.response.status === 401){
+        if(error.response.status === 401 || error.response.status === 422){
            return thunkApi.rejectWithValue(error.response.data as ServerError);
         }
         return thunkApi.rejectWithValue({ message:"something went wrong" });

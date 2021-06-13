@@ -68,7 +68,7 @@ const Login = () => {
                 <p className="signup__title">Sign up to see photos and videos from your friends.</p>
                 <Input type="text" name="emailOrUsername" value={state.emailOrUsername} error={error.emailOrUsername} onChange={handleChange} placeholder="Email or username"/>
                 <Input type={togglePassword ? "text" : "password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
-                <input type="submit" className="submit__btn" disabled={error.disabled} value={ loginStatus === "idle" ? "Log In" : "Logging..."}/>
+                <input type="submit" className="submit__btn" disabled={error.disabled || loginStatus !== "idle"} value={ loginStatus === "idle" ? "Log In" : "Logging..."}/>
                 <small className="auth__invalid__feedback">{feedback}</small>
             </form>
 

@@ -29,7 +29,7 @@ const Following = () => {
             {
               following.map( user => (
                 <div className="follower" key={user._id}>
-                <Link to="/viewprofile" className="user">
+                <Link to={`/viewprofile/${user._id}`} className="user">
                   <img className="user__pic" alt="users" src={user.pic}/>
                   <div className="user__details">
                     <span className="username">{user.username}</span>

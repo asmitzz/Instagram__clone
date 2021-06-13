@@ -6,9 +6,10 @@ import { useAppDispatch } from "../../store/hooks";
 import { useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import Spinner from "../../utils/Spinner/Spinner";
+import { Link } from "react-router-dom";
+import { Status } from "../../generic.types";
 
 import "./Followers.css";
-import { Status } from "../../generic.types";
 
 const Followers = () => {
     const [followers,setFollowers] = useState<FollowersOrFollowing[]>([]);
@@ -32,13 +33,13 @@ const Followers = () => {
             {
               followers.map( user => (
                 <div className="follower" key={user._id}>
-                <div className="user">
+                <Link to={`/viewprofile/${user._id}`} className="user">
                   <img className="user__pic" alt="users" src={user.pic}/>
                   <div className="user__details">
                     <span className="username">{user.username}</span>
                     <span className="fullname">{user.fullname}</span>
                   </div>
-                </div>
+                </Link>
                 <button className="removeBtn">Remove</button>
                </div>
               ) )

@@ -1,5 +1,6 @@
 const Users = require("../models/user.model");
 const Connections = require("../models/connection.model");
+const Activities = require("../models/activity.model");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
@@ -19,7 +20,7 @@ const signup = async (req, res) => {
       });
     }
     if (user) {
-       await Connections({ _id: user._id }).save()
+       await Promise.all([Connections({ _id: user._id }).save(),Activities({ _id: user._id }).save()])
        return res.status(200).json({success:true})
     }
   });
