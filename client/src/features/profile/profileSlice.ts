@@ -75,7 +75,7 @@ export const updateProfile = createAsyncThunk<{profile:Profile},{token:string,da
        });
        return res.data;
      } catch (error) {
-        if(error.response.status === 422){
+         if(error.response.status === 422 || error.response.status === 400){
             return thunkApi.rejectWithValue(error.response.data as ServerError);
          }
          return thunkApi.rejectWithValue({ message:"something went wrong" });

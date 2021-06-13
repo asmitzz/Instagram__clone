@@ -57,7 +57,7 @@ const updateProfile = async(req, res) => {
  
     if(file){
         const extension = file.originalname.split('.').pop();
-        const isValidExtension = extension == "jpg" || extension == "jpeg" || extension == "png";
+        const isValidExtension = ["jpg","jpeg","png"].includes(extension);
 
         if(!isValidExtension){
             return res.status(400).json({ message:"Invalid Image Type" })

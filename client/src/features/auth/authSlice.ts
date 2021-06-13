@@ -48,9 +48,13 @@ export const authSlice = createSlice({
     name:"auth",
     initialState,
     reducers:{
-       logout:() => {
+       logout:(state) => {
            localStorage.removeItem("token");
-           window.location.href = "http://localhost:3000"
+           state.token = "";
+           state.login = false;
+           state.user = {
+              _id:""
+           }
        }
     },
     extraReducers:(builder) => {
