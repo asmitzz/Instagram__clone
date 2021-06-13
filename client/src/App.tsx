@@ -48,19 +48,15 @@ const App = () => {
   const { token,login } = auth;
 
   useEffect(() => {
+    if(!token){
+      setStatus("idle")
+    }
+    
     (async function(){
-       try {
          if(status === "idle" && token){
            await Promise.all([dispatch(checkAuth(token)),dispatch(fetchPosts({token})),dispatch(fetchSavedPosts({token})),dispatch(fetchProfile({token}))])
            setStatus("succeeded")
          }
-       } catch (error) {
-           setStatus("failed");
-           setTimeout(() => {
-             setStatus("idle");
-             localStorage.removeItem("token");
-           },2000)
-       }
     })()
  },[status,token,dispatch])
 

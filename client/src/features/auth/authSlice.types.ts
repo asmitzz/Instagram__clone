@@ -1,3 +1,5 @@
+import { Status } from "../../generic.types"
+
 export type User = {
     _id:string;
 }

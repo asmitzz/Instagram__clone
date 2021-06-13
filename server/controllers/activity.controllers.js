@@ -18,30 +18,36 @@ const confirmFollowRequest = async (req, res) => {
     } = req;
 
     try {
-        let [connections,senderconnections,activities] = await Promise.all(
+        let [yourconnections,userconnections,youractivities,useractivities] = await Promise.all(
             [
                 Connections.findById(_id),
                 Connections.findById(userId),
-                Activities.findById(_id)
+                Activities.findById(_id),
+                Activities.findById(userId),
             ]);
 
         // update user followers and senders following
-        connections.followers.push(userId);
-        senderconnections.following.push(_id);
+        yourconnections.followers.push(userId);
+        userconnections.following.push(_id);
 
         // delete request from activities
-        activities.requests.remove(userId);
+        youractivities.requests.remove(userId);
 
         // push notification
-        activities.activity.push({
+        youractivities.activity.push({
              user: userId,
              text: "started following you.",
         });
 
+        useractivities.activity.push({ 
+            user:_id,
+            text:"accepted your request"
+        })
+
         // save all data
-        await Promise.all([connections.save(),senderconnections.save(),activities.save()])
-        await activities.populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}]).execPopulate()
-        return res.status(200).json({ activities,connections});
+        await Promise.all([yourconnections.save(),userconnections.save(),youractivities.save(),useractivities.save()])
+        await youractivities.populate([{ path:"requests",select:"username pic" },{path:"activity.user",select:"pic username"}]).execPopulate()
+        return res.status(200).json({ activities:youractivities,connections:yourconnections});
         
     } catch (error) {
         res.status(500).json({

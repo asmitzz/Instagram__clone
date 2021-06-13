@@ -77,6 +77,15 @@ export const authSlice = createSlice({
             localStorage.setItem("token",JSON.stringify({token,login:true}));
         }
        })
+
+       builder.addCase(checkAuth.rejected,(state:AuthState) => {
+            state.token = "";
+            state.login = false;
+            state.user = {
+                _id:""
+            };
+            localStorage.removeItem("token");
+       })
     }
 });
 
