@@ -116,7 +116,6 @@
    background:var(--secondary-color);
    display:flex;
    flex-direction:column;
-   justify-content:flex-end;
 }
 
 .userchats .typing{
@@ -234,12 +233,11 @@
          max-height:92.5vh;
      }
      .userchats{
-        min-height:92.5vh;
         max-height:92.5vh;
      }
 
      .userchats .chats{
-        height:74vh;
+        height:60vh;
      }
  }
  
@@ -291,6 +289,7 @@
  }
 
  @media (max-width:550px){
+      
     .userchats .userchats__form{
         padding-bottom:3rem;
      }
