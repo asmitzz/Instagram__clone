@@ -1,0 +1,15 @@
+.individualPost{
+    width:70%;
+    margin:auto;
+    overflow-y:auto;
+}
+
+.individualPost .add__comment{
+    background:var(--primary-color);
+}
+
+@media(max-width:700px){
+    .individualPost{
+        width:100%;
+    }
+}

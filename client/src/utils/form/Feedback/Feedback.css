@@ -1,0 +1,19 @@
+.fa-check{
+    color:var(--success-color);
+}
+
+.fa-times-circle{
+    color:var(--danger-color);
+}
+
+.feedback{
+    position:absolute;
+    top:10px;
+    right:10px;
+    display:flex;
+}
+
+.fa-eye,.fa-eye-slash{
+    margin-left:0.2rem;
+    cursor:pointer;
+}

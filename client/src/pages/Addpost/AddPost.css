@@ -1,0 +1,91 @@
+.addpost__container{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:6rem;
+}
+
+.addpost__container .form__group{
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    width:90%;
+    margin:auto;
+}
+
+.addpost__container .upload__icon{
+    align-items:center;
+    margin:0.5rem auto;
+}
+
+.addpost__container .filename{
+    font-weight:600;
+    font-size:0.8rem;
+}
+
+.addpost__container .file__container{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    width:90%;
+    margin:0.5rem auto;
+}
+
+.addpost__container .file__container .dismiss__btn{
+    position:absolute;
+    border:none;
+    background:none;
+    top:-1.5rem;
+    right:0;
+    font-size:1.2rem;
+    color:var(--danger-color);
+    cursor:pointer;
+}
+
+.addpost__container .file{
+    height:auto;
+    width:100%;
+    margin:0.5rem auto;
+}
+
+.addpost__container .upload__file{
+    height:70px;
+    width:200px;
+    opacity:0;
+    cursor:pointer;
+}
+
+.addpost__container .fa-plus{
+    position:absolute;
+    top:0;
+    border:2px dotted var(--tertiary-color-shade-1);
+    font-size:2rem;
+    padding:1rem 2rem;
+    border-radius:10px;
+}
+
+@media(min-width:768px) and (max-width:900px){
+.addpost__container{
+    width:80%;
+    margin:auto;
+}
+.addpost__container .file__container{
+    width:60%;
+}
+}
+
+@media(min-width:900px){
+    .addpost__container{
+        width:60%;
+        margin:auto;
+    }
+    .addpost__container .file__container{
+        width:50%;
+    }
+}
+
+@media(max-width:550px){
+.addpost__container{
+    padding:6rem 0;
+}
+}

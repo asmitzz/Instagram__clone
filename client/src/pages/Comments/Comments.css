@@ -1,0 +1,69 @@
+.comments__container{
+    display:flex;
+    flex-direction:column;
+}
+
+.comments__container .backBtn{
+    background:none;
+    border:none;
+    cursor:pointer;
+}
+
+.comments__container .comments__header{
+    display:flex;
+    align-items:center;
+    padding:0.5rem 1rem;
+    justify-content:space-between;
+    color:var(--primary-text-color)
+}
+
+.comments__container .post__caption{
+    display:flex;
+    padding:0.5rem 1rem;
+    border-bottom:1px solid var(--tertiary-color);
+}
+
+.comments__container .comments{
+    display:flex;
+    padding:0.5rem 1rem;
+}
+
+.comments__container .avatar{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+}
+
+.comments__container .caption__content{
+   display:flex;
+   justify-content:center;
+   flex-direction:column;
+   font-size:0.8rem;
+   padding:0 0.8rem;
+   color:var(--primary-text-color);
+}
+
+.comments__container .username{
+    font-weight:600;
+    margin-right:0.8rem;
+}
+
+.comments__container .post__time,.likes__btn,.reply__btn{
+    font-size:0.6rem;
+    margin-right:0.8rem;
+    font-weight:600;
+    color:var(--tertiary-color-shade-1);
+    background:none;
+    border:none;
+}
+
+.comments__container .likes__btn,.comments__container .reply__btn{
+    cursor: pointer;
+}
+
+@media(min-width:650px){
+    .comments__container{
+        width:70%;
+        margin:auto;
+    }
+}

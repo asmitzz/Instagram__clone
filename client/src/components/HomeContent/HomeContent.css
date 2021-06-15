@@ -1,0 +1,124 @@
+.home__content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    width:80%;
+    margin:0 auto;
+    min-height:100vh;
+    overflow-x:hidden;
+    margin-bottom:1.8rem;
+}
+
+.home__content .no__posts__found{
+    text-align:center;
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--tertiary-color-shade-1);
+}
+
+.home__content .left__section{
+    padding:1rem;
+    margin-top:1rem;
+}
+
+.home__content .right__section{
+    padding:1rem;
+    margin-top:1rem;
+    display:flex;
+    flex-direction:column;
+}
+
+.home__content .right__section .profile__box{
+   background:var(--primary-color);
+   height:82vh;
+   border-radius:15px;
+   box-shadow:4px 4px 10px var(--tertiary-color-shade-2),-4px -4px 10px var(--tertiary-color-shade-2);
+}
+
+.home__content .profile__box .profile__details{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    color:var(--primary-color);
+    font-size:0.9rem;
+    height:56vh;
+    box-sizing: border-box;
+    padding:0.5rem;
+}
+
+.home__content .profile__box .profile__detail{
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    margin:1rem 0;
+    font-weight:600;
+    color:var(--primary-text-color);
+    background:var(--secondary-color);
+    border:1px solid var(--tertiary-color);
+    box-sizing: border-box;
+    padding:1rem;
+    border-radius:15px;
+    text-decoration:none;
+    line-height:1.2rem;
+}
+
+.home__content .profile__box .profile__detail:hover{
+    opacity:0.7;
+}
+
+.home__content .right__section .avatar{
+    display:flex;
+    flex-direction:column;
+    padding:1rem;
+    box-sizing:border-box;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    background:var(--secondary-color);
+    border-radius:15px;
+    border-bottom: 2px solid var(--tertiary-color-shade-2);
+}
+
+.home__content .right__section .avatar__img{
+    border-radius:50%;
+    height:80px;
+    width:80px;
+    
+    margin-top:1rem;
+}
+
+.right__section .fullname{
+   font-size:0.9rem;
+   margin-top:0.3rem;
+   display:block;
+   color:var(--primary-text-color);
+   font-weight:600;
+}
+
+@media(max-width:1000px){
+    .home__content .right__section{
+        display:none;
+    }
+
+    .home__content{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        width:100%;
+    }
+
+   .home__content .left__section{
+      width:600px;
+   }
+}
+
+@media(max-width:600px){
+    .home__content .left__section{
+        width:100%;
+        padding:0;
+        margin:0;
+     }
+
+     .home__content{
+        padding:0;
+    }
+}
