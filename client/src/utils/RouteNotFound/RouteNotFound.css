@@ -1,0 +1,22 @@
+.route__not__found{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    height:70vh;
+    font-size: 1rem;
+    text-align: center;
+    color: var(--primary-text-color);
+    flex-direction: column;
+  }
+  
+  .route__not__found .go__to__home__btn{
+     cursor: pointer;
+     margin-top: 0.5rem;
+     background:var(--primary-text-color);
+     color: var(--primary-color);
+     border: none;
+     font-weight:600;
+     padding:0.5rem 1rem;
+     border-radius: 5px;
+  }

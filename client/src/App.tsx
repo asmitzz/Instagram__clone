@@ -6,6 +6,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { useWindowSize } from "./utils/custom-hooks/useWindowSize";
 import ScrollToTop from "./utils/custom-hooks/ScrollToTop";
 import Spinner from "./utils/Spinner/Spinner";
+import RouteNotFound from "./utils/RouteNotFound/RouteNotFound";
 
 import { checkAuth } from "./features/auth/authSlice";
 import { fetchPosts } from "./features/posts/postsSlice";
@@ -32,10 +33,12 @@ import ViewProfile from "./pages/ViewProfile/ViewProfile";
 import AddPost from "./pages/Addpost/AddPost";
 import Activity from "./pages/Activity/Activity";
 import EditProfile from "./pages/EditProfile/EditProfile";
+import IndividualPostPage from "./pages/IndividualPostPage/IndividualPostPage";
+
+import { Status } from "./generic.types";
 
 import "./App.css";
-import IndividualPostPage from "./pages/IndividualPostPage/IndividualPostPage";
-import { Status } from "./generic.types";
+import PrivateRoute from "./utils/PrivateRoute/PrivateRoute";
 
 const App = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -62,44 +65,48 @@ const App = () => {
 
   return (
     <div>
-       { !login ? 
+       { login && status === "succeeded" && <Header/>}
+
        <Routes>
-           <Route path="/" element={<Login/>}/>
-           <Route path="/signup" element={<Signup/>}/>
+          { !login && <Route path="/" element={<Login/>}/>}
+          { !login && <Route path="/signup" element={<Signup/>}/>}
+          { !login && <Route path="*" element={<RouteNotFound/>}/>}
        </Routes>
-        :
-        ( status === "succeeded" ? <>
-        <Header/>
-        { path !== "/" && <ScrollToTop/>}
-        <Routes>
-           <Route path="/" element={<Home/>}/>
-           <Route path="/profile" element={<Profile/>}>
-              <Route path="/" element={<PostsSection/>}/>
-              <Route path="/save" element={<PostsSection/>}/>
-           </Route>
-           <Route path="/profile/edit" element={<EditProfile/>}/>
-           <Route path="/followers/:userId" element={<Followers/>}/>
-           <Route path="/following/:userId" element={<Following/>}/>
-           <Route path="/viewprofile/:userId" element={<ViewProfile/>}/>
-           <Route path="/comments/:postId" element={<Comments/>}/>
-           <Route path="/search" element={<Search/>}/>
-           <Route path="/activity" element={<Activity/>}/>
+
+       { status === "succeeded" &&
+         <Routes>
+           { path !== "/" && <ScrollToTop/>}
            { 
              width >= 700 &&
-             <Route path="/chats" element={<Chats/>}>
-               <Route path="/:chatId" element={<UserChatsDesktop/>}/>
-             </Route> 
+             <PrivateRoute path="/chats" element={<Chats/>}>
+               <PrivateRoute path="/:chatId" element={<UserChatsDesktop/>}/>
+             </PrivateRoute> 
            } 
-           { width < 700 && <Route path="/chats" element={<Chats/>}/>}
-           { width < 700 && <Route path="/chats/:chatId" element={<UserChatsMobile/>}/>}
-           <Route path="/post/add" element={<AddPost/>}/>
-           <Route path="/posts/:postId" element={<IndividualPostPage/>}/>
-        </Routes>
-        <Footer/>
-        </> : <div className="spinner__container"> <Spinner/> </div> )
-       }
+           { width < 700 && <PrivateRoute path="/chats" element={<Chats/>}/>}
+           { width < 700 && <PrivateRoute path="/chats/:chatId" element={<UserChatsMobile/>}/>}
+           
+           <PrivateRoute path="/" element={<Home/>}/>
+           <PrivateRoute path="/profile" element={<Profile/>}>
+              <PrivateRoute path="/" element={<PostsSection/>}/>
+              <PrivateRoute path="/save" element={<PostsSection/>}/>
+           </PrivateRoute>
+           <PrivateRoute path="/profile/edit" element={<EditProfile/>}/>
+           <PrivateRoute path="/followers/:userId" element={<Followers/>}/>
+           <PrivateRoute path="/following/:userId" element={<Following/>}/>
+           <PrivateRoute path="/viewprofile/:userId" element={<ViewProfile/>}/>
+           <PrivateRoute path="/comments/:postId" element={<Comments/>}/>
+           <PrivateRoute path="/search" element={<Search/>}/>
+           <PrivateRoute path="/activity" element={<Activity/>}/>
+           <PrivateRoute path="/post/add" element={<AddPost/>}/>
+           <PrivateRoute path="/posts/:postId" element={<IndividualPostPage/>}/>
+           <Route path="*" element={<RouteNotFound/>}/>
+        </Routes>}
 
-       { status === "failed" && <div className="invalid__feedback">Something went wrong !! please try again later</div> }
+        { login && status === "succeeded" && <Footer/>}
+
+        { login && status !== "succeeded" && <div className="spinner__container"> <Spinner/> </div> }
+ 
+        { login && status === "failed" && <div className="invalid__feedback">Something went wrong !! please try again later</div> }
 
     </div>
   );

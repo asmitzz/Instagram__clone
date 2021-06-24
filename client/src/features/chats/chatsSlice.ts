@@ -37,6 +37,10 @@ const chatsSlice = createSlice({
             const { chat } = action.payload;
             const chatIndex = state.chats.findIndex(c => c._id === chat._id);
             state.chats[chatIndex] = chat;
+        },
+        resetChat:(state:ChatsInitialState) => {
+            state.status = "idle"
+            state.chats = []
         }
     },
     extraReducers:(builder) => {
@@ -57,6 +61,6 @@ const chatsSlice = createSlice({
     }
 })
 
-export const {updateChat} = chatsSlice.actions;
+export const {updateChat,resetChat} = chatsSlice.actions;
 
 export default chatsSlice.reducer;

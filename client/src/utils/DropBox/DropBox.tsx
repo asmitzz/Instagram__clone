@@ -4,6 +4,8 @@ import { useAppDispatch } from "../../store/hooks";
 import { logout } from "../../features/auth/authSlice";
 
 import "./DropBox.css";
+import { resetChat } from "../../features/chats/chatsSlice";
+import { resetActivities } from "../../features/activity/activitySlice";
 
 type DropBoxProps = {
     toggle:Dispatch<SetStateAction<boolean>>
@@ -16,6 +18,8 @@ const DropBox = ({toggle}:DropBoxProps) => {
     const handleBtn = (path:string) => {
         if(path === "/"){
             dispatch(logout());
+            dispatch(resetChat());
+            dispatch(resetActivities());
         }
         navigate(path);
         toggle(false)

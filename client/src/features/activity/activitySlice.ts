@@ -33,6 +33,10 @@ const savedpostsSlice = createSlice({
     name:"activity",
     initialState,
     reducers:{
+        resetActivities:(state:ActivityInitialState) => {
+            state.status = "idle"
+            state.activities = null
+        }
     },
     extraReducers:(builder) => {
         builder.addCase(fetchActivity.pending,(state:ActivityInitialState) => {
@@ -55,5 +59,7 @@ const savedpostsSlice = createSlice({
         })
     }
 })
+
+export const { resetActivities } = savedpostsSlice.actions;
 
 export default savedpostsSlice.reducer;

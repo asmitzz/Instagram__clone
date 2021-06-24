@@ -16,6 +16,7 @@ const Chats = () => {
           dispatch(fetchChats({ token }));
         }
       }, [status,dispatch,token]);
+      
     return (
         <div className="chats__box">
              { status === "succeeded" && 
