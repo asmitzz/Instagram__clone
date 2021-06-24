@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { resetActivities } from "../../features/activity/activitySlice";
 import { logout } from "../../features/auth/authSlice";
+import { resetChat } from "../../features/chats/chatsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Backdrop from "../../utils/Backdrop/Backdrop";
 import DropBox from "../../utils/DropBox/DropBox";
@@ -18,6 +20,8 @@ const Header = () => {
 
   const handleLogout = () => {
      dispatch(logout())
+     dispatch(resetChat())
+     dispatch(resetActivities());
      navigate("/")
   }
 
