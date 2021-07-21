@@ -62,7 +62,22 @@ const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections
           dispatch(fetchChats({ token }));
         }
     }, [status,dispatch,token]);
-        
+
+    const getConnectButton = () => {
+        if(isYouFollowingUser){
+            return <button className="secondary__btn" onClick={handleConnections}>Following</button>
+        }
+        else if(isRequested){
+            return <button className="secondary__btn" onClick={handleConnections}>Requested</button>
+        }
+        else if(isUserFollowingYou){
+            return <button className="primary__btn" onClick={handleConnections}>Follow back</button>
+        }
+        else{
+            return <button className="primary__btn" onClick={handleConnections}>Follow</button>
+        }
+    }
+    
     return (
         <div className="profile__section">
                <img className="profile__avatar" alt="profile" src={profile.pic}/>
@@ -71,12 +86,7 @@ const ProfileSection = ({profile,posts,isYouFollowingUser,activities,connections
                    <div className="section__1">
                        <span className="username__desktop">{profile.username}</span>
                        <div className="profile__btn__container">
-
-                          { isYouFollowingUser && <button className="secondary__btn" onClick={handleConnections}>Following</button>}
-                          { !isYouFollowingUser && isRequested && <button className="secondary__btn" onClick={handleConnections}>Requested</button> }
-                          { !isYouFollowingUser && isUserFollowingYou  && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow back</button> }
-                          { !isYouFollowingUser && !isUserFollowingYou && !isRequested && <button className="primary__btn" onClick={handleConnections}>Follow</button> }
-                        
+                          { getConnectButton() }
                           <button className="secondary__btn" onClick={() => handleMessage(profile._id)}>Message</button>
                        </div>
                    </div>

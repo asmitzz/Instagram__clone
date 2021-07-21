@@ -26,7 +26,7 @@ const Followers = () => {
             setStatus("succeeded")
           } )
     },[token,userId,dispatch]);
-    
+
     return (
         <div className="follow__container">
             <h4 className="follow__heading">Followers</h4>
@@ -40,7 +40,6 @@ const Followers = () => {
                     <span className="fullname">{user.fullname}</span>
                   </div>
                 </Link>
-                <button className="removeBtn">Remove</button>
                </div>
               ) )
             }

@@ -11,6 +11,7 @@ const Following = () => {
     const [following,setFollowing] = useState<FollowersOrFollowing[]>([]);
     const dispatch = useAppDispatch();
     const token = useAppSelector(state => state.auth.token);
+   
     const userId = useParams().userId;
     const [status,setStatus] = useState<Status>("idle");
 
@@ -36,7 +37,6 @@ const Following = () => {
                     <span className="fullname">{user.fullname}</span>
                   </div>
                 </Link>
-               <button className="removeBtn">Following</button>
             </div>
               ) )
             }
