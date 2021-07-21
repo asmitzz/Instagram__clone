@@ -118,10 +118,14 @@
    flex-direction:column;
 }
 
-.userchats .typing{
+.userchats .typing,.userchats .sending{
     font-size:0.8rem;
     font-weight:500;
     margin-left:1.5rem;
+}
+
+.userchats .sending{
+    font-weight:600;
 }
 
 .userchats .userchats__header{

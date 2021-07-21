@@ -2,16 +2,17 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SavedPostsInitialState, SavedPostsResponse } from "./savedposts.types";
 
 import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 export const fetchSavedPosts = createAsyncThunk<SavedPostsResponse,{token:string}>("savedposts/fetchsavedposts",async({token}) => {
-    const res = await axios.get("https://insta-clone-10062000.herokuapp.com/savedposts",{
+    const res = await axios.get(`${BASE_URL}/savedposts`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const savedPostPressed = createAsyncThunk<SavedPostsResponse,{token:string,postId:string}>("/savedposts/updatesavedposts",async({token,postId}) => {
-    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/savedposts/${postId}`,{},{
+    const res = await axios.post(`${BASE_URL}/savedposts/${postId}`,{},{
         headers:{ authorization:`Bearer ${token}` }
     });
     return res.data;

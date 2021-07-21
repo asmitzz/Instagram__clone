@@ -3,6 +3,7 @@ import { Connection, FollowersResponse, FollowingResponse, InitialProfileState, 
 
 import axios from "axios";
 import { ServerError } from "../../generic.types";
+import { BASE_URL } from "../../constants";
 
 const initialState:InitialProfileState = {
     profile:{
@@ -25,35 +26,35 @@ const initialState:InitialProfileState = {
 }
 
 export const fetchProfile = createAsyncThunk<ProfileData,{token:string}>("profile/fetchprofile",async({token}) => {
-    const res = await axios.get("https://insta-clone-10062000.herokuapp.com/profile",{
+    const res = await axios.get(`${BASE_URL}/profile`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const fetchViewProfile = createAsyncThunk<ViewProfileData,{token:string,userId:string}>("profile/fetchviewprofile",async({token,userId}) => {
-    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/profile/${userId}`,{
+    const res = await axios.get(`${BASE_URL}/profile/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const fetchFollowers = createAsyncThunk<FollowersResponse,{token:string,userId:string}>("profile/fetchfollowers",async({token,userId}) => {
-    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/connections/followers/${userId}`,{
+    const res = await axios.get(`${BASE_URL}/connections/followers/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const fetchFollowing = createAsyncThunk<FollowingResponse,{token:string,userId:string}>("profile/fetchfollowing",async({token,userId}) => {
-    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/connections/following/${userId}`,{
+    const res = await axios.get(`${BASE_URL}/connections/following/${userId}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 });
 
 export const updateConnections = createAsyncThunk<UpdateConnectionsResponse,{token:string,userId:string}>("profile/updateconnections",async({token,userId}) => {
-    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/connections/${userId}`,{},{
+    const res = await axios.post(`${BASE_URL}/connections/${userId}`,{},{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
@@ -70,7 +71,7 @@ export const updateProfile = createAsyncThunk<{profile:Profile},{token:string,da
     formData.append("data",profile);
     
     try {
-        const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/profile/update`,formData,{
+        const res = await axios.post(`${BASE_URL}/profile/update`,formData,{
             headers:{ "Authorization":`Bearer ${token}` }
        });
        return res.data;

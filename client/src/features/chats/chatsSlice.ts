@@ -2,23 +2,24 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Chat, ChatsInitialState, FetchChatsResponse } from "./chatsSlice.types";
 
 import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 export const fetchChats = createAsyncThunk<FetchChatsResponse,{token:string}>("chats/fetchchats",async({token}) => {
-    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/chats`,{
+    const res = await axios.get(`${BASE_URL}/chats`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const createChat = createAsyncThunk<{chat:Chat},{token:string,userId:string}>("chats/createChat",async({token,userId}) => {
-    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/chats/${userId}`,{},{
+    const res = await axios.post(`${BASE_URL}/chats/${userId}`,{},{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
 })
 
 export const sendMessage = createAsyncThunk<{chat:Chat},{token:string,text:string,chatId:string}>("chats/sendmessage",async({token,text,chatId}) => {
-    const res = await axios.post(`https://insta-clone-10062000.herokuapp.com/chats/message/${chatId}`,{ text },{
+    const res = await axios.post(`${BASE_URL}/chats/message/${chatId}`,{ text },{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;

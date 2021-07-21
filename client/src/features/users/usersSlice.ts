@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UsersInitialState, UsersResponse } from "./usersSlice.types";
 
 import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 export const fetchUsers = createAsyncThunk<UsersResponse,{token:string,searchTerm:string}>("users/fetchusers",async({token,searchTerm}) => {
-    const res = await axios.get(`https://insta-clone-10062000.herokuapp.com/users/${searchTerm}`,{
+    const res = await axios.get(`${BASE_URL}/users/${searchTerm}`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;

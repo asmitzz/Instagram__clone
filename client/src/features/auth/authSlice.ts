@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { LoginState } from "../../auth/login/Login.types";
 import { SignupState } from "../../auth/signup/signup.types";
+import { BASE_URL } from "../../constants";
 import { ServerError } from "../../generic.types";
 import { AuthState,AuthResponse } from "./authSlice.types";
 
@@ -17,7 +18,7 @@ const initialState:AuthState = user && user.token ? user : {
 
 export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState,thunkApi) => {
         try {
-            const res = await axios.post<{success:boolean}>("https://insta-clone-10062000.herokuapp.com/signup",state);
+            const res = await axios.post<{success:boolean}>(`${BASE_URL}/signup`,state);
             return res.data;
         } catch (error) {
             if(error.response.status === 422){
@@ -29,7 +30,7 @@ export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState
 
 export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,thunkApi) => {
     try {
-        const res = await axios.post<AuthResponse>("https://insta-clone-10062000.herokuapp.com/signin",state);
+        const res = await axios.post<AuthResponse>(`${BASE_URL}/signin`,state);
         return res.data;
     } catch (error) {
         if(error.response.status === 401 || error.response.status === 422){
@@ -40,7 +41,7 @@ export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,th
 })
 
 export const checkAuth = createAsyncThunk("auth/checkauth",async(token:string) => {
-       const res = await axios.get<AuthResponse>("https://insta-clone-10062000.herokuapp.com/protected",{headers:{ authorization:`Bearer ${token}` }});
+       const res = await axios.get<AuthResponse>(`${BASE_URL}/protected`,{headers:{ authorization:`Bearer ${token}` }});
        return res.data;
 })
 

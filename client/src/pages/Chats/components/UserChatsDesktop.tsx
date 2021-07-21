@@ -15,6 +15,7 @@ const UserChatsDesktop = () => {
 
     const [input,setInput] = useState<string>("");
     const [typing,setTyping] = useState<boolean>(false);
+    const [sendingStatus,setSendingStatus] = useState<boolean>(false);
 
     const messagesEndRef = useRef<any>(null);
     const typingRef = useRef<any>(null);
@@ -51,12 +52,14 @@ const UserChatsDesktop = () => {
     const handleSubmit = (e:React.SyntheticEvent) => {
       e.preventDefault();
       if( chat && input !=="" ){
+        setSendingStatus(true)
         dispatch(sendMessage({ token,text:input,chatId:chat?._id }))
         .then(unwrapResult)
         .then((originalPromiseResult) => {
            socket.emit("sendMessage",chatId,originalPromiseResult.chat)
+           setSendingStatus(false);
+           setInput("");
         });
-        setInput("");
       }
     }
 
@@ -109,9 +112,11 @@ const UserChatsDesktop = () => {
 
             <form className="userchats__form" onSubmit={handleSubmit}>
                 {typing && <span className="typing"><strong>{user?.username}</strong> is typing...</span>}
+                { sendingStatus && <span className="sending">sending...</span>}
+
                 <div className="form__group">
                   <input type="text" value={input} onChange={handleChange} className="chats__input" placeholder="Message..."/>
-                  <input type="submit" className="send__btn" disabled={input === ""} value="Send"/>
+                  <input type="submit" className="send__btn" disabled={input === "" || sendingStatus} value="Send"/>
                 </div>
             </form>
         </div>
