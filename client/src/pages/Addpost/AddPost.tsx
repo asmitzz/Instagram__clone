@@ -18,7 +18,7 @@ const AddPost = () => {
     const [extensionErr,setExtensionErr] = useState<boolean>(false);
     const [processing,setProcessing] = useState<boolean>(false);
 
-    const canSave = [post.caption,file].every(Boolean) && uploadPostStatus === "idle";
+    const canSave = [post.src].every(Boolean) && uploadPostStatus === "idle";
     const isImg =  ["jpg", "png","jpeg"].includes(post.extension);
     const isVideo = ["mp3", "mp4"].includes(post.extension);
    
