@@ -88,7 +88,7 @@ const Login = () => {
                     <div className="separator__text">OR</div>
                     <div className="separator__line"></div>
                 </div>
-                <button className="submit__btn" onClick={loginAsGuest}>{ loginAsGuestStatus === "idle" ? "Login as guest" : "Logging..."}</button>
+                <button className="submit__btn" disabled={loginAsGuestStatus !== "idle"} onClick={loginAsGuest}>{ loginAsGuestStatus === "idle" ? "Login as guest" : "Logging..."}</button>
                 <small className="auth__invalid__feedback">{feedback}</small>
             </form>
 
