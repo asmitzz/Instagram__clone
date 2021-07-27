@@ -73,8 +73,9 @@ const Comments = () => {
                          </div>
                          <div>
                             <span className="post__time">{time}</span>
+                            {/* Implement this later
                             <button className="likes__btn">{comment.likes.length} likes</button>
-                            <button className="reply__btn">Reply</button>
+                            <button className="reply__btn">Reply</button> */}
                           </div>
                        </div>
                     </div>

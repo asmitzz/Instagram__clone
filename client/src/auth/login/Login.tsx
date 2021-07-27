@@ -31,6 +31,7 @@ const Login = () => {
     const [togglePassword,setTogglePassword] = useState<boolean>(false);
     const [feedback,setFeedback] = useState<string>("");
     const [loginStatus,setLoginStatus] = useState<Status>("idle");
+    const [loginAsGuestStatus,setLoginAsGuestStatus] = useState<Status>("idle");
 
     const dispatch = useAppDispatch();
 
@@ -56,19 +57,38 @@ const Login = () => {
             setFeedback(error.message);
         }
         finally {
-            setLoginStatus("idle")
+            setLoginStatus("idle");
+        }
+    }
+
+    const loginAsGuest = async(e:React.SyntheticEvent) => {
+        e.preventDefault();
+        setLoginAsGuestStatus("pending")
+        try {
+            const resultAction = await dispatch(loginUser({emailOrUsername:"avengers",password:"demo1234"}));
+            unwrapResult(resultAction);
+            setLoginAsGuestStatus("idle")
+        } catch (error) {
+            setFeedback("Something went wrong with guest login. Please signup and then try again");
+            setLoginAsGuestStatus("idle")
         }
     }
 
     return (
         <div className="auth__container">
             
-            <form className="section1" onSubmit={handleSubmit}>
+            <form className="section1">
                 <div className="insta__logo"></div>
                 <p className="signup__title">Sign up to see photos and videos from your friends.</p>
                 <Input type="text" name="emailOrUsername" value={state.emailOrUsername} error={error.emailOrUsername} onChange={handleChange} placeholder="Email or username"/>
                 <Input type={togglePassword ? "text" : "password"} togglePassword={togglePassword} setTogglePassword={setTogglePassword} name="password" value={state.password} error={error.password} onChange={handleChange} placeholder="Password"/>
-                <input type="submit" className="submit__btn" disabled={error.disabled || loginStatus !== "idle"} value={ loginStatus === "idle" ? "Log In" : "Logging..."}/>
+                <input type="submit" className="submit__btn"  onClick={handleSubmit} disabled={error.disabled || loginStatus !== "idle"} value={ loginStatus === "idle" ? "Log In" : "Logging..."}/>
+                <div className="separator">
+                    <div className="separator__line"></div>
+                    <div className="separator__text">OR</div>
+                    <div className="separator__line"></div>
+                </div>
+                <button className="submit__btn" onClick={loginAsGuest}>{ loginAsGuestStatus === "idle" ? "Login as guest" : "Logging..."}</button>
                 <small className="auth__invalid__feedback">{feedback}</small>
             </form>
 

@@ -57,6 +57,26 @@
     color:var(--success-color);
 }
 
+.auth__container .separator{
+    display:flex;
+    padding:0.5rem 0;
+    align-items:center;
+    font-weight:500;
+    color:var(--tertiary-color-shade-1);
+    font-size:0.8rem;
+}
+
+.auth__container .separator__line{
+    flex:1;
+    position:relative;
+    height:1px;
+    background:var(--tertiary-color);
+}
+
+.auth__container .separator__text{
+    margin:0 0.5rem;
+}
+
 @media (max-width:450px){
 .auth__container .section1,.auth__container .section2{
     background:var(--primary-color);

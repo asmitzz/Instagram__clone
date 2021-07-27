@@ -37,7 +37,8 @@ const PostCard = ({_id,file,postedBy,caption,comments,likes,createdAt}:Post) => 
                   <img className="avatar__img" alt="profile" src={postedBy.pic}/>
                   <span className="username">{postedBy.username}</span>
                 </Link>
-                <div className="options">...</div>
+                {/* Implement this options later
+                <div className="options">...</div> */}
             </div>
 
             {isImg && <img alt="pic" width="100%" height="auto" src={file}/>}

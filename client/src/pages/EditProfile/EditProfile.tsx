@@ -62,9 +62,9 @@ const EditProfile = () => {
             return
         }
         if(type === "file" && files){
-            let extension =  files[0].name;
-            let isValidExtension = extension.split('.').pop() === "png" || extension.split('.').pop() === "jpeg" || extension.split('.').pop() === "jpg";
- 
+            let extension = files[0].name.split('.').pop() || "";
+            let isValidExtension = ["jpg", "png", "jpeg"].includes(extension);
+            
             if(isValidExtension){
                 const file = new FileReader();
                 file.readAsDataURL(files[0]);

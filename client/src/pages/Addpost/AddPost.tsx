@@ -31,7 +31,7 @@ const AddPost = () => {
 
         if(type === "file" && files){
             let extension = files[0].name.split('.').pop() || "";
-            let isExtensionValid = extension ? ["jpg", "png", "jpeg","mp3","mp4"].includes(extension) : false;
+            let isExtensionValid = ["jpg", "png", "jpeg","mp3","mp4"].includes(extension);
 
             if(isExtensionValid){
                 const file = new FileReader();
