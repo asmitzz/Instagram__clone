@@ -34,7 +34,7 @@ const HomeContent = () => {
                        return <Post key={post._id} {...post} />
                     })
                 }
-               <div>{loading && <Spinner/>}</div>
+               <div style={{margin:"1.5rem 0"}}>{loading && <Spinner/>}</div>
                 {!loading && posts.length === 0 && <div className="no__posts__found">Follow your friends to see posts</div> }
             </div>
             <div className="right__section">
