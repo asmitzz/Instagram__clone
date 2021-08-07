@@ -17,12 +17,16 @@ const getPosts = async(req, res) => {
     const { user:{ _id } } = req;
 
     const connections = await Connections.findById(_id).lean();
+    let page = parseInt(req.query.page,10);
+    let limit = parseInt(req.query.limit,10);
+    
+    let skip = (page - 1) * limit;
 
     const posts = await Posts.find({
             "postedBy": {
                 $in:[...connections.following,_id]
             }
-    }).select({__v:0,updatedAt:0}).sort({createdAt:-1}).lean().populate({ path:"postedBy",select:"pic username fullname" });
+    }).limit(limit).skip(skip).select({__v:0,updatedAt:0}).sort({createdAt:-1}).lean().populate({ path:"postedBy",select:"pic username fullname" });
     
     return res.status(201).json({ posts })
 }

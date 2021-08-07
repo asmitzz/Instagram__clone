@@ -6,11 +6,14 @@ import { BASE_URL } from "../../constants";
 
 const initialState:PostsIntialState = {
     posts:[],
-    status:"idle"
+    status:"idle",
+    hasMore:true,
+    page:1,
+    loading:true
 };
 
-export const fetchPosts = createAsyncThunk<PostData,{token:string}>("posts/fetchPosts",async({token}) => {
-    const res = await axios.get(`${BASE_URL}/posts`,{
+export const fetchPosts = createAsyncThunk<PostData,{token:string,page:number}>("posts/fetchPosts",async({token,page}) => {
+    const res = await axios.get(`${BASE_URL}/posts?page=${page}&limit=5`,{
          headers:{ "Authorization":`Bearer ${token}` }
     });
     return res.data;
@@ -59,6 +62,12 @@ const postsSlice = createSlice({
     name:"posts",
     initialState,
     reducers:{
+        increasePostsPageNumber:(state:PostsIntialState) => {
+           state.page = state.page + 1;
+        },
+        setLoading:(state:PostsIntialState,action:PayloadAction<{loading:boolean}>) => {
+            state.loading = action.payload.loading;
+        }
     },
     extraReducers:(builder) => {
         builder.addCase(fetchPosts.rejected,(state:PostsIntialState) => {
@@ -71,7 +80,8 @@ const postsSlice = createSlice({
 
         builder.addCase(fetchPosts.fulfilled,(state:PostsIntialState,action:PayloadAction<PostData>) => {
             state.status = "succeeded"
-            state.posts = action.payload.posts
+            state.hasMore = action.payload.posts.length > 0
+            state.posts = state.posts.concat(action.payload.posts)
         })
 
         builder.addCase(uploadPost.fulfilled,(state:PostsIntialState,action:PayloadAction<PostResponse>) => {
@@ -90,5 +100,7 @@ const postsSlice = createSlice({
 
     }
 })
+
+export const {setLoading,increasePostsPageNumber} = postsSlice.actions;
 
 export default postsSlice.reducer;

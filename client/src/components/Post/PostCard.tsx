@@ -11,7 +11,7 @@ import ReactPlayer from "react-player";
 
 import "./Post.css";
 
-const PostCard = ({_id,file,postedBy,caption,comments,likes,createdAt}:Post) => {
+const PostCard = ({lastElementRef,_id,file,postedBy,caption,comments,likes,createdAt}:Post) => {
     const time = timestamp(new Date(createdAt));
     const userId = useAppSelector(state => state.auth.user?._id);
     const { token } = useAppSelector(state => state.auth);
@@ -56,7 +56,7 @@ const PostCard = ({_id,file,postedBy,caption,comments,likes,createdAt}:Post) => 
                     {time} AGO
                 </div>
 
-                <form className="commentBox" onSubmit={handleSubmit}>
+                <form className="commentBox" ref={lastElementRef} onSubmit={handleSubmit}>
                   <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} className="add__comment" placeholder="Add a comment..."/>
                   <button type="submit" className="post__btn" disabled={comment === ""}>Post</button>
                 </form>

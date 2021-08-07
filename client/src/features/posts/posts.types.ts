@@ -50,6 +50,7 @@ export type Post = {
     likes:string[];
     comments:Comment[];
     createdAt:string;
+    lastElementRef?:any;
 }
 
 export type PostData = {
@@ -58,7 +59,10 @@ export type PostData = {
 
 export type PostsIntialState = {
     posts:Post[];
-    status:Status
+    status:Status;
+    hasMore:boolean;
+    page:number;
+    loading:boolean;
 }
 
 export type PostResponse = {

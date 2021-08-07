@@ -9,7 +9,6 @@ import Spinner from "./utils/Spinner/Spinner";
 import RouteNotFound from "./utils/RouteNotFound/RouteNotFound";
 
 import { checkAuth } from "./features/auth/authSlice";
-import { fetchPosts } from "./features/posts/postsSlice";
 import { fetchProfile } from "./features/profile/profileSlice";
 import { fetchSavedPosts } from "./features/savedposts/savedpostsSlice";
 
@@ -39,9 +38,12 @@ import { Status } from "./generic.types";
 
 import "./App.css";
 import PrivateRoute from "./utils/PrivateRoute/PrivateRoute";
+import usePaginatedPosts from "./utils/custom-hooks/usePaginatedPosts";
 
 const App = () => {
   const auth = useAppSelector((state) => state.auth);
+  const page = useAppSelector((state) => state.posts.page);
+  usePaginatedPosts(page);
 
   const [status,setStatus] = useState<Status>("idle");  
   const { width } = useWindowSize();
@@ -57,7 +59,7 @@ const App = () => {
     
     (async function(){
          if(status === "idle" && token){
-           await Promise.all([dispatch(checkAuth(token)),dispatch(fetchPosts({token})),dispatch(fetchSavedPosts({token})),dispatch(fetchProfile({token}))])
+           await Promise.all([dispatch(checkAuth(token)),dispatch(fetchSavedPosts({token})),dispatch(fetchProfile({token}))])
            setStatus("succeeded")
          }
     })()
