@@ -53,9 +53,9 @@ const Login = () => {
             setError({ emailOrUsername:false,password:false,disabled:true });
             setLoginStatus("succeeded");
             setFeedback("");
-        } catch (error) {
+        } catch (error:any) {
             setFeedback(error.message);
-        }
+        } 
         finally {
             setLoginStatus("idle");
         }

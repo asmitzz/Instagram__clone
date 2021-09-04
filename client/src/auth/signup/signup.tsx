@@ -57,7 +57,7 @@ const Signup = () => {
             setTimeout(() => {
                 setSetSignupStatus("idle");
             },3000)
-        } catch (error) {
+        } catch (error:any) {
             setFeedback(error.message);
             setSetSignupStatus("idle");
         }

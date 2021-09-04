@@ -20,7 +20,7 @@ export const signupUser = createAsyncThunk("auth/signup",async(state:SignupState
         try {
             const res = await axios.post<{success:boolean}>(`${BASE_URL}/signup`,state);
             return res.data;
-        } catch (error) {
+        } catch (error:any) {
             if(error.response.status === 422){
                return thunkApi.rejectWithValue(error.response.data as ServerError);
             }
@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk("auth/login",async(state:LoginState,th
     try {
         const res = await axios.post<AuthResponse>(`${BASE_URL}/signin`,state);
         return res.data;
-    } catch (error) {
+    } catch (error:any) {
         if(error.response.status === 401 || error.response.status === 422){
            return thunkApi.rejectWithValue(error.response.data as ServerError);
         }

@@ -29,7 +29,7 @@ const signup = async (req, res) => {
 const signin = async(req,res) => {
   const errors = validationResult(req);
   const { emailOrUsername,password } = req.body;
-  
+
   if (!errors.isEmpty()) {
     return res.status(422).json({
       message: errors.array()[0].msg,
