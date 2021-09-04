@@ -20,7 +20,7 @@ const AddPost = () => {
 
     const canSave = [post.src].every(Boolean) && uploadPostStatus === "idle";
     const isImg =  ["jpg", "png","jpeg"].includes(post.extension);
-    const isVideo = ["mp3", "mp4"].includes(post.extension);
+    const isVideo = post.extension === "mp4";
    
     const { token } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ const AddPost = () => {
 
         if(type === "file" && files){
             let extension = files[0].name.split('.').pop() || "";
-            let isExtensionValid = ["jpg", "png", "jpeg","mp3","mp4"].includes(extension);
+            let isExtensionValid = ["jpg", "png", "jpeg","mp4"].includes(extension);
 
             if(isExtensionValid){
                 const file = new FileReader();
@@ -105,7 +105,7 @@ const AddPost = () => {
                   !post.src && !processing && 
                   <div className="form__group upload__icon">
                     <i className="fa fa-plus"></i>
-                    <input type="file" name="src" className="upload__file" onChange={handleChange} accept=".jpg,.jpeg,.png,.mp3,.mp4"/>
+                    <input type="file" name="src" className="upload__file" onChange={handleChange} accept=".jpg,.jpeg,.png,.mp4"/>
                     <small></small>
                   </div>
                 }
