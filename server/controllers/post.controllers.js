@@ -53,7 +53,7 @@ const uploadPost = async(req,res) => {
     const {file,user:{ _id }} = req;
     const {caption} = req.body;
     const extension = file.originalname.split('.').pop() || "";
-    const isVideo =["mp3","mp4"].includes(extension);
+    const isVideo = (extension == "mp4");
 
     try {
         const uploadResponse = await cloudinary.uploader.upload(file.path,{
