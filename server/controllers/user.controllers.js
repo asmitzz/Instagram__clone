@@ -1,5 +1,4 @@
 const Users = require("../models/user.model");
-const jwt = require("jsonwebtoken");
 
 const getUsers = async(req, res) =>{
    const { search } = req.params;

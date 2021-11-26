@@ -52,7 +52,7 @@ const getViewProfile = async(req,res) => {
 
 const updateProfile = async(req, res) => {
     const { user:{ _id },file } = req;
-    const { username,fullname,email,bio,pic,private,website,gender } = JSON.parse(req.body.data);
+    const { username,fullname,email,bio,private,website,gender } = JSON.parse(req.body.data);
     let userToBeUpdate = await Users.findById(_id);
  
     if(file){

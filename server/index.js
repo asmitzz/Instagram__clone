@@ -6,12 +6,12 @@ const { initializeDB } = require("./config/db.config");
 
 dotenv.config()
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 require("./config/app.config")(app);
 const server = http.createServer(app);
 
-initializeDB(process.env.URI);
+initializeDB("mongodb+srv://asmitzz:6pt2hebICkBRd8eW@neog-cluster.zrkcw.mongodb.net/instagram");
 
 // initialize io
 const io = require("socket.io")(server,{

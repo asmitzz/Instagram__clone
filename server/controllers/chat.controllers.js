@@ -3,7 +3,7 @@ const Chats = require("../models/chat.model");
 const createChat = async(req,res) => {
     const { user:{ _id } } = req;
     const { userId } = req.params;
-    console.log(userId);
+   
     let chat = await Chats.findOne({ $or: [{ users:[_id,userId] }, { users:[userId,_id] }] }).select({ messages:1 }).lean();
    
     if(!chat){
